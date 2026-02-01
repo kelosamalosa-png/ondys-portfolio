@@ -54,9 +54,9 @@ I'm Ondřej Sládek (ONDYS), a solo developer focused on building practical tool
 
 ## Contact
 
-- Email: [EMAIL]
-- GitHub: [GITHUB_URL]
-- LinkedIn: [LINKEDIN_URL]
+- Email: contact@ondys.dev
+- GitHub: https://github.com/kelosamalosa-png
+- LinkedIn: https://linkedin.com/in/ondrej-sladek
 - Location: Prague, Czechia
 
 ## Technical Stack
