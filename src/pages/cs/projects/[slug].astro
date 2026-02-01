@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+import { 
+  getProjects, 
+  getProject,
+  getLocalizedTitle, 
+  getLocalizedSummary,
+  getLocalizedDetails,
+  getStatusLabel,
+  type Project 
+} from '../../../lib/projects';
+
+const lang = 'cs';
+const t = getTranslations(lang);
+
+export function getStaticPaths() {
+  const projects = getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const title = getLocalizedTitle(project, lang);
+const summary = getLocalizedSummary(project, lang);
+const details = getLocalizedDetails(project, lang);
+
+function getStatusColor(status: Project['status']): string {
+  const colors: Record<Project['status'], string> = {
+    live: 'bg-green-500/20 text-green-400',
+    beta: 'bg-yellow-500/20 text-yellow-400',
+    prototype: 'bg-blue-500/20 text-blue-400',
+    archived: 'bg-surface-500/20 text-surface-400',
+  };
+  return colors[status];
+}
+
+const hasLinks = project.links.website || project.links.demo || project.links.github || project.links.other;
+---
+
+<BaseLayout 
+  title={title} 
+  description={summary} 
+  lang={lang}
+>
+  <article class="py-20">
+    <div class="container-main">
+      <a href={`/${lang}/projects`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-8 group">
+        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Zpět na projekty
+      </a>
+      
+      <header class="mb-12">
+        <div class="flex flex-wrap items-center gap-4 mb-4">
+          <h1 class="text-4xl sm:text-5xl font-display font-bold text-white">
+            {title}
+          </h1>
+          <span class={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.status)}`}>
+            {getStatusLabel(project.status, lang)}
+          </span>
+        </div>
+        
+        <p class="text-xl text-surface-300 mb-6">
+          {summary}
+        </p>
+        
+        <div class="flex flex-wrap gap-2">
+          {project.stack.map((tech) => (
+            <span class="tag">{tech}</span>
+          ))}
+        </div>
+      </header>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-8">
+          <section class="glass-card p-6">
+            <h2 class="text-xl font-display font-semibold text-white mb-4">
+              Problém
+            </h2>
+            <p class="text-surface-300">
+              {details.problem}
+            </p>
+          </section>
+          
+          <section class="glass-card p-6">
+            <h2 class="text-xl font-display font-semibold text-white mb-4">
+              Řešení
+            </h2>
+            <p class="text-surface-300">
+              {details.solution}
+            </p>
+          </section>
+          
+          <section class="glass-card p-6">
+            <h2 class="text-xl font-display font-semibold text-white mb-4">
+              Funkce
+            </h2>
+            <ul class="space-y-3">
+              {details.features.map((feature) => (
+                <li class="flex items-start gap-3 text-surface-300">
+                  <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {details.notes && (
+            <section class="glass-card p-6 border-l-4 border-brand-500">
+              <p class="text-surface-300 italic">
+                {details.notes}
+              </p>
+            </section>
+          )}
+          
+          {project.images && project.images.length > 0 && (
+            <section class="glass-card p-6">
+              <h2 class="text-xl font-display font-semibold text-white mb-4">
+                Screenshoty
+              </h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {project.images.map((image) => (
+                  <div class="aspect-video bg-surface-800 rounded-lg overflow-hidden">
+                    <img 
+                      src={image} 
+                      alt={`${title} screenshot`}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                      onerror="this.parentElement.style.display='none'"
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+        
+        <aside class="space-y-6">
+          <div class="glass-card p-6">
+            <h2 class="text-lg font-display font-semibold text-white mb-4">
+              Technologie
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              {project.stack.map((tech) => (
+                <span class="tag">{tech}</span>
+              ))}
+            </div>
+          </div>
+          
+          {hasLinks && (
+            <div class="glass-card p-6">
+              <h2 class="text-lg font-display font-semibold text-white mb-4">
+                Odkazy
+              </h2>
+              <div class="space-y-3">
+                {project.links.website && (
+                  <a href={project.links.website} target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center">
+                    Web
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {project.links.demo && (
+                  <a href={project.links.demo} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                    Demo
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {project.links.github && (
+                  <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                    GitHub
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+                {project.links.other && (
+                  <a href={project.links.other} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                    Další odkaz
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          {project.year && (
+            <div class="glass-card p-6">
+              <h2 class="text-lg font-display font-semibold text-white mb-2">
+                Rok
+              </h2>
+              <p class="text-surface-300">{project.year}</p>
+            </div>
+          )}
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../i18n/utils';
+
+const lang = 'en';
+const t = getTranslations(lang);
+---
+
+<BaseLayout 
+  title={t.meta.privacyTitle} 
+  description={t.meta.privacyDescription} 
+  lang={lang}
+>
+  <section class="py-20">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="section-heading mb-8">{t.privacy.title}</h1>
+        
+        <div class="glass-card p-8">
+          <p class="text-surface-400 mb-6">
+            <strong class="text-surface-300">{t.privacy.lastUpdated}:</strong> February 1, 2026
+          </p>
+          
+          <div class="prose prose-invert max-w-none">
+            <p>{t.privacy.content}</p>
+            
+            <h2>1. Data Collection</h2>
+            <p>
+              This website collects only the minimum amount of data necessary for its operation. 
+              We do not use tracking cookies or third-party analytics tools.
+            </p>
+            
+            <h2>2. Contact Form</h2>
+            <p>
+              If you contact us through the form, we store your name, email, and message 
+              only for the time necessary to respond to your inquiry.
+            </p>
+            
+            <h2>3. Local Storage</h2>
+            <p>
+              We use localStorage in the browser to save your language preference. 
+              This data remains only in your browser and is not sent to the server.
+            </p>
+            
+            <h2>4. Your Rights</h2>
+            <p>
+              You have the right to request access to your data, correction, or deletion. 
+              Contact us at hello@ondys.dev.
+            </p>
+            
+            <h2>5. Contact</h2>
+            <p>
+              For any privacy-related questions, contact us at: 
+              <a href="mailto:hello@ondys.dev" class="text-brand-400">hello@ondys.dev</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

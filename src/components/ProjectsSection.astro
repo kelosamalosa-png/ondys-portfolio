@@ -1,0 +1,94 @@
+---
+import { getTranslations } from '../i18n/utils';
+import { 
+  getFeaturedProjects,
+  getProjects,
+  getLocalizedTitle, 
+  getLocalizedSummary, 
+  getStatusLabel,
+  type Project 
+} from '../lib/projects';
+
+interface Props {
+  lang: 'cs' | 'en';
+  limit?: number;
+  showViewAll?: boolean;
+  featuredOnly?: boolean;
+}
+
+const { lang, limit, showViewAll = true, featuredOnly = false } = Astro.props;
+const t = getTranslations(lang);
+
+const allProjects = featuredOnly ? getFeaturedProjects() : getProjects();
+const projects = limit ? allProjects.slice(0, limit) : allProjects;
+
+function getStatusColor(status: Project['status']): string {
+  const colors: Record<Project['status'], string> = {
+    live: 'bg-green-500/20 text-green-400',
+    beta: 'bg-yellow-500/20 text-yellow-400',
+    prototype: 'bg-blue-500/20 text-blue-400',
+    archived: 'bg-surface-500/20 text-surface-400',
+  };
+  return colors[status];
+}
+
+const sectionTitle = featuredOnly 
+  ? (lang === 'cs' ? 'Vybrané projekty' : 'Selected Work')
+  : t.projects.title;
+
+const sectionSubtitle = featuredOnly
+  ? (lang === 'cs' ? 'Projekty, na kterých aktuálně pracuji nebo které reprezentují mou práci.' : 'Projects I\'m currently working on or that represent my work.')
+  : t.projects.subtitle;
+---
+
+<section id="projects" class="py-20 scroll-mt-20">
+  <div class="container-main">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+      <div>
+        <h2 class="section-heading">{sectionTitle}</h2>
+        <p class="section-subheading">{sectionSubtitle}</p>
+      </div>
+      
+      {showViewAll && (
+        <a href={`/${lang}/projects`} class="btn-secondary self-start sm:self-auto">
+          {t.projects.viewAll}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      )}
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map((project) => (
+        <a 
+          href={`/${lang}/projects/${project.slug}`}
+          class="glass-card p-6 group hover:border-brand-500/50 transition-all duration-300"
+        >
+          <div class="flex items-center gap-2 mb-3">
+            <span class={`px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}>
+              {getStatusLabel(project.status, lang)}
+            </span>
+            {project.year && (
+              <span class="text-xs text-surface-500">{project.year}</span>
+            )}
+          </div>
+          
+          <h3 class="text-xl font-display font-semibold text-white mb-2 group-hover:text-brand-400 transition-colors">
+            {getLocalizedTitle(project, lang)}
+          </h3>
+          
+          <p class="text-surface-400 text-sm mb-4 line-clamp-3">
+            {getLocalizedSummary(project, lang)}
+          </p>
+          
+          <div class="flex flex-wrap gap-2">
+            {project.stack.slice(0, 4).map((tech) => (
+              <span class="tag text-xs">{tech}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

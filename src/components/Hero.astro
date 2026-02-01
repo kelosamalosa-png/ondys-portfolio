@@ -1,0 +1,131 @@
+---
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="relative min-h-[90vh] flex items-center overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="blob-1"></div>
+    <div class="blob-2"></div>
+    <div class="blob-3"></div>
+  </div>
+  
+  <div class="container-main relative z-10 py-20">
+    <div class="max-w-4xl">
+      <div class="mb-6">
+        <p class="text-brand-400 font-medium mb-2">ONDYS.DEV</p>
+        <p class="text-surface-400">{t.footer.role}</p>
+      </div>
+      
+      <div class="keyword-container flex flex-wrap gap-2 mb-8" aria-hidden="true">
+        {t.hero.keywords.map((keyword, index) => (
+          <span 
+            class="keyword-chip"
+            style={`--delay: ${index * 120}ms`}
+            data-keyword
+          >
+            {keyword}
+          </span>
+        ))}
+      </div>
+      
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white mb-6 text-balance leading-tight">
+        {t.hero.headline}
+      </h1>
+      
+      <p class="text-lg sm:text-xl text-surface-300 mb-10 max-w-2xl text-balance">
+        {t.hero.subheadline}
+      </p>
+      
+      <div class="flex flex-wrap gap-4">
+        <a href="#projects" class="btn-primary">
+          {t.hero.ctaProjects}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+        <a href="#contact" class="btn-secondary">
+          {t.hero.ctaContact}
+        </a>
+        <a href={`/${lang}/support`} class="btn-ghost">
+          {t.hero.ctaSupport}
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-surface-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .keyword-chip {
+    opacity: 0;
+  }
+  
+  .keyword-chip.animate {
+    animation: fallIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+  
+  @keyframes fallIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-40px) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .keyword-chip {
+      opacity: 1;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  function initKeywordAnimation() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion) {
+      document.querySelectorAll('[data-keyword]').forEach(chip => {
+        (chip as HTMLElement).style.opacity = '1';
+      });
+      return;
+    }
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const chips = entry.target.querySelectorAll('[data-keyword]');
+          chips.forEach(chip => chip.classList.add('animate'));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    const container = document.querySelector('.keyword-container');
+    if (container) {
+      observer.observe(container);
+    }
+  }
+  
+  document.addEventListener('astro:page-load', initKeywordAnimation);
+  initKeywordAnimation();
+</script>

@@ -1,0 +1,16 @@
+{
+  "name": "ONDYS.DEV",
+  "short_name": "ONDYS",
+  "description": "Portfolio of Ondřej Sládek - Flutter developer and product builder",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#0c4a6e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

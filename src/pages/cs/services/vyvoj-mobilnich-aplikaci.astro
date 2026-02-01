@@ -1,0 +1,265 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+
+const lang = 'cs';
+const t = getTranslations(lang);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Vývoj mobilních aplikací ve Flutter",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "ONDYS.DEV",
+    "url": "https://ondys.dev"
+  },
+  "description": "Vývoj multiplatformních mobilních aplikací ve Flutter. Android i iOS z jednoho kódu. Offline-first, PDF fakturace, QR platby.",
+  "areaServed": ["CZ", "Worldwide"],
+  "serviceType": "Mobile App Development"
+};
+---
+
+<BaseLayout 
+  title="Vývoj mobilních aplikací (Flutter)" 
+  description="Vývoj multiplatformních mobilních aplikací ve Flutter. Android i iOS z jednoho kódu. Offline-first architektura, PDF generování, QR platby, API integrace."
+  lang={lang}
+  type="website"
+  jsonLd={jsonLd}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <!-- Hero -->
+      <header class="mb-16">
+        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Zpět na úvod
+        </a>
+        
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+          Vývoj mobilních aplikací (Flutter)
+        </h1>
+        
+        <p class="text-xl text-surface-300 max-w-3xl">
+          Stavím <strong class="text-white">multiplatformní mobilní aplikace</strong>, které fungují offline, generují dokumenty a napojují se na vaše systémy. Jeden kód, nativní výkon na Androidu i iOS.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-12">
+          
+          <!-- Pro koho -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Pro koho je to</h2>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Malé firmy</strong>, které potřebují aplikaci bez korporátních rozpočtů</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Řemeslníci a terénní pracovníci</strong>, kteří potřebují nástroje fungující bez internetu</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Startupy</strong> validující nápady s funkčním MVP</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Firmy</strong> potřebující PDF faktury nebo QR platby v aplikaci</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Co dostanete -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Co dostanete</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📱 Multiplatformní aplikace</h3>
+                <p class="text-surface-400 text-sm">Jeden kód pro Android i iOS s nativním výkonem</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">💾 Offline-first</h3>
+                <p class="text-surface-400 text-sm">Funguje bez internetu, synchronizuje při připojení</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📄 Generování dokumentů</h3>
+                <p class="text-surface-400 text-sm">PDF faktury, reporty, exporty s vaším brandingem</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">💳 Platební integrace</h3>
+                <p class="text-surface-400 text-sm">QR kódy pro české banky, Stripe a další</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">🔗 API integrace</h3>
+                <p class="text-surface-400 text-sm">ARES, platební brány, vaše backend systémy</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📦 Připraveno pro obchody</h3>
+                <p class="text-surface-400 text-sm">Připraveno k publikaci na Google Play a App Store</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Proces -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Jak spolupracujeme</h2>
+            <ol class="space-y-6">
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">1</span>
+                <div>
+                  <h3 class="font-semibold text-white">Úvodní hovor (zdarma)</h3>
+                  <p class="text-surface-400 text-sm mt-1">Probereme vaše potřeby, cíle a omezení. Řeknu vám upřímně, jestli je Flutter správná volba.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">2</span>
+                <div>
+                  <h3 class="font-semibold text-white">Specifikace a cenová nabídka</h3>
+                  <p class="text-surface-400 text-sm mt-1">Jasná specifikace funkcí, časový plán a fixní cena. Žádná překvapení.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">3</span>
+                <div>
+                  <h3 class="font-semibold text-white">Vývojové sprinty</h3>
+                  <p class="text-surface-400 text-sm mt-1">Týdenní aktualizace s funkčními buildy. Vidíte pokrok, ne jen sliby.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">4</span>
+                <div>
+                  <h3 class="font-semibold text-white">Testování a ladění</h3>
+                  <p class="text-surface-400 text-sm mt-1">Důkladné testování na reálných zařízeních, optimalizace výkonu, vylepšení UX.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">5</span>
+                <div>
+                  <h3 class="font-semibold text-white">Spuštění a předání</h3>
+                  <p class="text-surface-400 text-sm mt-1">Publikace do obchodů, dokumentace, předání zdrojového kódu. Vše vlastníte vy.</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <!-- Typický rozsah -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Typický rozsah a časování</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="border-b border-surface-700">
+                    <th class="pb-3 text-surface-400 font-medium">Typ projektu</th>
+                    <th class="pb-3 text-surface-400 font-medium">Časový rámec</th>
+                    <th class="pb-3 text-surface-400 font-medium">Cena od</th>
+                  </tr>
+                </thead>
+                <tbody class="text-surface-300">
+                  <tr class="border-b border-surface-800">
+                    <td class="py-3">Jednoduché MVP (3–5 obrazovek)</td>
+                    <td class="py-3">2–4 týdny</td>
+                    <td class="py-3">50 000 Kč</td>
+                  </tr>
+                  <tr class="border-b border-surface-800">
+                    <td class="py-3">Business aplikace s offline a PDF</td>
+                    <td class="py-3">4–8 týdnů</td>
+                    <td class="py-3">120 000 Kč</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3">Komplexní aplikace s integracemi</td>
+                    <td class="py-3">8–12 týdnů</td>
+                    <td class="py-3">250 000 Kč+</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-surface-500 text-sm mt-4">* Odhady jsou nezávazné. Finální nabídka po úvodním hovoru.</p>
+          </section>
+
+          <!-- FAQ -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Často kladené otázky</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">Proč Flutter a ne nativní vývoj nebo React Native?</h3>
+                <p class="text-surface-400">Flutter nabízí nejlepší kombinaci rychlosti vývoje, nativního výkonu a sdílení kódu. Jeden kód znamená rychlejší dodání a nižší náklady na údržbu. UI je pixel-perfect na obou platformách.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Vyvíjíte i pro iOS?</h3>
+                <p class="text-surface-400">Ano. Vyvíjím primárně pro Android (rychlejší iterace), ale stejný kód běží na iOS. Pro publikaci na App Store potřebujete Apple Developer účet na vaší straně.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Co údržba po spuštění?</h3>
+                <p class="text-surface-400">Nabízím volitelné balíčky údržby. Dostanete také kompletní zdrojový kód a dokumentaci, takže práci může převzít jakýkoliv Flutter vývojář.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Může aplikace fungovat bez internetu?</h3>
+                <p class="text-surface-400">Rozhodně. Offline-first je moje specialita. Data se automaticky synchronizují při obnovení připojení. Klíčové pro terénní pracovníky a oblasti se slabým signálem.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <div class="glass-card p-6 sticky top-24">
+            <h3 class="font-display font-semibold text-white mb-4">Připraveni začít?</h3>
+            <p class="text-surface-400 text-sm mb-6">Probereme váš projekt. Úvodní hovor zdarma, 30 minut, bez závazků.</p>
+            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+              Kontaktujte mě
+            </a>
+            <div class="text-center">
+              <a href={`/${lang}/projects`} class="text-brand-400 hover:text-brand-300 text-sm transition-colors">
+                Podívejte se na mou práci →
+              </a>
+            </div>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Související projekty</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href={`/${lang}/projects/facha`} class="text-brand-400 hover:text-brand-300 transition-colors">
+                  FACHA — Offline fakturační appka
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Technologie</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Flutter</span>
+              <span class="tag">Dart</span>
+              <span class="tag">SQLite/Drift</span>
+              <span class="tag">PDF</span>
+              <span class="tag">QR</span>
+              <span class="tag">REST API</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-6 border border-brand-500/30">
+            <p class="text-surface-400 text-sm">
+              <strong class="text-white">📍 Sídlím v Praze</strong><br>
+              Osobní schůzky možné v Praze a okolí. Vzdálená spolupráce po celé ČR i zahraničí.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,67 @@
+# ONDYS.DEV — Portfolio of Ondřej Sládek
+
+> Solo developer & product builder based in Prague, Czechia.
+> Specializing in Flutter mobile apps, offline-first solutions, AI visibility tools, and web security scanning.
+
+## About
+
+I'm Ondřej Sládek (ONDYS), a solo developer focused on building practical tools that solve real problems. I work primarily with Flutter for cross-platform mobile development, with a strong focus on offline-first architecture, PDF generation, and QR payment integrations.
+
+## Primary Services
+
+1. **Flutter Mobile App Development**
+   - Cross-platform Android & iOS apps
+   - Offline-first architecture (SQLite/Drift)
+   - PDF generation, QR code payments
+   - API integrations (ARES, payment gateways)
+
+2. **AI-ready Website & E-commerce Audits**
+   - Visibility analysis for AI search (ChatGPT, Perplexity, Google SGE)
+   - Schema markup and structured data audits
+   - Recommendations export (CSV/PDF/XML)
+
+3. **Web Firewall / Security Scanning**
+   - Detection of manipulative patterns (dark patterns)
+   - Prompt injection attempt detection
+   - Data exfiltration risk analysis
+
+## Selected Projects
+
+- **FACHA** — Offline invoice & job tracking app for tradespeople (Flutter, SQLite, PDF/QR)
+- **AI Audit Tool** — Website AI visibility checker with reporting
+- **Web Firewall** — Security scanner for risky web patterns
+- **Idle Economy Simulator** — Game economy balancing tool (Godot)
+
+## Key Pages (English)
+
+- Homepage: https://ondys.dev/en/
+- Services: https://ondys.dev/en/services/flutter-app-development
+- Services: https://ondys.dev/en/services/ai-visibility-audit
+- Services: https://ondys.dev/en/services/web-firewall-scanning
+- Projects: https://ondys.dev/en/projects
+- FAQ: https://ondys.dev/en/faq
+- Contact: https://ondys.dev/en/#contact
+
+## Key Pages (Czech)
+
+- Homepage: https://ondys.dev/cs/
+- Služby: https://ondys.dev/cs/services/vyvoj-mobilnich-aplikaci
+- Služby: https://ondys.dev/cs/services/ai-audit-webu
+- Služby: https://ondys.dev/cs/services/web-firewall-skenovani
+- Projekty: https://ondys.dev/cs/projects
+- FAQ: https://ondys.dev/cs/faq
+- Kontakt: https://ondys.dev/cs/#contact
+
+## Contact
+
+- Email: [EMAIL]
+- GitHub: [GITHUB_URL]
+- LinkedIn: [LINKEDIN_URL]
+- Location: Prague, Czechia
+
+## Technical Stack
+
+Flutter, Dart, SQLite/Drift, Python, Streamlit, Astro, Tailwind CSS, Godot
+
+---
+Last updated: 2024

@@ -1,0 +1,26 @@
+---
+---
+
+<script is:inline>
+  const STORAGE_KEY = 'ondys-lang';
+  const stored = localStorage.getItem(STORAGE_KEY);
+  
+  if (stored && (stored === 'cs' || stored === 'en')) {
+    window.location.replace('/' + stored);
+  } else {
+    const browserLang = navigator.language || navigator.userLanguage;
+    const lang = browserLang.startsWith('cs') || browserLang.startsWith('sk') ? 'cs' : 'cs';
+    window.location.replace('/' + lang);
+  }
+</script>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=/cs" />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/cs">Czech version</a>...</p>
+  </body>
+</html>

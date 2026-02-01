@@ -1,0 +1,58 @@
+---
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const getOtherLangPath = () => {
+  if (lang === 'cs') {
+    return currentPath.replace(/^\/cs/, '/en');
+  } else {
+    return currentPath.replace(/^\/en/, '/cs');
+  }
+};
+
+const otherLangPath = getOtherLangPath();
+---
+
+<div class="flex items-center gap-1 text-sm font-medium">
+  <a 
+    href="/cs" 
+    class:list={[
+      "px-2 py-1 rounded transition-colors",
+      lang === 'cs' ? "text-brand-400 bg-brand-900/30" : "text-surface-400 hover:text-white"
+    ]}
+    data-lang-switch="cs"
+    data-target={currentPath.replace(/^\/en/, '/cs')}
+  >
+    CZ
+  </a>
+  <span class="text-surface-600">|</span>
+  <a 
+    href="/en" 
+    class:list={[
+      "px-2 py-1 rounded transition-colors",
+      lang === 'en' ? "text-brand-400 bg-brand-900/30" : "text-surface-400 hover:text-white"
+    ]}
+    data-lang-switch="en"
+    data-target={currentPath.replace(/^\/cs/, '/en')}
+  >
+    EN
+  </a>
+</div>
+
+<script>
+  document.querySelectorAll('[data-lang-switch]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = (link as HTMLAnchorElement).dataset.target;
+      const newLang = (link as HTMLAnchorElement).dataset.langSwitch;
+      if (target && newLang) {
+        localStorage.setItem('ondys-lang', newLang);
+        window.location.href = target;
+      }
+    });
+  });
+</script>

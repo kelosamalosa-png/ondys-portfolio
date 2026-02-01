@@ -1,0 +1,38 @@
+---
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="py-20">
+  <div class="container-main">
+    <div class="glass-card p-8 sm:p-12 text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-brand-900/20 to-purple-900/20"></div>
+      
+      <div class="relative z-10">
+        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-900/50 border border-brand-700/30 flex items-center justify-center">
+          <svg class="w-8 h-8 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        
+        <h2 class="section-heading">{t.support.title}</h2>
+        <p class="text-surface-300 max-w-xl mx-auto mb-8">
+          {t.support.subtitle}
+        </p>
+        
+        <a href={`/${lang}/support`} class="btn-primary">
+          {t.support.title}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

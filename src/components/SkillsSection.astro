@@ -1,0 +1,34 @@
+---
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section id="skills" class="py-20 scroll-mt-20">
+  <div class="container-main">
+    <h2 class="section-heading">{t.skills.title}</h2>
+    <p class="section-subheading mb-12">{t.skills.subtitle}</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {t.skills.items.map((skill, index) => (
+        <div 
+          class="glass-card p-6 hover:border-brand-500/30 transition-all duration-300"
+          style={`--delay: ${index * 50}ms`}
+        >
+          <div class="w-10 h-10 rounded-lg bg-brand-900/50 border border-brand-700/30 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-white mb-2">{skill.title}</h3>
+          <p class="text-surface-400 text-sm">{skill.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

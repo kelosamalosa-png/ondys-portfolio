@@ -1,0 +1,21 @@
+---
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section id="about" class="py-20 scroll-mt-20">
+  <div class="container-main">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="section-heading">{t.about.title}</h2>
+      <p class="text-lg text-surface-300 leading-relaxed">
+        {t.about.content}
+      </p>
+    </div>
+  </div>
+</section>

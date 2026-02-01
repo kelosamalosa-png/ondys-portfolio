@@ -1,0 +1,23 @@
+---
+import Layout from './Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'cs' | 'en';
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const { title, description, lang, ogImage, canonicalUrl } = Astro.props;
+---
+
+<Layout title={title} description={description} lang={lang} ogImage={ogImage} canonicalUrl={canonicalUrl}>
+  <Header lang={lang} />
+  <main class="flex-1">
+    <slot />
+  </main>
+  <Footer lang={lang} />
+</Layout>

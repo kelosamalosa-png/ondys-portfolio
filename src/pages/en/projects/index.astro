@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+import { 
+  getProjects, 
+  getLocalizedTitle, 
+  getLocalizedSummary, 
+  getStatusLabel,
+  type Project 
+} from '../../../lib/projects';
+
+const lang = 'en';
+const t = getTranslations(lang);
+const projects = getProjects();
+
+function getStatusColor(status: Project['status']): string {
+  const colors: Record<Project['status'], string> = {
+    live: 'bg-green-500/20 text-green-400',
+    beta: 'bg-yellow-500/20 text-yellow-400',
+    prototype: 'bg-blue-500/20 text-blue-400',
+    archived: 'bg-surface-500/20 text-surface-400',
+  };
+  return colors[status];
+}
+---
+
+<BaseLayout 
+  title={t.meta.projectsTitle}
+  description={t.meta.projectsDescription}
+  lang={lang}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <div class="mb-12">
+        <a href={`/${lang}`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          {t.nav.home}
+        </a>
+        <h1 class="section-heading">{t.projects.title}</h1>
+        <p class="section-subheading">{t.projects.subtitle}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <a 
+            href={`/${lang}/projects/${project.slug}`}
+            class="glass-card p-6 group hover:border-brand-500/50 transition-all duration-300"
+            data-category={project.category}
+          >
+            <div class="flex items-center gap-2 mb-3">
+              <span class={`px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}>
+                {getStatusLabel(project.status, lang)}
+              </span>
+              {project.year && (
+                <span class="text-xs text-surface-500">{project.year}</span>
+              )}
+            </div>
+            
+            <h3 class="text-xl font-display font-semibold text-white mb-2 group-hover:text-brand-400 transition-colors">
+              {getLocalizedTitle(project, lang)}
+            </h3>
+            
+            <p class="text-surface-400 text-sm mb-4 line-clamp-3">
+              {getLocalizedSummary(project, lang)}
+            </p>
+            
+            <div class="flex flex-wrap gap-2">
+              {project.stack.slice(0, 4).map((tech) => (
+                <span class="tag text-xs">{tech}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>

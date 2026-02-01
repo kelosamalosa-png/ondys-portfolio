@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+
+const lang = 'en';
+const t = getTranslations(lang);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Flutter Mobile App Development",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "ONDYS.DEV",
+    "url": "https://ondys.dev"
+  },
+  "description": "Cross-platform mobile app development with Flutter. Android-first, iOS ready. Offline-first architecture, PDF generation, QR payments.",
+  "areaServed": "Worldwide",
+  "serviceType": "Mobile App Development"
+};
+---
+
+<BaseLayout 
+  title="Flutter Mobile App Development" 
+  description="Cross-platform mobile app development with Flutter. Android-first, iOS ready. Offline-first architecture, PDF generation, QR payments, API integrations."
+  lang={lang}
+  type="website"
+  jsonLd={jsonLd}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <!-- Hero -->
+      <header class="mb-16">
+        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </a>
+        
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+          Flutter Mobile App Development
+        </h1>
+        
+        <p class="text-xl text-surface-300 max-w-3xl">
+          I build <strong class="text-white">cross-platform mobile apps</strong> that work offline, handle documents, and integrate with your existing systems. One codebase, native performance on both Android and iOS.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-12">
+          
+          <!-- Who it's for -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Who This Is For</h2>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Small businesses</strong> needing a mobile app without enterprise budgets</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Tradespeople & field workers</strong> who need offline-capable tools</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Startups</strong> validating ideas with a working MVP</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Companies</strong> needing PDF/invoice generation or QR payment integration</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- What you get -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">What You Get</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📱 Cross-platform App</h3>
+                <p class="text-surface-400 text-sm">Single codebase for Android & iOS with native performance</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">💾 Offline-first</h3>
+                <p class="text-surface-400 text-sm">Works without internet, syncs when connected</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📄 Document Generation</h3>
+                <p class="text-surface-400 text-sm">PDF invoices, reports, exports with your branding</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">💳 Payment Integration</h3>
+                <p class="text-surface-400 text-sm">QR codes for Czech bank payments, Stripe, etc.</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">🔗 API Integrations</h3>
+                <p class="text-surface-400 text-sm">ARES, payment gateways, your backend systems</p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-semibold text-white">📦 App Store Ready</h3>
+                <p class="text-surface-400 text-sm">Prepared for Google Play and Apple App Store submission</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Process -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">How We Work Together</h2>
+            <ol class="space-y-6">
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">1</span>
+                <div>
+                  <h3 class="font-semibold text-white">Discovery Call (Free)</h3>
+                  <p class="text-surface-400 text-sm mt-1">We discuss your needs, goals, and constraints. I'll tell you honestly if Flutter is the right choice.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">2</span>
+                <div>
+                  <h3 class="font-semibold text-white">Scope & Quote</h3>
+                  <p class="text-surface-400 text-sm mt-1">Clear specification of features, timeline, and fixed price. No surprises.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">3</span>
+                <div>
+                  <h3 class="font-semibold text-white">Development Sprints</h3>
+                  <p class="text-surface-400 text-sm mt-1">Weekly updates with working builds. You see progress, not just promises.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">4</span>
+                <div>
+                  <h3 class="font-semibold text-white">Testing & Polish</h3>
+                  <p class="text-surface-400 text-sm mt-1">Thorough testing on real devices, performance optimization, UX refinement.</p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">5</span>
+                <div>
+                  <h3 class="font-semibold text-white">Launch & Handoff</h3>
+                  <p class="text-surface-400 text-sm mt-1">App store submission, documentation, source code handover. You own everything.</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <!-- Typical Scope -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Typical Scope & Timeline</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="border-b border-surface-700">
+                    <th class="pb-3 text-surface-400 font-medium">Project Type</th>
+                    <th class="pb-3 text-surface-400 font-medium">Timeline</th>
+                    <th class="pb-3 text-surface-400 font-medium">Starting From</th>
+                  </tr>
+                </thead>
+                <tbody class="text-surface-300">
+                  <tr class="border-b border-surface-800">
+                    <td class="py-3">Simple MVP (3-5 screens)</td>
+                    <td class="py-3">2-4 weeks</td>
+                    <td class="py-3">€2,000</td>
+                  </tr>
+                  <tr class="border-b border-surface-800">
+                    <td class="py-3">Business app with offline & PDF</td>
+                    <td class="py-3">4-8 weeks</td>
+                    <td class="py-3">€5,000</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3">Complex app with integrations</td>
+                    <td class="py-3">8-12 weeks</td>
+                    <td class="py-3">€10,000+</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-surface-500 text-sm mt-4">* Estimates are non-binding. Final quote after discovery call.</p>
+          </section>
+
+          <!-- FAQ -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">Why Flutter instead of native or React Native?</h3>
+                <p class="text-surface-400">Flutter offers the best balance of development speed, native performance, and code sharing. One codebase means faster delivery and lower maintenance costs. The UI is pixel-perfect on both platforms.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Do you build for iOS too?</h3>
+                <p class="text-surface-400">Yes. I develop Android-first (faster iteration), but the same code runs on iOS. iOS builds require an Apple Developer account on your side for App Store submission.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">What about app maintenance after launch?</h3>
+                <p class="text-surface-400">I offer optional maintenance packages. You also get full source code and documentation, so any Flutter developer can continue the work.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Can the app work without internet?</h3>
+                <p class="text-surface-400">Absolutely. Offline-first is my specialty. Data syncs automatically when connection returns. Critical for field workers and areas with poor connectivity.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <div class="glass-card p-6 sticky top-24">
+            <h3 class="font-display font-semibold text-white mb-4">Ready to Start?</h3>
+            <p class="text-surface-400 text-sm mb-6">Let's discuss your project. Free 30-minute discovery call, no obligations.</p>
+            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+              Get in Touch
+            </a>
+            <div class="text-center">
+              <a href={`/${lang}/projects`} class="text-brand-400 hover:text-brand-300 text-sm transition-colors">
+                See my work →
+              </a>
+            </div>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Related Projects</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href={`/${lang}/projects/facha`} class="text-brand-400 hover:text-brand-300 transition-colors">
+                  FACHA — Offline invoice app
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Tech Stack</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Flutter</span>
+              <span class="tag">Dart</span>
+              <span class="tag">SQLite/Drift</span>
+              <span class="tag">PDF</span>
+              <span class="tag">QR</span>
+              <span class="tag">REST API</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

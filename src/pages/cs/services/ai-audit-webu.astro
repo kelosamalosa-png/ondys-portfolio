@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+
+const lang = 'cs';
+const t = getTranslations(lang);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI audit webu a e-shopu",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "ONDYS.DEV",
+    "url": "https://ondys.dev"
+  },
+  "description": "Audit viditelnosti vašeho webu v AI vyhledávačích (ChatGPT, Perplexity, Google SGE). GEO optimalizace s exportem doporučení.",
+  "areaServed": ["CZ", "Worldwide"],
+  "serviceType": "SEO Audit"
+};
+---
+
+<BaseLayout 
+  title="AI audit webu (GEO)" 
+  description="Audit viditelnosti vašeho webu v AI vyhledávačích (ChatGPT, Perplexity, Google SGE). Doporučení pro GEO optimalizaci s CSV/PDF/XML exporty."
+  lang={lang}
+  type="website"
+  jsonLd={jsonLd}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <!-- Hero -->
+      <header class="mb-16">
+        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Zpět na úvod
+        </a>
+        
+        <div class="inline-block px-3 py-1 bg-brand-500/20 text-brand-400 text-sm font-medium rounded-full mb-4">
+          GEO / Generative Engine Optimization
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+          AI audit webu a e-shopu
+        </h1>
+        
+        <p class="text-xl text-surface-300 max-w-3xl">
+          Zjistěte, jak <strong class="text-white">AI systémy vidí váš web</strong>. Komplexní audit viditelnosti v ChatGPT, Perplexity, Google SGE a dalších AI vyhledávačích.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-12">
+          
+          <!-- Problém -->
+          <section class="glass-card p-8 border-l-4 border-orange-500">
+            <h2 class="text-2xl font-display font-semibold text-white mb-4">Problém</h2>
+            <p class="text-surface-300 mb-4">
+              AI vyhledávání mění způsob, jakým lidé hledají informace. Místo proklikávání 10 odkazů dostávají přímé odpovědi od ChatGPT, Perplexity nebo Google AI Overview.
+            </p>
+            <p class="text-surface-300">
+              <strong class="text-white">Pokud váš obsah není strukturovaný pro AI, stáváte se neviditelní.</strong> Tradiční SEO už nestačí.
+            </p>
+          </section>
+
+          <!-- Pro koho -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Pro koho je to</h2>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">E-shopy</strong> ztrácející traffic kvůli AI doporučením produktů</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Obsahoví tvůrci</strong>, kteří chtějí být citováni v AI odpovědích</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Služby a firmy</strong> chtějící se objevovat v AI dotazech „nejlepší X v okolí"</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">SEO specialisté</strong> rozšiřující své služby o GEO</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Co audit pokrývá -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Co audit pokrývá</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">🔍 Analýza AI viditelnosti</h3>
+                <p class="text-surface-400">Jak se váš obsah zobrazuje, když AI systémy odpovídají na dotazy z vašeho oboru? Simulujeme dotazy a analyzujeme odpovědi.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📊 Kontrola strukturovaných dat</h3>
+                <p class="text-surface-400">Schema markup, JSON-LD validace, entitní signály. Dáváte AI jasné signály o tom, kdo jste a co nabízíte?</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📝 Analýza struktury obsahu</h3>
+                <p class="text-surface-400">FAQ, definice, jasné odpovědi — vzory obsahu, které AI ráda cituje. Identifikace mezer a příležitostí.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">🚨 Detekce problémů</h3>
+                <p class="text-surface-400">Obsah skrytý v akordeónech, text pouze v JS, chybějící metadata — problémy, které vás činí neviditelným pro AI crawlery.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📈 Konkrétní doporučení</h3>
+                <p class="text-surface-400">Prioritizovaný seznam oprav s očekávaným dopadem. Co opravit hned, co může počkat.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Výstupy -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Co dostanete</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">📄</span>
+                <span><strong class="text-white">PDF report</strong> — Shrnutí s vizualizacemi</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">📊</span>
+                <span><strong class="text-white">CSV export</strong> — Všechny nálezy pro váš tým</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">🔧</span>
+                <span><strong class="text-white">XML analýza sitemap</strong> — Kontrola přístupnosti pro crawlery</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">💬</span>
+                <span><strong class="text-white">30min hovor</strong> — Projdeme nálezy společně</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Ceník -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Ceník</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="p-6 bg-surface-800/50 rounded-lg">
+                <h3 class="font-semibold text-white mb-2">Audit jednoho webu</h3>
+                <p class="text-3xl font-bold text-brand-400 mb-2">12 500 Kč</p>
+                <p class="text-surface-400 text-sm">Do 100 analyzovaných stránek</p>
+              </div>
+              <div class="p-6 bg-surface-800/50 rounded-lg">
+                <h3 class="font-semibold text-white mb-2">E-shop audit</h3>
+                <p class="text-3xl font-bold text-brand-400 mb-2">25 000 Kč+</p>
+                <p class="text-surface-400 text-sm">Produktové stránky, kategorie, srovnání s konkurencí</p>
+              </div>
+            </div>
+            <p class="text-surface-500 text-sm mt-4">* Individuální nabídky pro větší weby. Kontaktujte mě pro detaily.</p>
+          </section>
+
+          <!-- FAQ -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Často kladené otázky</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">Co je GEO (Generative Engine Optimization)?</h3>
+                <p class="text-surface-400">GEO je praxe optimalizace obsahu tak, aby byl citován a odkazován AI systémy jako ChatGPT, Perplexity nebo Google AI Overview. Je to další evoluce SEO.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Jak se to liší od běžného SEO auditu?</h3>
+                <p class="text-surface-400">Tradiční SEO se zaměřuje na umístění ve výsledcích vyhledávání. GEO audit se zaměřuje na to, být zdrojem, který AI systémy citují při odpovídání na otázky. Jiné signály, jiné optimalizace.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Jak dlouho audit trvá?</h3>
+                <p class="text-surface-400">Typicky 3–5 pracovních dnů od obdržení přístupu. Větší weby mohou trvat déle.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Implementujete i opravy?</h3>
+                <p class="text-surface-400">Audit poskytuje doporučení. Implementaci můžeme nacenit zvlášť, nebo ji zvládne váš tým s dodanými detailními instrukcemi.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <div class="glass-card p-6 sticky top-24">
+            <h3 class="font-display font-semibold text-white mb-4">Objednejte audit</h3>
+            <p class="text-surface-400 text-sm mb-6">Zjistěte, jak AI vidí váš web. Konkrétní výstupy do týdne.</p>
+            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+              Poptat audit
+            </a>
+            <p class="text-surface-500 text-xs text-center">Úvodní konzultace zdarma</p>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Související projekty</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href={`/${lang}/projects/ai-audit`} class="text-brand-400 hover:text-brand-300 transition-colors">
+                  AI Audit Tool — Podívejte se na nástroj
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Co kontrolujeme</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Schema.org</span>
+              <span class="tag">JSON-LD</span>
+              <span class="tag">FAQ markup</span>
+              <span class="tag">Struktura obsahu</span>
+              <span class="tag">Entitní signály</span>
+              <span class="tag">llms.txt</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const navItems = [
+  { href: `/${lang}`, label: t.nav.home },
+  { href: `/${lang}/projects`, label: t.nav.projects },
+  { href: `/${lang}/#services`, label: t.nav.services },
+  { href: `/${lang}/faq`, label: t.nav.faq },
+  { href: `/${lang}/#contact`, label: t.nav.contact },
+  { href: `/${lang}/support`, label: t.nav.support },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-950/80 backdrop-blur-md border-b border-surface-800/50">
+  <div class="container-main">
+    <nav class="flex items-center justify-between h-16">
+      <a href={`/${lang}`} class="flex items-center gap-2 font-display font-bold text-xl text-white hover:text-brand-400 transition-colors">
+        <span class="text-brand-500">&lt;</span>
+        ONDYS.DEV
+        <span class="text-brand-500">/&gt;</span>
+      </a>
+      
+      <div class="hidden md:flex items-center gap-1">
+        {navItems.map((item) => (
+          <a href={item.href} class="btn-ghost">
+            {item.label}
+          </a>
+        ))}
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <LanguageSwitcher lang={lang} />
+        
+        <button 
+          id="mobile-menu-btn" 
+          class="md:hidden p-2 text-surface-400 hover:text-white transition-colors"
+          aria-label={t.nav.menuToggle}
+          aria-expanded="false"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+  
+  <div id="mobile-menu" class="hidden md:hidden bg-surface-900/95 backdrop-blur-md border-b border-surface-800">
+    <div class="container-main py-4 flex flex-col gap-2">
+      {navItems.map((item) => (
+        <a href={item.href} class="btn-ghost justify-start">
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<div class="h-16"></div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+  });
+</script>

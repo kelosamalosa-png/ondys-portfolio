@@ -1,0 +1,170 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'cs' | 'en';
+  ogImage?: string;
+  type?: 'website' | 'article';
+  jsonLd?: object;
+}
+
+const { title, description, lang, ogImage = '/og.png', type = 'website', jsonLd } = Astro.props;
+const fullTitle = `${title} | ONDYS.DEV`;
+const siteUrl = 'https://ondys.dev';
+const currentPath = Astro.url.pathname;
+const canonicalUrl = `${siteUrl}${currentPath}`;
+const absoluteOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+// Hreflang URLs - must be absolute
+const csPath = currentPath.replace(/^\/en/, '/cs');
+const enPath = currentPath.replace(/^\/cs/, '/en');
+const hreflangCs = `${siteUrl}${csPath}`;
+const hreflangEn = `${siteUrl}${enPath}`;
+
+// Default JSON-LD for Person + ProfessionalService (site-wide)
+const defaultJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      "name": "Ondřej Sládek",
+      "alternateName": "ONDYS",
+      "url": siteUrl,
+      "image": `${siteUrl}/og.png`,
+      "jobTitle": "Flutter Developer & Product Builder",
+      "description": lang === 'cs' 
+        ? "Solo vývojář zaměřený na Flutter aplikace, offline-first řešení a AI nástroje. Sídlo v Praze, Česko."
+        : "Solo developer focused on Flutter apps, offline-first solutions, and AI tools. Based in Prague, Czechia.",
+      "knowsAbout": ["Flutter", "Mobile Development", "Offline-first Apps", "AI Visibility", "PDF Generation", "QR Payments"],
+      "sameAs": [
+        "[GITHUB_URL]",
+        "[LINKEDIN_URL]",
+        "https://itch.io/profile/[ITCH_USERNAME]"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Prague",
+        "addressCountry": "CZ"
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#business`,
+      "name": "ONDYS.DEV",
+      "url": siteUrl,
+      "logo": `${siteUrl}/favicon.svg`,
+      "image": `${siteUrl}/og.png`,
+      "description": lang === 'cs'
+        ? "Vývoj mobilních aplikací (Flutter), AI audity webů, bezpečnostní skenování."
+        : "Mobile app development (Flutter), AI website audits, security scanning.",
+      "founder": { "@id": `${siteUrl}/#person` },
+      "areaServed": ["CZ", "Worldwide"],
+      "serviceType": ["Mobile App Development", "Flutter Development", "AI Visibility Audit", "Web Security Scanning"],
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Prague",
+        "addressCountry": "CZ"
+      },
+      "sameAs": [
+        "[GITHUB_URL]",
+        "[LINKEDIN_URL]"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "ONDYS.DEV",
+      "description": lang === 'cs'
+        ? "Portfolio Ondřeje Sládka - Flutter vývojář a produktový tvůrce"
+        : "Portfolio of Ondřej Sládek - Flutter developer and product builder",
+      "publisher": { "@id": `${siteUrl}/#person` },
+      "inLanguage": [lang === 'cs' ? 'cs-CZ' : 'en-US'],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${siteUrl}/${lang}/projects?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+};
+
+const finalJsonLd = jsonLd || defaultJsonLd;
+---
+
+<!DOCTYPE html>
+<html lang={lang === 'cs' ? 'cs-CZ' : 'en-US'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Ondřej Sládek" />
+    
+    <!-- Canonical & Alternate Languages -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="cs" href={hreflangCs} />
+    <link rel="alternate" hreflang="en" href={hreflangEn} />
+    <link rel="alternate" hreflang="x-default" href={hreflangEn} />
+    
+    <!-- Favicon & Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0c4a6e" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'cs' ? 'cs_CZ' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'cs' ? 'en_US' : 'cs_CZ'} />
+    <meta property="og:site_name" content="ONDYS.DEV" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(finalJsonLd)} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <slot />
+    
+    <script is:inline>
+      (function() {
+        const STORAGE_KEY = 'ondys-lang';
+        const path = window.location.pathname;
+        
+        if (path === '/' || path === '') {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored && (stored === 'cs' || stored === 'en')) {
+            window.location.replace('/' + stored);
+            return;
+          }
+          
+          const browserLang = navigator.language || navigator.userLanguage;
+          const lang = browserLang.startsWith('cs') ? 'cs' : 
+                       browserLang.startsWith('sk') ? 'cs' : 'cs';
+          window.location.replace('/' + lang);
+          return;
+        }
+        
+        const currentLang = path.startsWith('/en') ? 'en' : 'cs';
+        localStorage.setItem(STORAGE_KEY, currentLang);
+      })();
+    </script>
+  </body>
+</html>

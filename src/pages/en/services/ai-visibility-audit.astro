@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+
+const lang = 'en';
+const t = getTranslations(lang);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI-ready Website & E-commerce Audit",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "ONDYS.DEV",
+    "url": "https://ondys.dev"
+  },
+  "description": "Audit how your website appears in AI search results (ChatGPT, Perplexity, Google SGE). Get actionable recommendations for GEO optimization.",
+  "areaServed": "Worldwide",
+  "serviceType": "SEO Audit"
+};
+---
+
+<BaseLayout 
+  title="AI Visibility & GEO Audit" 
+  description="Audit how your website appears in AI search results (ChatGPT, Perplexity, Google SGE). Get actionable recommendations with CSV/PDF/XML exports."
+  lang={lang}
+  type="website"
+  jsonLd={jsonLd}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <!-- Hero -->
+      <header class="mb-16">
+        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </a>
+        
+        <div class="inline-block px-3 py-1 bg-brand-500/20 text-brand-400 text-sm font-medium rounded-full mb-4">
+          GEO / Generative Engine Optimization
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+          AI Visibility & Website Audit
+        </h1>
+        
+        <p class="text-xl text-surface-300 max-w-3xl">
+          Find out how <strong class="text-white">AI systems see your website</strong>. Get a comprehensive audit of your visibility in ChatGPT, Perplexity, Google SGE, and other AI-powered search tools.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-12">
+          
+          <!-- The Problem -->
+          <section class="glass-card p-8 border-l-4 border-orange-500">
+            <h2 class="text-2xl font-display font-semibold text-white mb-4">The Problem</h2>
+            <p class="text-surface-300 mb-4">
+              AI search is changing how people find information. Instead of clicking through 10 blue links, users now get direct answers from ChatGPT, Perplexity, or Google's AI Overview.
+            </p>
+            <p class="text-surface-300">
+              <strong class="text-white">If your content isn't structured for AI consumption, you're becoming invisible.</strong> Traditional SEO is no longer enough.
+            </p>
+          </section>
+
+          <!-- Who it's for -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Who This Is For</h2>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">E-commerce stores</strong> losing traffic to AI-generated product recommendations</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Content publishers</strong> who want their articles cited in AI answers</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">Service businesses</strong> wanting to appear in "best X near me" AI queries</span>
+              </li>
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span><strong class="text-white">SEO professionals</strong> adding GEO to their toolkit</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- What you get -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">What The Audit Covers</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">🔍 AI Visibility Analysis</h3>
+                <p class="text-surface-400">How does your content appear when AI systems answer questions about your industry? We simulate queries and analyze responses.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📊 Structured Data Check</h3>
+                <p class="text-surface-400">Schema markup, JSON-LD validation, entity signals. Are you giving AI clear signals about who you are and what you offer?</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📝 Content Structure Analysis</h3>
+                <p class="text-surface-400">FAQs, definitions, clear answers — the content patterns AI loves to cite. Identification of gaps and opportunities.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">🚨 Problem Detection</h3>
+                <p class="text-surface-400">Content hidden in accordions, JavaScript-only text, missing metadata — issues that make you invisible to AI crawlers.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">📈 Actionable Recommendations</h3>
+                <p class="text-surface-400">Prioritized list of fixes with expected impact. What to fix first, what can wait.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Deliverables -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Deliverables</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">📄</span>
+                <span><strong class="text-white">PDF Report</strong> — Executive summary with visuals</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">📊</span>
+                <span><strong class="text-white">CSV Export</strong> — All issues for your team to process</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">🔧</span>
+                <span><strong class="text-white">XML Sitemap Analysis</strong> — Crawler accessibility check</span>
+              </div>
+              <div class="flex items-center gap-3 text-surface-300">
+                <span class="text-2xl">💬</span>
+                <span><strong class="text-white">30-min Call</strong> — Walk through findings together</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Pricing -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Pricing</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="p-6 bg-surface-800/50 rounded-lg">
+                <h3 class="font-semibold text-white mb-2">Single Site Audit</h3>
+                <p class="text-3xl font-bold text-brand-400 mb-2">€500</p>
+                <p class="text-surface-400 text-sm">Up to 100 pages analyzed</p>
+              </div>
+              <div class="p-6 bg-surface-800/50 rounded-lg">
+                <h3 class="font-semibold text-white mb-2">E-commerce Audit</h3>
+                <p class="text-3xl font-bold text-brand-400 mb-2">€1,000+</p>
+                <p class="text-surface-400 text-sm">Product pages, categories, competitor comparison</p>
+              </div>
+            </div>
+            <p class="text-surface-500 text-sm mt-4">* Custom quotes for larger sites. Contact for details.</p>
+          </section>
+
+          <!-- FAQ -->
+          <section class="glass-card p-8">
+            <h2 class="text-2xl font-display font-semibold text-white mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-semibold text-white mb-2">What is GEO (Generative Engine Optimization)?</h3>
+                <p class="text-surface-400">GEO is the practice of optimizing content to be cited and referenced by AI systems like ChatGPT, Perplexity, and Google's AI Overview. It's the next evolution of SEO.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">How is this different from regular SEO audits?</h3>
+                <p class="text-surface-400">Traditional SEO focuses on ranking in search results. GEO audits focus on being the source AI systems cite when answering questions. Different signals, different optimizations.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">How long does the audit take?</h3>
+                <p class="text-surface-400">Typically 3-5 business days from receiving access. Larger sites may take longer.</p>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Do you implement the fixes too?</h3>
+                <p class="text-surface-400">The audit provides recommendations. Implementation can be quoted separately, or your team can handle it with the detailed instructions provided.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <div class="glass-card p-6 sticky top-24">
+            <h3 class="font-display font-semibold text-white mb-4">Get Your Audit</h3>
+            <p class="text-surface-400 text-sm mb-6">Find out how AI sees your website. Actionable insights within a week.</p>
+            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+              Request Audit
+            </a>
+            <p class="text-surface-500 text-xs text-center">Free initial consultation</p>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">Related Projects</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href={`/${lang}/projects/ai-audit`} class="text-brand-400 hover:text-brand-300 transition-colors">
+                  AI Audit Tool — See the tool in action
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-6">
+            <h3 class="font-display font-semibold text-white mb-4">What We Check</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Schema.org</span>
+              <span class="tag">JSON-LD</span>
+              <span class="tag">FAQ markup</span>
+              <span class="tag">Content structure</span>
+              <span class="tag">Entity signals</span>
+              <span class="tag">llms.txt</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

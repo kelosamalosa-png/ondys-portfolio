@@ -1,0 +1,206 @@
+[
+  {
+    "slug": "facha",
+    "status": "beta",
+    "category": "app",
+    "featured": true,
+    "year": 2024,
+    "title": {
+      "cs": "FACHA",
+      "en": "FACHA"
+    },
+    "summary": {
+      "cs": "Offline fakturační a evidenční aplikace pro řemeslníky a OSVČ. Generuje PDF faktury s QR platbami, funguje bez internetu.",
+      "en": "Offline invoice and job tracking app for tradespeople and freelancers. Generates PDF invoices with QR payments, works without internet."
+    },
+    "stack": ["Flutter", "Drift/SQLite", "PDF", "QR"],
+    "links": {
+      "website": "",
+      "demo": "",
+      "github": "",
+      "other": ""
+    },
+    "details": {
+      "cs": {
+        "problem": "Řemeslníci a OSVČ potřebují vystavovat faktury přímo na místě, často bez internetového připojení. Existující řešení jsou buď příliš složitá, nebo vyžadují stálé připojení.",
+        "solution": "FACHA je mobilní aplikace postavená na offline-first architektuře. Všechna data jsou uložena lokálně v SQLite databázi a synchronizují se při připojení. Aplikace generuje profesionální PDF faktury s QR kódy pro okamžité platby.",
+        "features": [
+          "Kompletní offline funkcionalita",
+          "Generování PDF faktur s vlastním brandingem",
+          "QR kódy pro české bankovní platby (ČBA standard)",
+          "Evidence zakázek a zákazníků",
+          "Napojení na ARES pro ověření firem",
+          "Export dat pro účetnictví"
+        ],
+        "notes": "Aplikace je v beta verzi a aktivně se vyvíjí na základě zpětné vazby od uživatelů."
+      },
+      "en": {
+        "problem": "Tradespeople and freelancers need to issue invoices on-site, often without internet connection. Existing solutions are either too complex or require constant connectivity.",
+        "solution": "FACHA is a mobile app built on offline-first architecture. All data is stored locally in SQLite database and syncs when connected. The app generates professional PDF invoices with QR codes for instant payments.",
+        "features": [
+          "Complete offline functionality",
+          "PDF invoice generation with custom branding",
+          "QR codes for Czech bank payments (ČBA standard)",
+          "Job and customer tracking",
+          "ARES integration for company verification",
+          "Data export for accounting"
+        ],
+        "notes": "The app is in beta and actively developed based on user feedback."
+      }
+    },
+    "images": [
+      "/projects/facha/screenshot-1.png"
+    ]
+  },
+  {
+    "slug": "ai-audit",
+    "status": "prototype",
+    "category": "tool",
+    "featured": true,
+    "year": 2024,
+    "title": {
+      "cs": "AI-ready Web & E-shop Audit Tool",
+      "en": "AI-ready Web & E-shop Audit Tool"
+    },
+    "summary": {
+      "cs": "Nástroj, který kontroluje, jak weby a e-shopy vypadají v AI odpovědích (Chat/GEO). Hlídá ztrátu zákazníků a generuje doporučení + CSV/PDF/XML výstupy.",
+      "en": "Tool that audits how websites/e-shops appear in AI answers (Chat/GEO). Flags visibility risks and outputs recommendations + CSV/PDF/XML."
+    },
+    "stack": ["Python", "Streamlit", "Crawling", "Reporting"],
+    "links": {
+      "website": "",
+      "demo": "",
+      "github": "",
+      "other": ""
+    },
+    "details": {
+      "cs": {
+        "problem": "S nástupem AI vyhledávačů a chatbotů mnoho webů ztrácí viditelnost. Firmy neví, jak jejich stránky vypadají v AI odpovědích a přicházejí o zákazníky.",
+        "solution": "Nástroj audituje weby z pohledu AI — kontroluje strukturu, metadata, schema markup a simuluje, jak bude obsah interpretován AI systémy. Výstupem jsou konkrétní doporučení a exporty.",
+        "features": [
+          "Analýza viditelnosti v AI odpovědích",
+          "Kontrola schema markup a strukturovaných dat",
+          "Detekce problematických vzorů",
+          "Export doporučení do CSV/PDF/XML",
+          "Srovnání s konkurencí"
+        ],
+        "notes": ""
+      },
+      "en": {
+        "problem": "With the rise of AI search engines and chatbots, many websites are losing visibility. Companies don't know how their pages appear in AI answers and are losing customers.",
+        "solution": "The tool audits websites from an AI perspective — checking structure, metadata, schema markup, and simulating how content will be interpreted by AI systems. Output includes specific recommendations and exports.",
+        "features": [
+          "AI answer visibility analysis",
+          "Schema markup and structured data check",
+          "Problematic pattern detection",
+          "Export recommendations to CSV/PDF/XML",
+          "Competitor comparison"
+        ],
+        "notes": ""
+      }
+    },
+    "images": [
+      "/projects/ai-audit/screenshot-1.png"
+    ]
+  },
+  {
+    "slug": "web-firewall",
+    "status": "prototype",
+    "category": "tool",
+    "featured": true,
+    "year": 2024,
+    "title": {
+      "cs": "Web Firewall",
+      "en": "Web Firewall"
+    },
+    "summary": {
+      "cs": "Skener, který prohledává stránky s rizikovými prvky a pokusy donutit AI/skripty ukládat nebo odesílat data. Upozorňuje na manipulativní a nebezpečné vzory.",
+      "en": "Scanner that detects risky patterns and attempts to force AI/scripts to store or exfiltrate data; highlights manipulative elements."
+    },
+    "stack": ["Web scanning", "Rules", "Security"],
+    "links": {
+      "website": "",
+      "demo": "",
+      "github": "",
+      "other": ""
+    },
+    "details": {
+      "cs": {
+        "problem": "Moderní weby obsahují skryté manipulativní prvky, které se snaží oklamat uživatele nebo zneužít AI systémy. Běžný uživatel tyto hrozby nevidí.",
+        "solution": "Web Firewall skenuje stránky a detekuje rizikové vzory — od pokusů o prompt injection až po manipulativní dark patterns. Upozorňuje na nebezpečné prvky ještě před tím, než mohou uškodit.",
+        "features": [
+          "Detekce prompt injection pokusů",
+          "Skenování manipulativních vzorů (dark patterns)",
+          "Kontrola úniku dat",
+          "Pravidlový engine pro vlastní kontroly",
+          "Reporty a upozornění"
+        ],
+        "notes": ""
+      },
+      "en": {
+        "problem": "Modern websites contain hidden manipulative elements that try to deceive users or abuse AI systems. Regular users can't see these threats.",
+        "solution": "Web Firewall scans pages and detects risky patterns — from prompt injection attempts to manipulative dark patterns. It alerts about dangerous elements before they can cause harm.",
+        "features": [
+          "Prompt injection attempt detection",
+          "Manipulative pattern scanning (dark patterns)",
+          "Data exfiltration checks",
+          "Rule engine for custom checks",
+          "Reports and alerts"
+        ],
+        "notes": ""
+      }
+    },
+    "images": [
+      "/projects/web-firewall/screenshot-1.png"
+    ]
+  },
+  {
+    "slug": "idle-economy-sim",
+    "status": "live",
+    "category": "game",
+    "featured": false,
+    "year": 2023,
+    "title": {
+      "cs": "Idle Economy Simulator",
+      "en": "Idle Economy Simulator"
+    },
+    "summary": {
+      "cs": "Idle hra zaměřená na ekonomickou simulaci a balancování herních systémů. Experimentální projekt pro testování herního designu.",
+      "en": "Idle game focused on economic simulation and game system balancing. Experimental project for testing game design concepts."
+    },
+    "stack": ["Godot", "Simulation", "Game design"],
+    "links": {
+      "website": "",
+      "demo": "",
+      "github": "",
+      "other": "https://neopryus.itch.io/idle-economy-simulator"
+    },
+    "details": {
+      "cs": {
+        "problem": "Idle hry často trpí špatně vybalancovanou ekonomikou, která vede k frustraci hráčů nebo příliš rychlému dokončení.",
+        "solution": "Idle Economy Simulator je experimentální projekt zaměřený na testování různých ekonomických modelů a jejich dopadu na herní zážitek. Slouží jako testovací prostředí pro game design koncepty.",
+        "features": [
+          "Simulace ekonomických systémů",
+          "Testování různých balančních modelů",
+          "Vizualizace herních dat",
+          "Export statistik pro analýzu"
+        ],
+        "notes": "Hra je dostupná na itch.io a aktivně se aktualizuje."
+      },
+      "en": {
+        "problem": "Idle games often suffer from poorly balanced economy that leads to player frustration or too quick completion.",
+        "solution": "Idle Economy Simulator is an experimental project focused on testing various economic models and their impact on gameplay experience. It serves as a testing ground for game design concepts.",
+        "features": [
+          "Economic system simulation",
+          "Testing various balancing models",
+          "Game data visualization",
+          "Statistics export for analysis"
+        ],
+        "notes": "The game is available on itch.io and actively updated."
+      }
+    },
+    "images": [
+      "/projects/idle-economy-sim/screenshot-1.png"
+    ]
+  }
+]
