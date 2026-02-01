@@ -202,5 +202,53 @@
     "images": [
       "/projects/idle-economy-sim/screenshot-1.png"
     ]
-  }
+  },
+  {
+    "slug": "TEST",
+    "status": "live",
+    "category": "game",
+    "featured": false,
+    "year": 2023,
+    "title": {
+      "cs": "TESTr",
+      "en": "TEST"
+    },
+    "summary": {
+      "cs": "Idle hra zaměřená na ekonomickou simulaci a balancování herních systémů. Experimentální projekt pro testování herního designu.",
+      "en": "Idle game focused on economic simulation and game system balancing. Experimental project for testing game design concepts."
+    },
+    "stack": ["Godot", "Simulation", "Game design"],
+    "links": {
+      "website": "",
+      "demo": "",
+      "github": "",
+      "other": "https://neopryus.itch.io/idle-economy-simulator"
+    },
+    "details": {
+      "cs": {
+        "problem": "Idle hry často trpí špatně vybalancovanou ekonomikou, která vede k frustraci hráčů nebo příliš rychlému dokončení.",
+        "solution": "Idle Economy Simulator je experimentální projekt zaměřený na testování různých ekonomických modelů a jejich dopadu na herní zážitek. Slouží jako testovací prostředí pro game design koncepty.",
+        "features": [
+          "Simulace ekonomických systémů",
+          "Testování různých balančních modelů",
+          "Vizualizace herních dat",
+          "Export statistik pro analýzu"
+        ],
+        "notes": "Hra je dostupná na itch.io a aktivně se aktualizuje."
+      },
+      "en": {
+        "problem": "Idle games often suffer from poorly balanced economy that leads to player frustration or too quick completion.",
+        "solution": "Idle Economy Simulator is an experimental project focused on testing various economic models and their impact on gameplay experience. It serves as a testing ground for game design concepts.",
+        "features": [
+          "Economic system simulation",
+          "Testing various balancing models",
+          "Game data visualization",
+          "Statistics export for analysis"
+        ],
+        "notes": "The game is available on itch.io and actively updated."
+      }
+    },
+    "images": [
+      "/projects/idle-economy-sim/screenshot-1.png"
+    ]
 ]
