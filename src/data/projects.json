@@ -15,8 +15,8 @@
     },
     "stack": ["Flutter", "Drift/SQLite", "PDF", "QR"],
     "links": {
-      "website": "",
-      "demo": "",
+      "website": "https://sites.google.com/view/fachaapptest/domovsk%C3%A1-str%C3%A1nka?fbclid=IwY2xjawPrdAhleHRuA2FlbQIxMABicmlkETBHUU5yN2kxWm5sWXdIQWplc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHiatn4Z6MNtEs8imPzS8EG3KDLfA4gTWAux-TxkKU62idOz6Le4kI3wlqdvJ_aem_M7e2uG7g_WuBFbqdd4zO-g",
+      "demo": "https://drive.google.com/file/d/1v2oBtwjSYGmGukQD4c-yoJAywj-5sFnh/view",
       "github": "",
       "other": ""
     },
@@ -49,7 +49,12 @@
       }
     },
     "images": [
-      "/projects/facha/screenshot-1.png"
+      "/projects/facha/Facha_1.png",
+      "/projects/facha/Facha_2.png",
+      "/projects/facha/Facha_3.png",
+      "/projects/facha/Facha_4.png",
+      "/projects/facha/Facha_5.png",
+      "/projects/facha/Facha_6.png"
     ]
   },
   {
@@ -100,7 +105,7 @@
       }
     },
     "images": [
-      "/projects/ai-audit/screenshot-1.png"
+      "/projects/ai-audit/audit_1.png"
     ]
   },
   {
@@ -151,7 +156,7 @@
       }
     },
     "images": [
-      "/projects/web-firewall/screenshot-1.png"
+      "/projects/web-firewall/firewall_1.png"
     ]
   }
 ]
