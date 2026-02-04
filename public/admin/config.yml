@@ -109,10 +109,15 @@ collections:
           widget: "image"
           allow_multiple: false
 
-      - label: "Obsah / Body (EN/neutral)"
-        name: "body"
+      - label: "Obsah (CZ)"
+        name: "body_cs"
         widget: "markdown"
-        hint: "Detailní popis projektu (anglicky nebo neutrálně)"
+        hint: "Detailní popis projektu v češtině"
+
+      - label: "Content (EN)"
+        name: "body_en"
+        widget: "markdown"
+        hint: "Detailed project description in English"
 
   - name: "services"
     label: "Služby / Services"

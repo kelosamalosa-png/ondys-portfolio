@@ -9,6 +9,7 @@ import {
   type ProjectEntry,
   type ProjectData
 } from '../../../lib/projects';
+import { marked } from 'marked';
 
 const lang = 'cs';
 const t = getTranslations(lang);
@@ -26,9 +27,10 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { Content } = await project.render();
 const title = getLocalizedTitle(project, lang);
 const summary = getLocalizedSummary(project, lang);
+const bodyContent = project.data.body_cs || '';
+const renderedBody = await marked(bodyContent);
 
 function getStatusColor(status: ProjectData['status']): string {
   const colors: Record<ProjectData['status'], string> = {
@@ -83,8 +85,7 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
             <h2 class="text-xl font-display font-semibold text-white mb-4">
               Detaily
             </h2>
-            <div class="prose prose-invert prose-surface max-w-none">
-              <Content />
+            <div class="prose prose-invert prose-surface max-w-none" set:html={renderedBody}>
             </div>
           </section>
           
