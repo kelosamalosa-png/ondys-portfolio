@@ -1,14 +1,4 @@
-/// <reference path="../types.d.ts" />
-
-interface Env {
-  GITHUB_CLIENT_ID: string;
-  GITHUB_CLIENT_SECRET: string;
-  OAUTH_CALLBACK_URL: string;
-  STATE_SIGNING_SECRET: string;
-  ALLOWED_GITHUB_USER: string;
-}
-
-async function verifySignedState(state: string, secret: string): Promise<boolean> {
+async function verifySignedState(state, secret) {
   try {
     const decoded = atob(state);
     const parts = decoded.split(':');
@@ -17,7 +7,6 @@ async function verifySignedState(state: string, secret: string): Promise<boolean
     const [nonce, timestamp, signatureHex] = parts;
     const data = `${nonce}:${timestamp}`;
     
-    // Check timestamp (valid for 10 minutes)
     const stateTime = parseInt(timestamp);
     if (Date.now() - stateTime > 10 * 60 * 1000) {
       return false;
@@ -33,7 +22,7 @@ async function verifySignedState(state: string, secret: string): Promise<boolean
     );
     
     const signature = new Uint8Array(
-      signatureHex.match(/.{2}/g)!.map(byte => parseInt(byte, 16))
+      signatureHex.match(/.{2}/g).map(byte => parseInt(byte, 16))
     );
     
     return await crypto.subtle.verify(
@@ -47,7 +36,7 @@ async function verifySignedState(state: string, secret: string): Promise<boolean
   }
 }
 
-function createSuccessHTML(token: string): string {
+function createSuccessHTML(token) {
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -64,15 +53,8 @@ function createSuccessHTML(token: string): string {
       background: #1a1a2e;
       color: #eee;
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
-    }
-    .success {
-      color: #10b981;
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+    .container { text-align: center; padding: 2rem; }
+    .success { color: #10b981; font-size: 3rem; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
@@ -83,24 +65,19 @@ function createSuccessHTML(token: string): string {
   </div>
   <script>
     (function() {
-      function sendMessage(message) {
-        if (window.opener) {
-          window.opener.postMessage(message, '*');
-        }
+      var token = ${JSON.stringify(token)};
+      var message = 'authorization:github:success:' + JSON.stringify({ token: token, provider: 'github' });
+      if (window.opener) {
+        window.opener.postMessage(message, '*');
       }
-      
-      sendMessage('authorization:github:success:${JSON.stringify({ token: token, provider: 'github' })}');
-      
-      setTimeout(function() {
-        window.close();
-      }, 1000);
+      setTimeout(function() { window.close(); }, 1000);
     })();
   </script>
 </body>
 </html>`;
 }
 
-function createErrorHTML(error: string): string {
+function createErrorHTML(error) {
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -117,15 +94,8 @@ function createErrorHTML(error: string): string {
       background: #1a1a2e;
       color: #eee;
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
-    }
-    .error {
-      color: #ef4444;
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+    .container { text-align: center; padding: 2rem; }
+    .error { color: #ef4444; font-size: 3rem; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
@@ -135,17 +105,15 @@ function createErrorHTML(error: string): string {
     <p>${error}</p>
   </div>
   <script>
-    (function() {
-      if (window.opener) {
-        window.opener.postMessage('authorization:github:error:${error}', '*');
-      }
-    })();
+    if (window.opener) {
+      window.opener.postMessage('authorization:github:error:${error}', '*');
+    }
   </script>
 </body>
 </html>`;
 }
 
-export const onRequestGet: PagesFunction<Env> = async (context) => {
+export async function onRequestGet(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   
@@ -167,7 +135,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  // Verify state
   const isValidState = await verifySignedState(state, env.STATE_SIGNING_SECRET);
   if (!isValidState) {
     return new Response(createErrorHTML('Neplatný nebo expirovaný state token'), {
@@ -176,7 +143,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  // Exchange code for token
   const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
     method: 'POST',
     headers: {
@@ -197,7 +163,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  const tokenData = await tokenResponse.json() as { access_token?: string; error?: string };
+  const tokenData = await tokenResponse.json();
   
   if (tokenData.error || !tokenData.access_token) {
     return new Response(createErrorHTML(`Token chyba: ${tokenData.error || 'neznámá chyba'}`), {
@@ -208,7 +174,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   
   const accessToken = tokenData.access_token;
   
-  // Verify user
   const userResponse = await fetch('https://api.github.com/user', {
     headers: {
       'Authorization': `Bearer ${accessToken}`,
@@ -224,7 +189,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  const userData = await userResponse.json() as { login?: string };
+  const userData = await userResponse.json();
   
   if (!userData.login) {
     return new Response(createErrorHTML('Nepodařilo se získat uživatelské jméno'), {
@@ -233,7 +198,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  // Check if user is allowed
   const allowedUser = env.ALLOWED_GITHUB_USER || 'kelosamalosa';
   if (userData.login.toLowerCase() !== allowedUser.toLowerCase()) {
     return new Response(createErrorHTML(`Přístup odepřen. Uživatel '${userData.login}' nemá oprávnění.`), {
@@ -242,9 +206,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   }
   
-  // Success - return token to Decap CMS
   return new Response(createSuccessHTML(accessToken), {
     status: 200,
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
-};
+}

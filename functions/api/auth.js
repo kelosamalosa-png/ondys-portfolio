@@ -1,14 +1,4 @@
-/// <reference path="../types.d.ts" />
-
-interface Env {
-  GITHUB_CLIENT_ID: string;
-  GITHUB_CLIENT_SECRET: string;
-  OAUTH_CALLBACK_URL: string;
-  STATE_SIGNING_SECRET: string;
-  ALLOWED_GITHUB_USER: string;
-}
-
-async function createSignedState(secret: string): Promise<string> {
+async function createSignedState(secret) {
   const nonce = crypto.randomUUID();
   const timestamp = Date.now().toString();
   const data = `${nonce}:${timestamp}`;
@@ -35,7 +25,7 @@ async function createSignedState(secret: string): Promise<string> {
   return btoa(`${data}:${signatureHex}`);
 }
 
-export const onRequestGet: PagesFunction<Env> = async (context) => {
+export async function onRequestGet(context) {
   const { env } = context;
   
   if (!env.GITHUB_CLIENT_ID || !env.STATE_SIGNING_SECRET || !env.OAUTH_CALLBACK_URL) {
@@ -54,4 +44,4 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const authUrl = `https://github.com/login/oauth/authorize?${params.toString()}`;
   
   return Response.redirect(authUrl, 302);
-};
+}
