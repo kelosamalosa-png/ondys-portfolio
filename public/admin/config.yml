@@ -1,0 +1,115 @@
+backend:
+  name: github
+  repo: kelosamalosa/ondys-portfolio
+  branch: main
+  base_url: https://ondys-portfolio.pages.dev
+  auth_endpoint: /api/auth
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "projects"
+    label: "Projekty / Projects"
+    folder: "src/content/projects"
+    create: true
+    delete: true
+    slug: "{{fields.projectSlug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Slug (URL)"
+        name: "projectSlug"
+        widget: "string"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Pouze malá písmena, čísla a pomlčky"]
+        hint: "URL-safe identifikátor projektu (např. 'muj-projekt')"
+
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Beta", value: "beta" }
+          - { label: "Prototype", value: "prototype" }
+          - { label: "Live", value: "live" }
+        default: "prototype"
+
+      - label: "Kategorie / Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Aplikace / App", value: "app" }
+          - { label: "Nástroj / Tool", value: "tool" }
+          - { label: "Web", value: "web" }
+          - { label: "Hra / Game", value: "game" }
+        default: "app"
+
+      - label: "Vybraný / Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Zobrazit na homepage"
+
+      - label: "Rok / Year"
+        name: "year"
+        widget: "number"
+        value_type: "int"
+        min: 2000
+        max: 2100
+        default: 2024
+
+      - label: "Název (CZ)"
+        name: "title_cs"
+        widget: "string"
+
+      - label: "Title (EN)"
+        name: "title_en"
+        widget: "string"
+
+      - label: "Shrnutí (CZ)"
+        name: "summary_cs"
+        widget: "text"
+
+      - label: "Summary (EN)"
+        name: "summary_en"
+        widget: "text"
+
+      - label: "Stack / Technologie"
+        name: "stack"
+        widget: "list"
+        default: []
+        hint: "Seznam technologií (např. Flutter, React, Python)"
+
+      - label: "Odkaz - Web"
+        name: "links_website"
+        widget: "string"
+        required: false
+
+      - label: "Odkaz - Demo"
+        name: "links_demo"
+        widget: "string"
+        required: false
+
+      - label: "Odkaz - GitHub"
+        name: "links_github"
+        widget: "string"
+        required: false
+
+      - label: "Odkaz - Jiný"
+        name: "links_other"
+        widget: "string"
+        required: false
+
+      - label: "Obrázky / Images"
+        name: "images"
+        widget: "list"
+        default: []
+        field:
+          label: "Obrázek"
+          name: "image"
+          widget: "image"
+          allow_multiple: false
+
+      - label: "Obsah / Body (EN/neutral)"
+        name: "body"
+        widget: "markdown"
+        hint: "Detailní popis projektu (anglicky nebo neutrálně)"

@@ -3,45 +3,43 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getTranslations } from '../../../i18n/utils';
 import { 
   getProjects, 
-  getProject,
   getLocalizedTitle, 
   getLocalizedSummary,
-  getLocalizedDetails,
   getStatusLabel,
-  type Project 
+  type ProjectEntry,
+  type ProjectData
 } from '../../../lib/projects';
 
 const lang = 'en';
 const t = getTranslations(lang);
 
-export function getStaticPaths() {
-  const projects = getProjects();
+export async function getStaticPaths() {
+  const projects = await getProjects();
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.data.projectSlug },
     props: { project },
   }));
 }
 
 interface Props {
-  project: Project;
+  project: ProjectEntry;
 }
 
 const { project } = Astro.props;
+const { Content } = await project.render();
 const title = getLocalizedTitle(project, lang);
 const summary = getLocalizedSummary(project, lang);
-const details = getLocalizedDetails(project, lang);
 
-function getStatusColor(status: Project['status']): string {
-  const colors: Record<Project['status'], string> = {
+function getStatusColor(status: ProjectData['status']): string {
+  const colors: Record<ProjectData['status'], string> = {
     live: 'bg-green-500/20 text-green-400',
     beta: 'bg-yellow-500/20 text-yellow-400',
     prototype: 'bg-blue-500/20 text-blue-400',
-    archived: 'bg-surface-500/20 text-surface-400',
   };
   return colors[status];
 }
 
-const hasLinks = project.links.website || project.links.demo || project.links.github || project.links.other;
+const hasLinks = project.data.links_website || project.data.links_demo || project.data.links_github || project.data.links_other;
 ---
 
 <BaseLayout 
@@ -63,8 +61,8 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
           <h1 class="text-4xl sm:text-5xl font-display font-bold text-white">
             {title}
           </h1>
-          <span class={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.status)}`}>
-            {getStatusLabel(project.status, lang)}
+          <span class={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.data.status)}`}>
+            {getStatusLabel(project.data.status, lang)}
           </span>
         </div>
         
@@ -73,7 +71,7 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
         </p>
         
         <div class="flex flex-wrap gap-2">
-          {project.stack.map((tech) => (
+          {project.data.stack.map((tech) => (
             <span class="tag">{tech}</span>
           ))}
         </div>
@@ -83,53 +81,20 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
         <div class="lg:col-span-2 space-y-8">
           <section class="glass-card p-6">
             <h2 class="text-xl font-display font-semibold text-white mb-4">
-              Problem
+              Details
             </h2>
-            <p class="text-surface-300">
-              {details.problem}
-            </p>
+            <div class="prose prose-invert prose-surface max-w-none">
+              <Content />
+            </div>
           </section>
           
-          <section class="glass-card p-6">
-            <h2 class="text-xl font-display font-semibold text-white mb-4">
-              Solution
-            </h2>
-            <p class="text-surface-300">
-              {details.solution}
-            </p>
-          </section>
-          
-          <section class="glass-card p-6">
-            <h2 class="text-xl font-display font-semibold text-white mb-4">
-              Features
-            </h2>
-            <ul class="space-y-3">
-              {details.features.map((feature) => (
-                <li class="flex items-start gap-3 text-surface-300">
-                  <svg class="w-5 h-5 text-brand-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {details.notes && (
-            <section class="glass-card p-6 border-l-4 border-brand-500">
-              <p class="text-surface-300 italic">
-                {details.notes}
-              </p>
-            </section>
-          )}
-          
-          {project.images && project.images.length > 0 && (
+          {project.data.images && project.data.images.length > 0 && (
             <section class="glass-card p-6">
               <h2 class="text-xl font-display font-semibold text-white mb-4">
                 Screenshots
               </h2>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {project.images.map((image) => (
+                {project.data.images.map((image) => (
                   <div class="aspect-video bg-surface-800 rounded-lg overflow-hidden">
                     <img 
                       src={image} 
@@ -151,7 +116,7 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
               Tech Stack
             </h2>
             <div class="flex flex-wrap gap-2">
-              {project.stack.map((tech) => (
+              {project.data.stack.map((tech) => (
                 <span class="tag">{tech}</span>
               ))}
             </div>
@@ -163,32 +128,32 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
                 Links
               </h2>
               <div class="space-y-3">
-                {project.links.website && (
-                  <a href={project.links.website} target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center">
+                {project.data.links_website && (
+                  <a href={project.data.links_website} target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center">
                     Website
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
-                {project.links.demo && (
-                  <a href={project.links.demo} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                {project.data.links_demo && (
+                  <a href={project.data.links_demo} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
                     Demo
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
-                {project.links.github && (
-                  <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                {project.data.links_github && (
+                  <a href={project.data.links_github} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
                     GitHub
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
-                {project.links.other && (
-                  <a href={project.links.other} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                {project.data.links_other && (
+                  <a href={project.data.links_other} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
                     Other Link
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -199,12 +164,12 @@ const hasLinks = project.links.website || project.links.demo || project.links.gi
             </div>
           )}
 
-          {project.year && (
+          {project.data.year && (
             <div class="glass-card p-6">
               <h2 class="text-lg font-display font-semibold text-white mb-2">
                 Year
               </h2>
-              <p class="text-surface-300">{project.year}</p>
+              <p class="text-surface-300">{project.data.year}</p>
             </div>
           )}
         </aside>

@@ -6,19 +6,18 @@ import {
   getLocalizedTitle, 
   getLocalizedSummary, 
   getStatusLabel,
-  type Project 
+  type ProjectData
 } from '../../../lib/projects';
 
 const lang = 'en';
 const t = getTranslations(lang);
-const projects = getProjects();
+const projects = await getProjects();
 
-function getStatusColor(status: Project['status']): string {
-  const colors: Record<Project['status'], string> = {
+function getStatusColor(status: ProjectData['status']): string {
+  const colors: Record<ProjectData['status'], string> = {
     live: 'bg-green-500/20 text-green-400',
     beta: 'bg-yellow-500/20 text-yellow-400',
     prototype: 'bg-blue-500/20 text-blue-400',
-    archived: 'bg-surface-500/20 text-surface-400',
   };
   return colors[status];
 }
@@ -45,16 +44,16 @@ function getStatusColor(status: Project['status']): string {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
           <a 
-            href={`/${lang}/projects/${project.slug}`}
+            href={`/${lang}/projects/${project.data.projectSlug}`}
             class="glass-card p-6 group hover:border-brand-500/50 transition-all duration-300"
-            data-category={project.category}
+            data-category={project.data.category}
           >
             <div class="flex items-center gap-2 mb-3">
-              <span class={`px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}>
-                {getStatusLabel(project.status, lang)}
+              <span class={`px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(project.data.status)}`}>
+                {getStatusLabel(project.data.status, lang)}
               </span>
-              {project.year && (
-                <span class="text-xs text-surface-500">{project.year}</span>
+              {project.data.year && (
+                <span class="text-xs text-surface-500">{project.data.year}</span>
               )}
             </div>
             
@@ -67,7 +66,7 @@ function getStatusColor(status: Project['status']): string {
             </p>
             
             <div class="flex flex-wrap gap-2">
-              {project.stack.slice(0, 4).map((tech) => (
+              {project.data.stack.slice(0, 4).map((tech) => (
                 <span class="tag text-xs">{tech}</span>
               ))}
             </div>
