@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: kelosamalosa/ondys-portfolio
+  repo: kelosamalosa-png/ondys-portfolio
   branch: main
   base_url: https://ondys-portfolio.pages.dev
   auth_endpoint: /api/auth
