@@ -37,6 +37,7 @@ async function verifySignedState(state, secret) {
 }
 
 function createSuccessHTML(token) {
+  const content = JSON.stringify({ token: token, provider: 'github' });
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -65,29 +66,23 @@ function createSuccessHTML(token) {
   </div>
   <script>
     (function() {
-      var token = ${JSON.stringify(token)};
-      var data = JSON.stringify({ token: token, provider: 'github' });
+      const content = ${JSON.stringify(content)};
       
-      if (window.opener) {
-        window.opener.postMessage('authorization:github:success:' + data, '*');
-      }
-      
-      // Fallback for Decap CMS
-      if (window.opener && window.opener.postMessage) {
+      function receiveMessage(e) {
+        console.log("receiveMessage %o", e);
         window.opener.postMessage(
-          { type: 'github', token: token },
-          '*'
+          'authorization:github:success:' + content,
+          e.origin
         );
+        window.removeEventListener("message", receiveMessage, false);
       }
+      window.addEventListener("message", receiveMessage, false);
       
-      // Also try Netlify Identity format
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.gotrue.currentUser().then(function() {
-          window.close();
-        });
-      }
+      window.opener.postMessage("authorizing:github", "*");
       
-      setTimeout(function() { window.close(); }, 2000);
+      setTimeout(function() {
+        window.close();
+      }, 5000);
     })();
   </script>
 </body>
