@@ -12,6 +12,8 @@ const projectsCollection = defineCollection({
     title_en: z.string(),
     summary_cs: z.string(),
     summary_en: z.string(),
+    body_cs: z.string().default(''),
+    body_en: z.string().default(''),
     stack: z.array(z.string()).default([]),
     links_website: z.string().optional(),
     links_demo: z.string().optional(),
