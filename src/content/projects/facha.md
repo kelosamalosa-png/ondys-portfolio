@@ -22,26 +22,24 @@ links_other: https://docs.google.com/forms/d/13UHdx3Sa2nBoMW9gzbulC2n7O-hdm-yDt5
 images:
   - /uploads/facha-screenshot-1.png
 ---
+O projektu
+Problém
+Řešení
+Funkce
 
-## About the Project
+Kompletní offline funkcionalita
+Generování PDF faktur s vlastním brandingem
+QR kódy pro české bankovní platby (ČBA standard)
+Evidence zakázek a zákazníků
+Integrace ARES pro ověření firem
+Export dat pro účetnictví
 
-FACHA is a mobile application built on offline-first architecture for tradespeople and freelancers who need to issue invoices on-site, often without internet connection.
+Aplikace je v beta verzi a aktivně se vyvíjí na základě zpětné vazby od uživatelů
 
-### Problem
 
-Tradespeople and freelancers spend hours on paperwork. They lose jobs, forget details and invoice late or not at all. Most applications require internet and are complex.
 
-### Solution
 
-FACHA is a simple offline application that allows you to track jobs, take before and after photos, write notes and generate invoices with QR code for payment – all without internet connection.
 
-### Features
 
-- Complete offline functionality
-- PDF invoice generation with custom branding
-- QR codes for Czech bank payments (ČBA standard)
-- Job and customer tracking
-- ARES integration for company verification
-- Data export for accounting
 
-The app is in beta and actively developed based on user feedback.
+
