@@ -66,11 +66,28 @@ function createSuccessHTML(token) {
   <script>
     (function() {
       var token = ${JSON.stringify(token)};
-      var message = 'authorization:github:success:' + JSON.stringify({ token: token, provider: 'github' });
+      var data = JSON.stringify({ token: token, provider: 'github' });
+      
       if (window.opener) {
-        window.opener.postMessage(message, '*');
+        window.opener.postMessage('authorization:github:success:' + data, '*');
       }
-      setTimeout(function() { window.close(); }, 1000);
+      
+      // Fallback for Decap CMS
+      if (window.opener && window.opener.postMessage) {
+        window.opener.postMessage(
+          { type: 'github', token: token },
+          '*'
+        );
+      }
+      
+      // Also try Netlify Identity format
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.gotrue.currentUser().then(function() {
+          window.close();
+        });
+      }
+      
+      setTimeout(function() { window.close(); }, 2000);
     })();
   </script>
 </body>
