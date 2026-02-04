@@ -22,6 +22,7 @@ links_other: https://docs.google.com/forms/d/13UHdx3Sa2nBoMW9gzbulC2n7O-hdm-yDt5
 images:
   - /uploads/facha-screenshot-1.png
 ---
+
 O projektu
 Problém
 Řešení
