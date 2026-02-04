@@ -21,6 +21,35 @@ const projectsCollection = defineCollection({
   }),
 });
 
+const servicesCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    serviceSlug: z.string(),
+    slug_cs: z.string(),
+    slug_en: z.string(),
+    icon: z.string(),
+    order: z.number().default(0),
+    featured: z.boolean().default(true),
+    title_cs: z.string(),
+    title_en: z.string(),
+    description_cs: z.string(),
+    description_en: z.string(),
+    tags: z.array(z.string()).default([]),
+    badge_cs: z.string().optional(),
+    badge_en: z.string().optional(),
+    price_cs: z.string().optional(),
+    price_en: z.string().optional(),
+    price_note_cs: z.string().optional(),
+    price_note_en: z.string().optional(),
+    related_project: z.string().optional(),
+    seo_title_cs: z.string().optional(),
+    seo_title_en: z.string().optional(),
+    seo_description_cs: z.string().optional(),
+    seo_description_en: z.string().optional(),
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
+  services: servicesCollection,
 };

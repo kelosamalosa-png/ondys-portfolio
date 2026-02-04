@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslations } from '../../../i18n/utils';
+import { getServices, getServiceBySlug, type ServiceEntry } from '../../../lib/services';
+
+const lang = 'cs';
+const t = getTranslations(lang);
+
+export async function getStaticPaths() {
+  const services = await getServices();
+  return services.map((service) => ({
+    params: { slug: service.data.slug_cs },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServiceEntry;
+}
+
+const { service } = Astro.props;
+const { Content } = await service.render();
+
+const title = service.data.seo_title_cs || service.data.title_cs;
+const description = service.data.seo_description_cs || service.data.description_cs;
+const badge = service.data.badge_cs;
+const price = service.data.price_cs;
+const priceNote = service.data.price_note_cs;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": service.data.title_cs,
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "ONDYS.DEV",
+    "url": "https://ondys.dev"
+  },
+  "description": description,
+  "areaServed": ["CZ", "Worldwide"]
+};
+---
+
+<BaseLayout 
+  title={title}
+  description={description}
+  lang={lang}
+  type="website"
+  jsonLd={jsonLd}
+>
+  <main class="py-20">
+    <div class="container-main">
+      <!-- Hero -->
+      <header class="mb-16">
+        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
+          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Zpět na úvod
+        </a>
+        
+        {badge && (
+          <div class="inline-block px-3 py-1 bg-brand-500/20 text-brand-400 text-sm font-medium rounded-full mb-4">
+            {badge}
+          </div>
+        )}
+        
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+          {service.data.title_cs}
+        </h1>
+        
+        <p class="text-xl text-surface-300 max-w-3xl">
+          {service.data.description_cs}
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Markdown content -->
+          <article class="prose prose-invert prose-lg max-w-none">
+            <Content />
+          </article>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <div class="glass-card p-6 sticky top-24">
+            <h3 class="font-display font-semibold text-white mb-4">Objednejte službu</h3>
+            
+            {price && (
+              <div class="mb-4">
+                <p class="text-2xl font-bold text-brand-400">{price}</p>
+                {priceNote && <p class="text-surface-400 text-sm">{priceNote}</p>}
+              </div>
+            )}
+            
+            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+              Poptat službu
+            </a>
+            <p class="text-surface-500 text-xs text-center">Úvodní konzultace zdarma</p>
+          </div>
+
+          {service.data.related_project && (
+            <div class="glass-card p-6">
+              <h3 class="font-display font-semibold text-white mb-4">Související projekt</h3>
+              <a href={`/${lang}/projects/${service.data.related_project}`} class="text-brand-400 hover:text-brand-300 transition-colors">
+                Zobrazit projekt →
+              </a>
+            </div>
+          )}
+
+          {service.data.tags.length > 0 && (
+            <div class="glass-card p-6">
+              <h3 class="font-display font-semibold text-white mb-4">Technologie</h3>
+              <div class="flex flex-wrap gap-2">
+                {service.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>

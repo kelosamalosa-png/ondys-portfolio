@@ -1,5 +1,6 @@
 ---
 import { getTranslations } from '../i18n/utils';
+import { getFeaturedServices } from '../lib/services';
 
 interface Props {
   lang: 'cs' | 'en';
@@ -8,51 +9,14 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-const services = lang === 'cs' ? [
-  {
-    title: 'Flutter vývoj aplikací',
-    description: 'Multiplatformní mobilní aplikace s offline-first architekturou, PDF fakturací a QR platbami.',
-    href: '/cs/services/vyvoj-mobilnich-aplikaci',
-    icon: '📱',
-    tags: ['Android', 'iOS', 'Offline-first'],
-  },
-  {
-    title: 'AI audit webu (GEO)',
-    description: 'Audit viditelnosti v AI vyhledávačích. Zjistěte, jak ChatGPT a další AI vidí váš web.',
-    href: '/cs/services/ai-audit-webu',
-    icon: '🔍',
-    tags: ['ChatGPT', 'Perplexity', 'SEO'],
-  },
-  {
-    title: 'Web Firewall skenování',
-    description: 'Detekce manipulativních vzorů, prompt injection a dark patterns na webových stránkách.',
-    href: '/cs/services/web-firewall-skenovani',
-    icon: '🛡️',
-    tags: ['Bezpečnost', 'Dark patterns', 'AI safety'],
-  },
-] : [
-  {
-    title: 'Flutter App Development',
-    description: 'Cross-platform mobile apps with offline-first architecture, PDF invoicing, and QR payments.',
-    href: '/en/services/flutter-app-development',
-    icon: '📱',
-    tags: ['Android', 'iOS', 'Offline-first'],
-  },
-  {
-    title: 'AI Visibility Audit (GEO)',
-    description: 'Audit your visibility in AI search. Find out how ChatGPT and other AI see your website.',
-    href: '/en/services/ai-visibility-audit',
-    icon: '🔍',
-    tags: ['ChatGPT', 'Perplexity', 'SEO'],
-  },
-  {
-    title: 'Web Firewall Scanning',
-    description: 'Detection of manipulative patterns, prompt injection, and dark patterns on websites.',
-    href: '/en/services/web-firewall-scanning',
-    icon: '🛡️',
-    tags: ['Security', 'Dark patterns', 'AI safety'],
-  },
-];
+const servicesData = await getFeaturedServices();
+const services = servicesData.map((service) => ({
+  title: lang === 'cs' ? service.data.title_cs : service.data.title_en,
+  description: lang === 'cs' ? service.data.description_cs : service.data.description_en,
+  href: `/${lang}/services/${lang === 'cs' ? service.data.slug_cs : service.data.slug_en}`,
+  icon: service.data.icon,
+  tags: service.data.tags,
+}));
 
 const sectionTitle = lang === 'cs' ? 'Služby' : 'Services';
 const sectionSubtitle = lang === 'cs' 

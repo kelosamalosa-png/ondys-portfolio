@@ -113,3 +113,130 @@ collections:
         name: "body"
         widget: "markdown"
         hint: "Detailní popis projektu (anglicky nebo neutrálně)"
+
+  - name: "services"
+    label: "Služby / Services"
+    folder: "src/content/services"
+    create: true
+    delete: true
+    slug: "{{fields.serviceSlug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Service Slug"
+        name: "serviceSlug"
+        widget: "string"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Pouze malá písmena, čísla a pomlčky"]
+        hint: "Interní identifikátor služby"
+
+      - label: "URL Slug (CZ)"
+        name: "slug_cs"
+        widget: "string"
+        hint: "URL pro českou verzi (např. 'vyvoj-mobilnich-aplikaci')"
+
+      - label: "URL Slug (EN)"
+        name: "slug_en"
+        widget: "string"
+        hint: "URL pro anglickou verzi (např. 'flutter-app-development')"
+
+      - label: "Ikona (emoji)"
+        name: "icon"
+        widget: "string"
+        hint: "Emoji ikona služby (např. 📱, 🔍, 🛡️)"
+
+      - label: "Pořadí"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        default: 0
+        hint: "Pořadí v seznamu služeb (nižší = dříve)"
+
+      - label: "Zobrazit na homepage"
+        name: "featured"
+        widget: "boolean"
+        default: true
+
+      - label: "Název (CZ)"
+        name: "title_cs"
+        widget: "string"
+
+      - label: "Title (EN)"
+        name: "title_en"
+        widget: "string"
+
+      - label: "Popis (CZ)"
+        name: "description_cs"
+        widget: "text"
+        hint: "Krátký popis pro kartu na homepage"
+
+      - label: "Description (EN)"
+        name: "description_en"
+        widget: "text"
+
+      - label: "Tagy"
+        name: "tags"
+        widget: "list"
+        default: []
+
+      - label: "Badge (CZ)"
+        name: "badge_cs"
+        widget: "string"
+        required: false
+        hint: "Štítek nad nadpisem (např. 'Mobilní aplikace')"
+
+      - label: "Badge (EN)"
+        name: "badge_en"
+        widget: "string"
+        required: false
+
+      - label: "Cena (CZ)"
+        name: "price_cs"
+        widget: "string"
+        required: false
+        hint: "Např. 'od 12 500 Kč'"
+
+      - label: "Price (EN)"
+        name: "price_en"
+        widget: "string"
+        required: false
+
+      - label: "Poznámka k ceně (CZ)"
+        name: "price_note_cs"
+        widget: "string"
+        required: false
+
+      - label: "Price Note (EN)"
+        name: "price_note_en"
+        widget: "string"
+        required: false
+
+      - label: "Související projekt"
+        name: "related_project"
+        widget: "string"
+        required: false
+        hint: "Slug souvisejícího projektu"
+
+      - label: "SEO Title (CZ)"
+        name: "seo_title_cs"
+        widget: "string"
+        required: false
+
+      - label: "SEO Title (EN)"
+        name: "seo_title_en"
+        widget: "string"
+        required: false
+
+      - label: "SEO Description (CZ)"
+        name: "seo_description_cs"
+        widget: "text"
+        required: false
+
+      - label: "SEO Description (EN)"
+        name: "seo_description_en"
+        widget: "text"
+        required: false
+
+      - label: "Obsah / Body"
+        name: "body"
+        widget: "markdown"
+        hint: "Detailní popis služby (markdown)"
