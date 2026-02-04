@@ -23,6 +23,30 @@ const projectsCollection = defineCollection({
   }),
 });
 
+const devlogsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    projectSlug: z.string(),
+    version: z.string(),
+    versionStatus: z.enum(['alpha', 'beta', 'stable']),
+    releaseDate: z.string(),
+    summary_cs: z.string().optional(),
+    summary_en: z.string().optional(),
+    new_features: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
+    fixes: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
+    known_issues: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
+  }),
+});
+
 const servicesCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -53,5 +77,6 @@ const servicesCollection = defineCollection({
 
 export const collections = {
   projects: projectsCollection,
+  devlogs: devlogsCollection,
   services: servicesCollection,
 };

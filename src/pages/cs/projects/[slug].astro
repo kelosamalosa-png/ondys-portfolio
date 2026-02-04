@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getTranslations } from '../../../i18n/utils';
+import { getCollection } from 'astro:content';
 import { 
   getProjects, 
   getLocalizedTitle, 
@@ -31,6 +32,12 @@ const title = getLocalizedTitle(project, lang);
 const summary = getLocalizedSummary(project, lang);
 const bodyContent = project.data.body_cs || '';
 const renderedBody = await marked(bodyContent);
+
+const allDevlogs = await getCollection('devlogs');
+const projectDevlogs = allDevlogs
+  .filter(log => log.data.projectSlug === project.data.projectSlug)
+  .sort((a, b) => b.data.version.localeCompare(a.data.version, undefined, { numeric: true }));
+const latestDevlog = projectDevlogs[0];
 
 function getStatusColor(status: ProjectData['status']): string {
   const colors: Record<ProjectData['status'], string> = {
@@ -72,10 +79,28 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
           {summary}
         </p>
         
-        <div class="flex flex-wrap gap-2">
-          {project.data.stack.map((tech) => (
-            <span class="tag">{tech}</span>
-          ))}
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap gap-2">
+            {project.data.stack.map((tech) => (
+              <span class="tag">{tech}</span>
+            ))}
+          </div>
+          {latestDevlog && (
+            <a 
+              href={`/${lang}/projects/${project.data.projectSlug}/devlog/${latestDevlog.data.version.replace(/\./g, '-')}`}
+              class="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-500/20 text-brand-400 hover:bg-brand-500/30 rounded-lg font-mono text-sm transition-colors border border-brand-500/30"
+            >
+              <span class="text-xs">📋</span>
+              DEV LOG v{latestDevlog.data.version}
+              <span class={`px-1.5 py-0.5 text-xs rounded ${
+                latestDevlog.data.versionStatus === 'beta' ? 'bg-yellow-500/20 text-yellow-400' :
+                latestDevlog.data.versionStatus === 'alpha' ? 'bg-red-500/20 text-red-400' :
+                'bg-green-500/20 text-green-400'
+              }`}>
+                {latestDevlog.data.versionStatus.toUpperCase()}
+              </span>
+            </a>
+          )}
         </div>
       </header>
       

@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getProjects, getLocalizedTitle } from '../../../../../lib/projects';
+
+const lang = 'cs';
+
+export async function getStaticPaths() {
+  const devlogs = await getCollection('devlogs');
+  return devlogs.map((log) => ({
+    params: { 
+      slug: log.data.projectSlug,
+      version: log.data.version.replace(/\./g, '-')
+    },
+    props: { devlog: log },
+  }));
+}
+
+interface Props {
+  devlog: Awaited<ReturnType<typeof getCollection<'devlogs'>>>[number];
+}
+
+const { devlog } = Astro.props;
+const projects = await getProjects();
+const project = projects.find(p => p.data.projectSlug === devlog.data.projectSlug);
+const projectTitle = project ? getLocalizedTitle(project, lang) : devlog.data.projectSlug;
+
+const statusColors = {
+  alpha: 'bg-red-500/20 text-red-400 border-red-500/30',
+  beta: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  stable: 'bg-green-500/20 text-green-400 border-green-500/30',
+};
+
+const statusLabels = {
+  alpha: 'ALPHA',
+  beta: 'BETA',
+  stable: 'STABLE',
+};
+
+const formatDate = (dateStr: string) => {
+  return new Date(dateStr).toLocaleDateString('cs-CZ', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<BaseLayout 
+  title={`DEV LOG ${projectTitle} v${devlog.data.version}`}
+  description={devlog.data.summary_cs || `Changelog verze ${devlog.data.version}`}
+  lang={lang}
+>
+  <article class="py-20">
+    <div class="container-main max-w-4xl">
+      <a href={`/${lang}/projects/${devlog.data.projectSlug}`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-8 group">
+        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Zpět na {projectTitle}
+      </a>
+
+      <header class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-brand-400 font-mono text-sm uppercase tracking-wider">DEV LOG</span>
+          <span class="text-surface-600">•</span>
+          <span class="text-surface-400 font-mono text-sm">{formatDate(devlog.data.releaseDate)}</span>
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <h1 class="text-4xl sm:text-5xl font-display font-bold text-white font-mono">
+            {projectTitle} <span class="text-brand-400">v{devlog.data.version}</span>
+          </h1>
+          <span class={`px-3 py-1 text-sm font-mono font-bold rounded border ${statusColors[devlog.data.versionStatus]}`}>
+            {statusLabels[devlog.data.versionStatus]}
+          </span>
+        </div>
+
+        {devlog.data.summary_cs && (
+          <p class="text-xl text-surface-300 font-mono">
+            {devlog.data.summary_cs}
+          </p>
+        )}
+      </header>
+
+      <div class="space-y-8">
+        {devlog.data.new_features.length > 0 && (
+          <section class="glass-card p-6 border-l-4 border-green-500">
+            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-green-400 mb-4">
+              <span class="text-2xl">🆕</span>
+              Nové funkce
+              <span class="text-sm font-mono text-surface-500">({devlog.data.new_features.length})</span>
+            </h2>
+            <ul class="space-y-3">
+              {devlog.data.new_features.map((feature) => (
+                <li class="flex items-start gap-3 text-surface-200">
+                  <span class="text-green-400 mt-1">+</span>
+                  <span class="font-mono">{feature.cs}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {devlog.data.fixes.length > 0 && (
+          <section class="glass-card p-6 border-l-4 border-blue-500">
+            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-blue-400 mb-4">
+              <span class="text-2xl">✅</span>
+              Opravy
+              <span class="text-sm font-mono text-surface-500">({devlog.data.fixes.length})</span>
+            </h2>
+            <ul class="space-y-3">
+              {devlog.data.fixes.map((fix) => (
+                <li class="flex items-start gap-3 text-surface-200">
+                  <span class="text-blue-400 mt-1">~</span>
+                  <span class="font-mono">{fix.cs}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {devlog.data.known_issues.length > 0 && (
+          <section class="glass-card p-6 border-l-4 border-yellow-500">
+            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-yellow-400 mb-4">
+              <span class="text-2xl">⚠️</span>
+              Známé problémy
+              <span class="text-sm font-mono text-surface-500">({devlog.data.known_issues.length})</span>
+            </h2>
+            <ul class="space-y-3">
+              {devlog.data.known_issues.map((issue) => (
+                <li class="flex items-start gap-3 text-surface-200">
+                  <span class="text-yellow-400 mt-1">!</span>
+                  <span class="font-mono">{issue.cs}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      <footer class="mt-12 pt-8 border-t border-surface-800">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="text-surface-500 font-mono text-sm">
+            Verze {devlog.data.version} • {formatDate(devlog.data.releaseDate)}
+          </div>
+          <a 
+            href={`/${lang}/projects/${devlog.data.projectSlug}`}
+            class="btn-secondary"
+          >
+            Zobrazit projekt
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
