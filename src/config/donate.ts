@@ -8,12 +8,12 @@ export const donateLinks = {
     enabled: true,
   },
   paypal: {
-    url: '#', // Replace with your PayPal.me link
-    enabled: true,
+    url: '#',
+    enabled: false,
   },
   bankTransfer: {
     // Bank transfer details
-    iban: 'CZ00 0000 0000 0000 0000 0000', // Replace with your IBAN
+    iban: 'CZ87 5500 0000 0068 3317 8003',
     bankName: 'Your Bank Name',
     accountHolder: 'Your Name',
     enabled: true,

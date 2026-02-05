@@ -1,5 +1,6 @@
 ---
 import { getTranslations } from '../i18n/utils';
+import { getCollection } from 'astro:content';
 
 interface Props {
   lang: 'cs' | 'en';
@@ -7,6 +8,9 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
+
+const allSkills = await getCollection('skills');
+const skills = allSkills.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="skills" class="py-20 scroll-mt-20">
@@ -15,7 +19,7 @@ const t = getTranslations(lang);
     <p class="section-subheading mb-12">{t.skills.subtitle}</p>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {t.skills.items.map((skill, index) => (
+      {skills.map((skill, index) => (
         <div 
           class="glass-card p-6 hover:border-brand-500/30 transition-all duration-300"
           style={`--delay: ${index * 50}ms`}
@@ -25,8 +29,12 @@ const t = getTranslations(lang);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h3 class="font-display font-semibold text-white mb-2">{skill.title}</h3>
-          <p class="text-surface-400 text-sm">{skill.description}</p>
+          <h3 class="font-display font-semibold text-white mb-2">
+            {lang === 'cs' ? skill.data.title_cs : skill.data.title_en}
+          </h3>
+          <p class="text-surface-400 text-sm">
+            {lang === 'cs' ? skill.data.description_cs : skill.data.description_en}
+          </p>
         </div>
       ))}
     </div>

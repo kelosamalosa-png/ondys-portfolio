@@ -19,7 +19,20 @@ const projectsCollection = defineCollection({
     links_demo: z.string().optional(),
     links_github: z.string().optional(),
     links_other: z.string().optional(),
+    links_other_label: z.string().optional(),
     images: z.array(z.string()).default([]),
+  }),
+});
+
+const skillsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    skillSlug: z.string(),
+    order: z.number().default(0),
+    title_cs: z.string(),
+    title_en: z.string(),
+    description_cs: z.string(),
+    description_en: z.string(),
   }),
 });
 
@@ -77,6 +90,7 @@ const servicesCollection = defineCollection({
 
 export const collections = {
   projects: projectsCollection,
+  skills: skillsCollection,
   devlogs: devlogsCollection,
   services: servicesCollection,
 };

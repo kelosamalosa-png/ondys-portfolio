@@ -119,17 +119,21 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
               <h2 class="text-xl font-display font-semibold text-white mb-4">
                 Screenshots
               </h2>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {project.data.images.map((image) => (
-                  <div class="aspect-video bg-surface-800 rounded-lg overflow-hidden">
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {project.data.images.map((image, index) => (
+                  <button 
+                    type="button"
+                    class="aspect-video bg-surface-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-brand-500 transition-all group"
+                    onclick={`openLightbox('${image}')`}
+                  >
                     <img 
                       src={image} 
-                      alt={`${title} screenshot`}
-                      class="w-full h-full object-cover"
+                      alt={`${title} screenshot ${index + 1}`}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                       onerror="this.parentElement.style.display='none'"
                     />
-                  </div>
+                  </button>
                 ))}
               </div>
             </section>
@@ -180,7 +184,7 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
                 )}
                 {project.data.links_other && (
                   <a href={project.data.links_other} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
-                    Other Link
+                    {project.data.links_other_label || 'Other Link'}
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -202,4 +206,34 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
       </div>
     </div>
   </article>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm" onclick="closeLightbox()">
+    <button type="button" class="absolute top-4 right-4 text-white hover:text-brand-400 transition-colors" onclick="closeLightbox()">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="Screenshot" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg" onclick="event.stopPropagation()" />
+  </div>
+
+  <script is:inline>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </BaseLayout>

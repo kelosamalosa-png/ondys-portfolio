@@ -9,6 +9,43 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
+  - name: "skills"
+    label: "Dovednosti / Skills"
+    folder: "src/content/skills"
+    create: true
+    delete: true
+    slug: "{{fields.skillSlug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Slug"
+        name: "skillSlug"
+        widget: "string"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Pouze malá písmena, čísla a pomlčky"]
+
+      - label: "Pořadí / Order"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        default: 0
+        hint: "Nižší číslo = dříve v seznamu"
+
+      - label: "Název (CZ)"
+        name: "title_cs"
+        widget: "string"
+
+      - label: "Title (EN)"
+        name: "title_en"
+        widget: "string"
+
+      - label: "Popis (CZ)"
+        name: "description_cs"
+        widget: "text"
+
+      - label: "Description (EN)"
+        name: "description_en"
+        widget: "text"
+
   - name: "projects"
     label: "Projekty / Projects"
     folder: "src/content/projects"
@@ -98,6 +135,12 @@ collections:
         name: "links_other"
         widget: "string"
         required: false
+
+      - label: "Popisek odkazu - Jiný"
+        name: "links_other_label"
+        widget: "string"
+        required: false
+        hint: "Vlastní název pro tlačítko odkazu (např. 'Stáhnout APK', 'itch.io')"
 
       - label: "Obrázky / Images"
         name: "images"
