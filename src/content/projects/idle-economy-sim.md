@@ -1,23 +1,25 @@
 ---
 projectSlug: idle-economy-sim
 status: live
-category: game
-featured: false
+category: tool
+featured: true
 year: 2025
 title_cs: Idle Economy Simulator
-title_en: Idle Economy Simulator
-summary_cs: Idle hra zaměřená na ekonomickou simulaci a balancování herních
-  systémů. Experimentální projekt pro testování herního designu.
-summary_en: Idle game focused on economic simulation and game system balancing.
-  Experimental project for testing game design concepts.
+title_en: GSS (Game system simulator)
+summary_cs: GSS je desktopový nástroj v Godotu pro game devs, který umožňuje
+  vizuálně navrhnout, simulovat a vybalancovat herní ekonomiky/progression
+  systémy (idle/incremental) a exportovat je do hry.
+summary_en: GSS is a Godot-based desktop tool for game developers to visually
+  design, simulate, and balance game economy/progression systems
+  (idle/incremental) and export them into a game.
 stack:
   - Godot
   - Simulation
   - Game design
-links_website: ""
+links_website: https://neopryus.itch.io/idle-economy-simulator
 links_demo: ""
 links_github: ""
-links_other: https://neopryus.itch.io/idle-economy-simulator
+links_other: ""
 images:
   - /uploads/idle-economy-sim-screenshot-1.png
 body_cs: >
