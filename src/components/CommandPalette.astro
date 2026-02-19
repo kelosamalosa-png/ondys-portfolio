@@ -1,0 +1,204 @@
+---
+interface Props {
+  lang: 'cs' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const items = lang === 'cs' ? [
+  { label: 'Domů', href: '/cs/', section: 'Navigace', icon: '🏠' },
+  { label: 'Projekty', href: '/cs/projects/', section: 'Navigace', icon: '📁' },
+  { label: 'Služby', href: '/cs/#services', section: 'Navigace', icon: '💼' },
+  { label: 'FAQ', href: '/cs/faq/', section: 'Navigace', icon: '❓' },
+  { label: 'Kontakt', href: '/cs/#contact', section: 'Navigace', icon: '📧' },
+  { label: 'Podpořit', href: '/cs/support/', section: 'Navigace', icon: '♥' },
+  { label: 'Ochrana soukromí', href: '/cs/privacy/', section: 'Navigace', icon: '🔒' },
+  { label: 'FACHA', href: '/cs/projects/facha/', section: 'Projekty', icon: '📱' },
+  { label: 'AI Audit Tool', href: '/cs/projects/ai-audit-tool/', section: 'Projekty', icon: '🔍' },
+  { label: 'Web Firewall', href: '/cs/projects/web-firewall/', section: 'Projekty', icon: '🛡️' },
+  { label: 'English version', href: '/en/', section: 'Jazyk', icon: '🌐' },
+  { label: 'GitHub', href: 'https://github.com/kelosamalosa-png', section: 'Odkazy', icon: '🔗' },
+] : [
+  { label: 'Home', href: '/en/', section: 'Navigation', icon: '🏠' },
+  { label: 'Projects', href: '/en/projects/', section: 'Navigation', icon: '📁' },
+  { label: 'Services', href: '/en/#services', section: 'Navigation', icon: '💼' },
+  { label: 'FAQ', href: '/en/faq/', section: 'Navigation', icon: '❓' },
+  { label: 'Contact', href: '/en/#contact', section: 'Navigation', icon: '📧' },
+  { label: 'Support', href: '/en/support/', section: 'Navigation', icon: '♥' },
+  { label: 'Privacy', href: '/en/privacy/', section: 'Navigation', icon: '🔒' },
+  { label: 'FACHA', href: '/en/projects/facha/', section: 'Projects', icon: '📱' },
+  { label: 'AI Audit Tool', href: '/en/projects/ai-audit-tool/', section: 'Projects', icon: '🔍' },
+  { label: 'Web Firewall', href: '/en/projects/web-firewall/', section: 'Projects', icon: '🛡️' },
+  { label: 'Česká verze', href: '/cs/', section: 'Language', icon: '🌐' },
+  { label: 'GitHub', href: 'https://github.com/kelosamalosa-png', section: 'Links', icon: '🔗' },
+];
+---
+
+<!-- Command Palette Overlay -->
+<div id="cmd-palette" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label="Command palette">
+  <!-- Backdrop -->
+  <div id="cmd-backdrop" class="absolute inset-0 bg-surface-950/70 backdrop-blur-sm"></div>
+  
+  <!-- Dialog -->
+  <div class="relative flex justify-center pt-[15vh] px-4">
+    <div id="cmd-dialog" class="w-full max-w-lg bg-surface-925 border border-surface-800 rounded-2xl shadow-2xl overflow-hidden opacity-0 scale-95 transition-all duration-150">
+      <!-- Search input -->
+      <div class="flex items-center gap-3 px-4 border-b border-surface-800">
+        <svg class="w-4 h-4 text-surface-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input 
+          id="cmd-input"
+          type="text" 
+          placeholder={lang === 'cs' ? 'Hledat stránky, projekty...' : 'Search pages, projects...'}
+          class="flex-1 py-3.5 bg-transparent text-sm text-white placeholder:text-surface-600 focus:outline-none font-mono"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-surface-850 border border-surface-700 text-[10px] font-mono text-surface-500">ESC</kbd>
+      </div>
+      
+      <!-- Results -->
+      <div id="cmd-results" class="max-h-[320px] overflow-y-auto py-2">
+        {items.map((item, i) => (
+          <a
+            href={item.href}
+            class="cmd-item flex items-center gap-3 px-4 py-2.5 text-sm text-surface-300 hover:bg-surface-850 hover:text-white transition-colors cursor-pointer"
+            data-label={item.label.toLowerCase()}
+            data-section={item.section.toLowerCase()}
+            data-index={i}
+          >
+            <span class="text-base w-5 text-center shrink-0">{item.icon}</span>
+            <span class="flex-1 truncate">{item.label}</span>
+            <span class="text-[10px] font-mono text-surface-600">{item.section}</span>
+          </a>
+        ))}
+      </div>
+      
+      <!-- Footer -->
+      <div class="flex items-center justify-between px-4 py-2 border-t border-surface-800 text-[10px] font-mono text-surface-600">
+        <div class="flex items-center gap-3">
+          <span><kbd class="px-1 py-0.5 rounded bg-surface-850 border border-surface-700">↑↓</kbd> {lang === 'cs' ? 'navigace' : 'navigate'}</span>
+          <span><kbd class="px-1 py-0.5 rounded bg-surface-850 border border-surface-700">↵</kbd> {lang === 'cs' ? 'otevřít' : 'open'}</span>
+        </div>
+        <span><kbd class="px-1 py-0.5 rounded bg-surface-850 border border-surface-700">esc</kbd> {lang === 'cs' ? 'zavřít' : 'close'}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCommandPalette() {
+    const palette = document.getElementById('cmd-palette');
+    const dialog = document.getElementById('cmd-dialog');
+    const backdrop = document.getElementById('cmd-backdrop');
+    const input = document.getElementById('cmd-input') as HTMLInputElement;
+    const results = document.getElementById('cmd-results');
+    const trigger = document.getElementById('cmd-k-trigger');
+    
+    if (!palette || !dialog || !input || !results) return;
+    
+    let activeIndex = 0;
+    
+    function getVisibleItems(): HTMLAnchorElement[] {
+      return Array.from(results!.querySelectorAll('.cmd-item:not([style*="display: none"])')) as HTMLAnchorElement[];
+    }
+    
+    function updateActive(items: HTMLAnchorElement[]) {
+      items.forEach((el, i) => {
+        if (i === activeIndex) {
+          el.classList.add('bg-surface-850', 'text-white');
+          el.scrollIntoView({ block: 'nearest' });
+        } else {
+          el.classList.remove('bg-surface-850', 'text-white');
+        }
+      });
+    }
+    
+    function open() {
+      palette!.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        dialog!.classList.remove('opacity-0', 'scale-95');
+        dialog!.classList.add('opacity-100', 'scale-100');
+      });
+      input!.value = '';
+      filterItems('');
+      input!.focus();
+      activeIndex = 0;
+      updateActive(getVisibleItems());
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function close() {
+      dialog!.classList.add('opacity-0', 'scale-95');
+      dialog!.classList.remove('opacity-100', 'scale-100');
+      setTimeout(() => {
+        palette!.classList.add('hidden');
+      }, 150);
+      document.body.style.overflow = '';
+    }
+    
+    function filterItems(query: string) {
+      const q = query.toLowerCase().trim();
+      const items = results!.querySelectorAll('.cmd-item') as NodeListOf<HTMLAnchorElement>;
+      items.forEach((el) => {
+        const label = el.dataset.label || '';
+        const section = el.dataset.section || '';
+        const match = !q || label.includes(q) || section.includes(q);
+        el.style.display = match ? '' : 'none';
+      });
+      activeIndex = 0;
+      updateActive(getVisibleItems());
+    }
+    
+    // Events
+    trigger?.addEventListener('click', open);
+    backdrop?.addEventListener('click', close);
+    
+    input.addEventListener('input', () => filterItems(input.value));
+    
+    input.addEventListener('keydown', (e) => {
+      const items = getVisibleItems();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, items.length - 1);
+        updateActive(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, 0);
+        updateActive(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const item = items[activeIndex];
+        if (item) {
+          close();
+          if (item.href.startsWith('http')) {
+            window.open(item.href, '_blank');
+          } else {
+            window.location.href = item.href;
+          }
+        }
+      } else if (e.key === 'Escape') {
+        close();
+      }
+    });
+    
+    // Keyboard shortcut: Cmd+K / Ctrl+K
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (palette!.classList.contains('hidden')) {
+          open();
+        } else {
+          close();
+        }
+      }
+      if (e.key === 'Escape' && !palette!.classList.contains('hidden')) {
+        close();
+      }
+    });
+  }
+  
+  document.addEventListener('astro:page-load', initCommandPalette);
+  initCommandPalette();
+</script>

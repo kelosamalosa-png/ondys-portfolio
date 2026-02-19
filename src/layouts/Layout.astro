@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -17,13 +18,11 @@ const currentPath = Astro.url.pathname;
 const canonicalUrl = `${siteUrl}${currentPath}`;
 const absoluteOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 
-// Hreflang URLs - must be absolute
 const csPath = currentPath.replace(/^\/en/, '/cs');
 const enPath = currentPath.replace(/^\/cs/, '/en');
 const hreflangCs = `${siteUrl}${csPath}`;
 const hreflangEn = `${siteUrl}${enPath}`;
 
-// Default JSON-LD for Person + ProfessionalService (site-wide)
 const defaultJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -44,11 +43,7 @@ const defaultJsonLd = {
         "https://linkedin.com/in/ondrej-sladek",
         "https://neopryus.itch.io"
       ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Prague",
-        "addressCountry": "CZ"
-      }
+      "address": { "@type": "PostalAddress", "addressLocality": "Prague", "addressCountry": "CZ" }
     },
     {
       "@type": "ProfessionalService",
@@ -64,15 +59,8 @@ const defaultJsonLd = {
       "areaServed": ["CZ", "Worldwide"],
       "serviceType": ["Mobile App Development", "Flutter Development", "AI Visibility Audit", "Web Security Scanning"],
       "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Prague",
-        "addressCountry": "CZ"
-      },
-      "sameAs": [
-        "https://github.com/kelosamalosa-png",
-        "https://linkedin.com/in/ondrej-sladek"
-      ]
+      "address": { "@type": "PostalAddress", "addressLocality": "Prague", "addressCountry": "CZ" },
+      "sameAs": ["https://github.com/kelosamalosa-png", "https://linkedin.com/in/ondrej-sladek"]
     },
     {
       "@type": "WebSite",
@@ -83,12 +71,7 @@ const defaultJsonLd = {
         ? "Portfolio Ondřeje Sládka - Flutter vývojář a produktový tvůrce"
         : "Portfolio of Ondřej Sládek - Flutter developer and product builder",
       "publisher": { "@id": `${siteUrl}/#person` },
-      "inLanguage": [lang === 'cs' ? 'cs-CZ' : 'en-US'],
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${siteUrl}/${lang}/projects?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
+      "inLanguage": [lang === 'cs' ? 'cs-CZ' : 'en-US']
     }
   ]
 };
@@ -107,19 +90,23 @@ const finalJsonLd = jsonLd || defaultJsonLd;
     <meta name="description" content={description} />
     <meta name="author" content="Ondřej Sládek" />
     
-    <!-- Canonical & Alternate Languages -->
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="cs" href={hreflangCs} />
     <link rel="alternate" hreflang="en" href={hreflangEn} />
     <link rel="alternate" hreflang="x-default" href={hreflangEn} />
     
-    <!-- Favicon & Manifest -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#0c4a6e" />
+    <meta name="theme-color" content="#09090B" />
     
-    <!-- Open Graph -->
+    <ViewTransitions />
+    
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
@@ -131,40 +118,83 @@ const finalJsonLd = jsonLd || defaultJsonLd;
     <meta property="og:locale:alternate" content={lang === 'cs' ? 'en_US' : 'cs_CZ'} />
     <meta property="og:site_name" content="ONDYS.DEV" />
     
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteOgImage} />
     
-    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(finalJsonLd)} />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-dvh flex flex-col bg-surface-950 text-surface-200 font-sans antialiased">
     <slot />
     
+    <!-- Scroll-to-top button -->
+    <button
+      id="scroll-top-btn"
+      class="scroll-glow fixed bottom-6 right-6 z-50 w-10 h-10 rounded-xl bg-surface-900 border border-surface-800 flex items-center justify-center text-surface-500 hover:text-accent hover:border-accent/30 transition-all shadow-lg"
+      aria-label="Scroll to top"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+
+    <!-- Language persistence -->
     <script is:inline>
       (function() {
-        const STORAGE_KEY = 'ondys-lang';
-        const path = window.location.pathname;
-        
-        if (path === '/' || path === '') {
-          const stored = localStorage.getItem(STORAGE_KEY);
-          if (stored && (stored === 'cs' || stored === 'en')) {
-            window.location.replace('/' + stored);
-            return;
-          }
-          
-          const browserLang = navigator.language || navigator.userLanguage;
-          const lang = browserLang.startsWith('cs') ? 'cs' : 
-                       browserLang.startsWith('sk') ? 'cs' : 'cs';
-          window.location.replace('/' + lang);
+        var K = 'ondys-lang', p = location.pathname;
+        if (p === '/' || p === '') {
+          var s = localStorage.getItem(K);
+          if (s === 'cs' || s === 'en') { location.replace('/' + s); return; }
+          var l = (navigator.language || '').slice(0, 2);
+          location.replace('/' + (l === 'cs' || l === 'sk' ? 'cs' : 'cs'));
           return;
         }
-        
-        const currentLang = path.startsWith('/en') ? 'en' : 'cs';
-        localStorage.setItem(STORAGE_KEY, currentLang);
+        localStorage.setItem(K, p.startsWith('/en') ? 'en' : 'cs');
       })();
+    </script>
+
+    <!-- Scroll reveal observer + scroll-to-top -->
+    <script>
+      function initReveal() {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => obs.observe(el));
+      }
+
+      function initScrollTop() {
+        const btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+
+        const onScroll = () => {
+          if (window.scrollY > 400) {
+            btn.classList.add('visible');
+          } else {
+            btn.classList.remove('visible');
+          }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+      
+      document.addEventListener('astro:page-load', () => {
+        initReveal();
+        initScrollTop();
+      });
+      initReveal();
+      initScrollTop();
     </script>
   </body>
 </html>

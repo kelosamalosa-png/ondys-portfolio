@@ -13,28 +13,30 @@ const allSkills = await getCollection('skills');
 const skills = allSkills.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<section id="skills" class="py-20 scroll-mt-20">
+<section id="skills" class="py-24 scroll-mt-20">
   <div class="container-main">
-    <h2 class="section-heading">{t.skills.title}</h2>
-    <p class="section-subheading mb-12">{t.skills.subtitle}</p>
+    <div class="mb-12 reveal">
+      <div class="section-label">{lang === 'cs' ? '// Dovednosti' : '// Skills'}</div>
+      <h2 class="section-heading">{t.skills.title}</h2>
+      <p class="section-subheading">{t.skills.subtitle}</p>
+    </div>
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {skills.map((skill, index) => (
-        <div 
-          class="glass-card p-6 hover:border-brand-500/30 transition-all duration-300"
-          style={`--delay: ${index * 50}ms`}
-        >
-          <div class="w-10 h-10 rounded-lg bg-brand-900/50 border border-brand-700/30 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 reveal-stagger">
+      {skills.map((skill) => (
+        <div class="card p-5 group hover:border-accent/20">
+          <div class="flex items-start gap-4">
+            <div class="w-8 h-8 rounded-md bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 mt-0.5">
+              <span class="text-accent text-sm font-mono font-bold">✓</span>
+            </div>
+            <div>
+              <h3 class="font-display font-semibold text-white text-sm mb-1">
+                {lang === 'cs' ? skill.data.title_cs : skill.data.title_en}
+              </h3>
+              <p class="text-surface-500 text-xs leading-relaxed">
+                {lang === 'cs' ? skill.data.description_cs : skill.data.description_en}
+              </p>
+            </div>
           </div>
-          <h3 class="font-display font-semibold text-white mb-2">
-            {lang === 'cs' ? skill.data.title_cs : skill.data.title_en}
-          </h3>
-          <p class="text-surface-400 text-sm">
-            {lang === 'cs' ? skill.data.description_cs : skill.data.description_en}
-          </p>
         </div>
       ))}
     </div>

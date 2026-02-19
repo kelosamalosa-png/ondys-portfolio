@@ -39,13 +39,13 @@ const projectDevlogs = allDevlogs
   .sort((a, b) => b.data.version.localeCompare(a.data.version, undefined, { numeric: true }));
 const latestDevlog = projectDevlogs[0];
 
-function getStatusColor(status: ProjectData['status']): string {
-  const colors: Record<ProjectData['status'], string> = {
-    live: 'bg-green-500/20 text-green-400',
-    beta: 'bg-yellow-500/20 text-yellow-400',
-    prototype: 'bg-blue-500/20 text-blue-400',
+function getStatusClass(status: ProjectData['status']): string {
+  const map: Record<ProjectData['status'], string> = {
+    live: 'status-live',
+    beta: 'status-beta',
+    prototype: 'status-prototype',
   };
-  return colors[status];
+  return map[status];
 }
 
 const hasLinks = project.data.links_website || project.data.links_demo || project.data.links_github || project.data.links_other;
@@ -56,31 +56,38 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
   description={summary} 
   lang={lang}
 >
-  <article class="py-20">
+  <article class="py-24">
     <div class="container-main">
-      <a href={`/${lang}/projects`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-8 group">
-        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Back link -->
+      <a href={`/${lang}/projects`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-8 text-sm font-mono group">
+        <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
-        Zpět na projekty
+        cd ~/projects
       </a>
       
-      <header class="mb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-4">
-          <h1 class="text-4xl sm:text-5xl font-display font-bold text-white">
-            {title}
-          </h1>
-          <span class={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.data.status)}`}>
+      <!-- Header -->
+      <header class="mb-12 reveal">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <span class={getStatusClass(project.data.status)}>
             {getStatusLabel(project.data.status, lang)}
           </span>
+          <span class="tag">{project.data.category}</span>
+          {project.data.year && (
+            <span class="text-xs font-mono text-surface-600">{project.data.year}</span>
+          )}
         </div>
         
-        <p class="text-xl text-surface-300 mb-6">
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-4 leading-tight">
+          {title}
+        </h1>
+        
+        <p class="text-lg text-surface-400 mb-6 max-w-2xl leading-relaxed">
           {summary}
         </p>
         
         <div class="flex flex-wrap items-center gap-3">
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-1.5">
             {project.data.stack.map((tech) => (
               <span class="tag">{tech}</span>
             ))}
@@ -88,42 +95,45 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
           {latestDevlog && (
             <a 
               href={`/${lang}/projects/${project.data.projectSlug}/devlog/${latestDevlog.data.version.replace(/\./g, '-')}`}
-              class="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-500/20 text-brand-400 hover:bg-brand-500/30 rounded-lg font-mono text-sm transition-colors border border-brand-500/30"
+              class="inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 text-accent hover:bg-accent/20 rounded-lg font-mono text-sm transition-colors border border-accent/20"
             >
-              <span class="text-xs">📋</span>
               DEV LOG v{latestDevlog.data.version}
-              <span class={`px-1.5 py-0.5 text-xs rounded ${
+              <span class={`px-1.5 py-0.5 text-[0.625rem] rounded font-bold uppercase ${
                 latestDevlog.data.versionStatus === 'beta' ? 'bg-yellow-500/20 text-yellow-400' :
                 latestDevlog.data.versionStatus === 'alpha' ? 'bg-red-500/20 text-red-400' :
                 'bg-green-500/20 text-green-400'
               }`}>
-                {latestDevlog.data.versionStatus.toUpperCase()}
+                {latestDevlog.data.versionStatus}
               </span>
             </a>
           )}
         </div>
       </header>
       
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-8">
-          <section class="glass-card p-6">
-            <h2 class="text-xl font-display font-semibold text-white mb-4">
+      <!-- Content grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main content -->
+        <div class="lg:col-span-2 space-y-6">
+          <section class="card p-6 reveal">
+            <h2 class="text-lg font-display font-semibold text-white mb-4 flex items-center gap-2">
+              <span class="text-accent font-mono text-sm">01</span>
               Detaily
             </h2>
-            <div class="prose prose-invert prose-surface max-w-none" set:html={renderedBody}>
+            <div class="prose prose-invert max-w-none text-surface-300 text-sm leading-relaxed" set:html={renderedBody}>
             </div>
           </section>
           
           {project.data.images && project.data.images.length > 0 && (
-            <section class="glass-card p-6">
-              <h2 class="text-xl font-display font-semibold text-white mb-4">
+            <section class="card p-6 reveal">
+              <h2 class="text-lg font-display font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="text-accent font-mono text-sm">02</span>
                 Screenshoty
               </h2>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {project.data.images.map((image, index) => (
                   <button 
                     type="button"
-                    class="aspect-video bg-surface-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-brand-500 transition-all group"
+                    class="aspect-video bg-surface-900 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent/50 transition-all group"
                     onclick={`openLightbox('${image}')`}
                   >
                     <img 
@@ -138,54 +148,72 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
               </div>
             </section>
           )}
+
+          {/* Devlog history */}
+          {projectDevlogs.length > 0 && (
+            <section class="card p-6 reveal">
+              <h2 class="text-lg font-display font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="text-accent font-mono text-sm">03</span>
+                Devlog historie
+              </h2>
+              <div class="space-y-2">
+                {projectDevlogs.map((log) => (
+                  <a 
+                    href={`/${lang}/projects/${project.data.projectSlug}/devlog/${log.data.version.replace(/\./g, '-')}`}
+                    class="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-surface-800/50 transition-colors group"
+                  >
+                    <div class="flex items-center gap-3">
+                      <span class="font-mono text-sm text-white group-hover:text-accent transition-colors">v{log.data.version}</span>
+                      <span class={`text-[0.625rem] font-mono font-bold uppercase px-1.5 py-0.5 rounded ${
+                        log.data.versionStatus === 'beta' ? 'bg-yellow-500/20 text-yellow-400' :
+                        log.data.versionStatus === 'alpha' ? 'bg-red-500/20 text-red-400' :
+                        'bg-green-500/20 text-green-400'
+                      }`}>{log.data.versionStatus}</span>
+                    </div>
+                    <span class="text-xs font-mono text-surface-600">
+                      {new Date(log.data.releaseDate).toLocaleDateString('cs-CZ')}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
         
-        <aside class="space-y-6">
-          <div class="glass-card p-6">
-            <h2 class="text-lg font-display font-semibold text-white mb-4">
-              Technologie
-            </h2>
-            <div class="flex flex-wrap gap-2">
-              {project.data.stack.map((tech) => (
-                <span class="tag">{tech}</span>
-              ))}
-            </div>
-          </div>
-          
+        <!-- Sidebar -->
+        <aside class="space-y-4">
           {hasLinks && (
-            <div class="glass-card p-6">
-              <h2 class="text-lg font-display font-semibold text-white mb-4">
-                Odkazy
-              </h2>
-              <div class="space-y-3">
+            <div class="card p-5">
+              <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-4">Odkazy</h3>
+              <div class="space-y-2">
                 {project.data.links_website && (
-                  <a href={project.data.links_website} target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center">
+                  <a href={project.data.links_website} target="_blank" rel="noopener noreferrer" class="btn btn-primary w-full text-sm">
                     Web
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
                 {project.data.links_demo && (
-                  <a href={project.data.links_demo} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                  <a href={project.data.links_demo} target="_blank" rel="noopener noreferrer" class="btn btn-secondary w-full text-sm">
                     Demo
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
                 {project.data.links_github && (
-                  <a href={project.data.links_github} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                  <a href={project.data.links_github} target="_blank" rel="noopener noreferrer" class="btn btn-secondary w-full text-sm">
                     GitHub
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
                 {project.data.links_other && (
-                  <a href={project.data.links_other} target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center">
+                  <a href={project.data.links_other} target="_blank" rel="noopener noreferrer" class="btn btn-secondary w-full text-sm">
                     {project.data.links_other_label || 'Další odkaz'}
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
@@ -194,22 +222,40 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
             </div>
           )}
 
-          {project.data.year && (
-            <div class="glass-card p-6">
-              <h2 class="text-lg font-display font-semibold text-white mb-2">
-                Rok
-              </h2>
-              <p class="text-surface-300">{project.data.year}</p>
+          <div class="card p-5">
+            <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-4">Stack</h3>
+            <div class="flex flex-wrap gap-1.5">
+              {project.data.stack.map((tech) => (
+                <span class="tag">{tech}</span>
+              ))}
             </div>
-          )}
+          </div>
+          
+          <div class="card p-5">
+            <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-3">Info</h3>
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between">
+                <dt class="text-surface-500">Rok</dt>
+                <dd class="font-mono text-surface-300">{project.data.year}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-surface-500">Kategorie</dt>
+                <dd class="font-mono text-surface-300">{project.data.category}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-surface-500">Stav</dt>
+                <dd class="font-mono text-surface-300">{getStatusLabel(project.data.status, lang)}</dd>
+              </div>
+            </dl>
+          </div>
         </aside>
       </div>
     </div>
   </article>
 
   <!-- Lightbox Modal -->
-  <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm" onclick="closeLightbox()">
-    <button type="button" class="absolute top-4 right-4 text-white hover:text-brand-400 transition-colors" onclick="closeLightbox()">
+  <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-surface-950/95 backdrop-blur-md" onclick="closeLightbox()">
+    <button type="button" class="absolute top-4 right-4 text-surface-400 hover:text-white transition-colors" onclick="closeLightbox()">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>

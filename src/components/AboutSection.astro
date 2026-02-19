@@ -9,13 +9,21 @@ const { lang } = Astro.props;
 const t = getTranslations(lang);
 ---
 
-<section id="about" class="py-20 scroll-mt-20">
+<section id="about" class="py-24 scroll-mt-20">
   <div class="container-main">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="section-heading">{t.about.title}</h2>
-      <p class="text-lg text-surface-300 leading-relaxed">
+    <div class="max-w-3xl mx-auto reveal">
+      <div class="section-label text-center">{lang === 'cs' ? '// O mně' : '// About'}</div>
+      <h2 class="section-heading text-center">{t.about.title}</h2>
+      <p class="text-lg text-surface-400 leading-relaxed text-center">
         {t.about.content}
       </p>
+      
+      <!-- Tech stack visual -->
+      <div class="mt-10 flex flex-wrap justify-center gap-2">
+        {['Flutter', 'Dart', 'SQLite', 'Python', 'Astro', 'Godot', 'Tailwind', 'TypeScript'].map((tech) => (
+          <span class="tag font-mono">{tech}</span>
+        ))}
+      </div>
     </div>
   </div>
 </section>

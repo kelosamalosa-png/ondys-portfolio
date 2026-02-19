@@ -15,64 +15,140 @@ const navItems = [
   { href: `/${lang}/#services`, label: t.nav.services },
   { href: `/${lang}/faq`, label: t.nav.faq },
   { href: `/${lang}/#contact`, label: t.nav.contact },
-  { href: `/${lang}/support`, label: t.nav.support },
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface-950/80 backdrop-blur-md border-b border-surface-800/50">
-  <div class="container-main">
+<header 
+  id="site-header"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <div class="absolute inset-0 bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/40 opacity-0 transition-opacity duration-300" id="header-bg"></div>
+  
+  <div class="container-main relative">
     <nav class="flex items-center justify-between h-16">
-      <a href={`/${lang}`} class="flex items-center gap-2 font-display font-bold text-xl text-white hover:text-brand-400 transition-colors">
-        <span class="text-brand-500">&lt;</span>
-        ONDYS.DEV
-        <span class="text-brand-500">/&gt;</span>
+      <!-- Logo -->
+      <a href={`/${lang}`} class="flex items-center gap-2 group">
+        <span class="font-mono text-accent font-semibold text-sm">~/</span>
+        <span class="font-display font-bold text-lg text-white group-hover:text-accent transition-colors">
+          ondys<span class="text-accent">.dev</span>
+        </span>
       </a>
       
+      <!-- Desktop nav -->
       <div class="hidden md:flex items-center gap-1">
         {navItems.map((item) => (
-          <a href={item.href} class="btn-ghost">
+          <a href={item.href} class="btn-ghost font-mono text-xs tracking-wide">
             {item.label}
           </a>
         ))}
       </div>
       
-      <div class="flex items-center gap-4">
+      <!-- Right side -->
+      <div class="flex items-center gap-3">
         <LanguageSwitcher lang={lang} />
-        
+
+        <!-- Cmd+K hint -->
+        <button 
+          id="cmd-k-trigger"
+          class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-900 border border-surface-800 text-surface-500 text-xs font-mono hover:border-surface-600 hover:text-surface-300 transition-all cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span class="text-surface-600">⌘K</span>
+        </button>
+
+        <!-- Mobile menu button -->
         <button 
           id="mobile-menu-btn" 
-          class="md:hidden p-2 text-surface-400 hover:text-white transition-colors"
+          class="md:hidden relative w-8 h-8 flex items-center justify-center text-surface-400 hover:text-white transition-colors"
           aria-label={t.nav.menuToggle}
           aria-expanded="false"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          <span class="sr-only">Menu</span>
+          <div class="flex flex-col gap-1.5" id="hamburger-icon">
+            <span class="block w-5 h-px bg-current transition-all duration-300 origin-center" id="bar-1"></span>
+            <span class="block w-5 h-px bg-current transition-all duration-300" id="bar-2"></span>
+            <span class="block w-5 h-px bg-current transition-all duration-300 origin-center" id="bar-3"></span>
+          </div>
         </button>
       </div>
     </nav>
   </div>
   
-  <div id="mobile-menu" class="hidden md:hidden bg-surface-900/95 backdrop-blur-md border-b border-surface-800">
-    <div class="container-main py-4 flex flex-col gap-2">
+  <!-- Mobile menu -->
+  <div 
+    id="mobile-menu" 
+    class="md:hidden overflow-hidden transition-all duration-300 max-h-0 opacity-0"
+  >
+    <div class="container-main py-4 flex flex-col gap-1 border-t border-surface-800/40">
       {navItems.map((item) => (
-        <a href={item.href} class="btn-ghost justify-start">
+        <a href={item.href} class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-300 hover:text-white hover:bg-surface-900 transition-all font-mono text-sm">
+          <span class="text-accent text-xs">→</span>
           {item.label}
         </a>
       ))}
+      <div class="mt-2 pt-3 border-t border-surface-800/40">
+        <a href={`/${lang}/support`} class="btn-primary w-full text-center text-sm">
+          {t.nav.support}
+        </a>
+      </div>
     </div>
   </div>
 </header>
 
+<!-- Header spacer -->
 <div class="h-16"></div>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  function initHeader() {
+    const header = document.getElementById('site-header');
+    const headerBg = document.getElementById('header-bg');
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar-1');
+    const bar2 = document.getElementById('bar-2');
+    const bar3 = document.getElementById('bar-3');
+    let isOpen = false;
+
+    // Scroll background
+    const onScroll = () => {
+      if (!headerBg) return;
+      headerBg.style.opacity = window.scrollY > 20 ? '1' : '0';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu toggle
+    btn?.addEventListener('click', () => {
+      isOpen = !isOpen;
+      btn.setAttribute('aria-expanded', String(isOpen));
+      
+      if (menu) {
+        if (isOpen) {
+          menu.style.maxHeight = menu.scrollHeight + 'px';
+          menu.style.opacity = '1';
+        } else {
+          menu.style.maxHeight = '0';
+          menu.style.opacity = '0';
+        }
+      }
+
+      // Animate hamburger to X
+      if (bar1 && bar2 && bar3) {
+        if (isOpen) {
+          bar1.style.transform = 'translateY(3.5px) rotate(45deg)';
+          bar2.style.opacity = '0';
+          bar3.style.transform = 'translateY(-3.5px) rotate(-45deg)';
+        } else {
+          bar1.style.transform = '';
+          bar2.style.opacity = '1';
+          bar3.style.transform = '';
+        }
+      }
+    });
+  }
   
-  btn?.addEventListener('click', () => {
-    const expanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!expanded));
-    menu?.classList.toggle('hidden');
-  });
+  document.addEventListener('astro:page-load', initHeader);
+  initHeader();
 </script>

@@ -1,0 +1,54 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AuthGuard from '../../components/admin/AuthGuard.tsx';
+import AdminShell from '../../components/admin/AdminShell.tsx';
+import DashboardView from '../../components/admin/DashboardView.tsx';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const devlogs = await getCollection('devlogs');
+const services = await getCollection('services');
+const skills = await getCollection('skills');
+
+const stats = {
+  projects: projects.length,
+  devlogs: devlogs.length,
+  services: services.length,
+  skills: skills.length,
+};
+
+const recentProjects = projects
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 5)
+  .map((p) => ({
+    slug: p.data.projectSlug,
+    title: p.data.title_cs,
+    status: p.data.status,
+    year: p.data.year,
+  }));
+
+const recentDevlogs = devlogs
+  .sort((a, b) => String(b.data.releaseDate).localeCompare(String(a.data.releaseDate)))
+  .slice(0, 5)
+  .map((d) => ({
+    slug: d.id,
+    project: d.data.projectSlug,
+    version: d.data.version,
+    date: String(d.data.releaseDate),
+  }));
+
+const currentPath = Astro.url.pathname;
+---
+
+<AdminLayout title="Dashboard">
+  <AuthGuard client:load slot="app">
+    <AdminShell currentPath={currentPath} client:load>
+      <DashboardView
+        stats={stats}
+        recentProjects={recentProjects}
+        recentDevlogs={recentDevlogs}
+        client:load
+      />
+    </AdminShell>
+  </AuthGuard>
+</AdminLayout>

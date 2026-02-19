@@ -25,16 +25,10 @@ const projects = await getProjects();
 const project = projects.find(p => p.data.projectSlug === devlog.data.projectSlug);
 const projectTitle = project ? getLocalizedTitle(project, lang) : devlog.data.projectSlug;
 
-const statusColors = {
-  alpha: 'bg-red-500/20 text-red-400 border-red-500/30',
-  beta: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  stable: 'bg-green-500/20 text-green-400 border-green-500/30',
-};
-
-const statusLabels = {
-  alpha: 'ALPHA',
-  beta: 'BETA',
-  stable: 'STABLE',
+const statusClass: Record<string, string> = {
+  alpha: 'bg-red-500/20 text-red-400',
+  beta: 'bg-yellow-500/20 text-yellow-400',
+  stable: 'bg-green-500/20 text-green-400',
 };
 
 const formatDate = (dateStr: string) => {
@@ -51,51 +45,54 @@ const formatDate = (dateStr: string) => {
   description={devlog.data.summary_cs || `Changelog verze ${devlog.data.version}`}
   lang={lang}
 >
-  <article class="py-20">
-    <div class="container-main max-w-4xl">
-      <a href={`/${lang}/projects/${devlog.data.projectSlug}`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-8 group">
-        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <article class="py-24">
+    <div class="container-main max-w-3xl">
+      <!-- Back link -->
+      <a href={`/${lang}/projects/${devlog.data.projectSlug}`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-8 text-sm font-mono group">
+        <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
-        Zpět na {projectTitle}
+        cd ~/{devlog.data.projectSlug}
       </a>
 
-      <header class="mb-12">
+      <!-- Header -->
+      <header class="mb-12 reveal">
         <div class="flex items-center gap-3 mb-4">
-          <span class="text-brand-400 font-mono text-sm uppercase tracking-wider">DEV LOG</span>
-          <span class="text-surface-600">•</span>
-          <span class="text-surface-400 font-mono text-sm">{formatDate(devlog.data.releaseDate)}</span>
+          <span class="section-label !mb-0">// DEV LOG</span>
+          <span class="text-surface-700">·</span>
+          <span class="text-surface-500 font-mono text-xs">{formatDate(devlog.data.releaseDate)}</span>
         </div>
         
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-          <h1 class="text-4xl sm:text-5xl font-display font-bold text-white font-mono">
-            {projectTitle} <span class="text-brand-400">v{devlog.data.version}</span>
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <h1 class="text-3xl sm:text-4xl font-display font-bold text-white">
+            {projectTitle} <span class="text-accent">v{devlog.data.version}</span>
           </h1>
-          <span class={`px-3 py-1 text-sm font-mono font-bold rounded border ${statusColors[devlog.data.versionStatus]}`}>
-            {statusLabels[devlog.data.versionStatus]}
+          <span class={`px-2 py-0.5 text-[0.625rem] font-mono font-bold uppercase rounded ${statusClass[devlog.data.versionStatus] || ''}`}>
+            {devlog.data.versionStatus}
           </span>
         </div>
 
         {devlog.data.summary_cs && (
-          <p class="text-xl text-surface-300 font-mono">
+          <p class="text-surface-400 text-sm leading-relaxed max-w-2xl">
             {devlog.data.summary_cs}
           </p>
         )}
       </header>
 
-      <div class="space-y-8">
+      <!-- Changelog sections -->
+      <div class="space-y-6 reveal-stagger">
         {devlog.data.new_features.length > 0 && (
-          <section class="glass-card p-6 border-l-4 border-green-500">
-            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-green-400 mb-4">
-              <span class="text-2xl">🆕</span>
+          <section class="card p-6 border-l-2 border-green-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-green-400 uppercase tracking-wider mb-4">
+              <span class="text-green-400">+</span>
               Nové funkce
-              <span class="text-sm font-mono text-surface-500">({devlog.data.new_features.length})</span>
+              <span class="text-surface-600 normal-case">({devlog.data.new_features.length})</span>
             </h2>
-            <ul class="space-y-3">
+            <ul class="space-y-2.5">
               {devlog.data.new_features.map((feature) => (
-                <li class="flex items-start gap-3 text-surface-200">
-                  <span class="text-green-400 mt-1">+</span>
-                  <span class="font-mono">{feature.cs}</span>
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-green-400/60 mt-0.5 font-mono text-xs">+</span>
+                  <span>{feature.cs}</span>
                 </li>
               ))}
             </ul>
@@ -103,17 +100,17 @@ const formatDate = (dateStr: string) => {
         )}
 
         {devlog.data.fixes.length > 0 && (
-          <section class="glass-card p-6 border-l-4 border-blue-500">
-            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-blue-400 mb-4">
-              <span class="text-2xl">✅</span>
+          <section class="card p-6 border-l-2 border-blue-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-blue-400 uppercase tracking-wider mb-4">
+              <span class="text-blue-400">~</span>
               Opravy
-              <span class="text-sm font-mono text-surface-500">({devlog.data.fixes.length})</span>
+              <span class="text-surface-600 normal-case">({devlog.data.fixes.length})</span>
             </h2>
-            <ul class="space-y-3">
+            <ul class="space-y-2.5">
               {devlog.data.fixes.map((fix) => (
-                <li class="flex items-start gap-3 text-surface-200">
-                  <span class="text-blue-400 mt-1">~</span>
-                  <span class="font-mono">{fix.cs}</span>
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-blue-400/60 mt-0.5 font-mono text-xs">~</span>
+                  <span>{fix.cs}</span>
                 </li>
               ))}
             </ul>
@@ -121,17 +118,17 @@ const formatDate = (dateStr: string) => {
         )}
 
         {devlog.data.known_issues.length > 0 && (
-          <section class="glass-card p-6 border-l-4 border-yellow-500">
-            <h2 class="flex items-center gap-3 text-xl font-display font-semibold text-yellow-400 mb-4">
-              <span class="text-2xl">⚠️</span>
+          <section class="card p-6 border-l-2 border-yellow-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-yellow-400 uppercase tracking-wider mb-4">
+              <span class="text-yellow-400">!</span>
               Známé problémy
-              <span class="text-sm font-mono text-surface-500">({devlog.data.known_issues.length})</span>
+              <span class="text-surface-600 normal-case">({devlog.data.known_issues.length})</span>
             </h2>
-            <ul class="space-y-3">
+            <ul class="space-y-2.5">
               {devlog.data.known_issues.map((issue) => (
-                <li class="flex items-start gap-3 text-surface-200">
-                  <span class="text-yellow-400 mt-1">!</span>
-                  <span class="font-mono">{issue.cs}</span>
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-yellow-400/60 mt-0.5 font-mono text-xs">!</span>
+                  <span>{issue.cs}</span>
                 </li>
               ))}
             </ul>
@@ -139,17 +136,18 @@ const formatDate = (dateStr: string) => {
         )}
       </div>
 
-      <footer class="mt-12 pt-8 border-t border-surface-800">
+      <!-- Footer -->
+      <footer class="mt-12 pt-6 border-t border-surface-800/60">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div class="text-surface-500 font-mono text-sm">
-            Verze {devlog.data.version} • {formatDate(devlog.data.releaseDate)}
-          </div>
+          <span class="text-surface-600 font-mono text-xs">
+            v{devlog.data.version} · {formatDate(devlog.data.releaseDate)}
+          </span>
           <a 
             href={`/${lang}/projects/${devlog.data.projectSlug}`}
-            class="btn-secondary"
+            class="btn btn-secondary text-sm"
           >
             Zobrazit projekt
-            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>

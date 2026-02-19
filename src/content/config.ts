@@ -42,7 +42,7 @@ const devlogsCollection = defineCollection({
     projectSlug: z.string(),
     version: z.string(),
     versionStatus: z.enum(['alpha', 'beta', 'stable']),
-    releaseDate: z.string(),
+    releaseDate: z.coerce.string(),
     summary_cs: z.string().optional(),
     summary_en: z.string().optional(),
     new_features: z.array(z.object({
