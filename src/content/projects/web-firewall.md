@@ -6,69 +6,83 @@ featured: true
 year: 2026
 title_cs: Web Firewall
 title_en: Web Firewall
-summary_cs: Skener, který prohledává stránky s rizikovými prvky a pokusy donutit
-  AI/skripty ukládat nebo odesílat data. Upozorňuje na manipulativní a
-  nebezpečné vzory.
-summary_en: Scanner that detects risky patterns and attempts to force AI/scripts
-  to store or exfiltrate data; highlights manipulative elements.
+summary_cs: Chrome extension pro bezpečnější prohlížení — skrývá low-quality obsah,
+  detekuje scam/dark pattern UI a varuje před prompt injection útoky cílícími na AI agenty.
+  Vše běží lokálně v prohlížeči.
+summary_en: Privacy-first Chrome extension for safer browsing — hides low-quality
+  content, detects scam/dark pattern UI, and warns about prompt injection attacks
+  targeting AI agents. Runs entirely locally.
 stack:
-  - Web scanning
-  - Rules
-  - Security
+  - Chrome Extension
+  - Manifest V3
+  - JavaScript
+  - Content Scripts
 links_website: ""
 links_demo: ""
 links_github: ""
 links_other: ""
 images:
   - /uploads/web-firewall-screenshot-1.png
-body_cs: >
+body_cs: |
   ## O projektu
 
+  Web Firewall je Chrome extension (Manifest V3), která poskytuje tři vrstvy ochrany při prohlížení webu. Vše běží lokálně — žádná data stránek se neodesílají na servery.
 
-  Moderní webové stránky obsahují skryté manipulativní prvky, které se snaží oklamat uživatele nebo zneužít AI systémy. Běžní uživatelé tyto hrozby nevidí.
+  ### Problém
 
+  Moderní webové stránky jsou plné skrytých manipulativních prvků: falešná tlačítka ke stažení, agresivní overlay reklamy, dark patterns a dokonce prompt injection útoky cílící na AI agenty a scrapery. Běžný uživatel tyto hrozby nevidí.
 
-  ### Řešení
+  ### 3 ochranné vrstvy
 
+  - **Quality Shield (Noise Canceling)** — automaticky identifikuje a skrývá low-value bloky: „related articles", agresivní CTA, boilerplate. Zachovává hlavní obsah a navigaci.
+  - **Scam Shield** — detekuje falešná download tlačítka, dark pattern overlaye, interstitialy a clickfix patterny (PowerShell/terminal bait). Volitelná click-guard ochrana rizikových elementů.
+  - **Injection Shield** — odhaluje skrytý text cílící na AI agenty/scrapery, prompt injection fráze, „agent bait" (požadavky na tokeny, klíče, clipboard) a podezřelý obsah v aria-label/alt/title/meta atributech.
 
-  Web Firewall skenuje stránky a detekuje rizikové vzory — od pokusů o prompt injection po manipulativní dark patterns. Upozorňuje na nebezpečné prvky dříve, než mohou způsobit škodu.
+  ### Režimy
 
+  - **Off** — extension vypnuta pro daný web
+  - **Clean** — lehké filtrování, zachovává většinu obsahu
+  - **Focus** — střední filtrování, skrývá sidebary a rušivé prvky
+  - **Strict** — agresivní filtrování, click-guard na rizikových elementech
 
-  ### Funkce
+  ### Principy návrhu
 
+  - **Local-first** — veškerá analýza probíhá v content scriptech, žádné serverové volání (Free mode)
+  - **Bezpečný** — minimální oprávnění, žádný eval, žádný remote kód
+  - **Rychlý** — neblokující, inkrementální analýza s debounced observery (< 150ms CPU)
+  - **Reverzibilní** — uživatel může kdykoli obnovit skrytý obsah
+  - **Vysvětlitelný** — každé rozhodnutí obsahuje důvod a skóre
 
-  - Detekce pokusů o prompt injection
-
-  - Skenování manipulativních vzorů (dark patterns)
-
-  - Kontrola exfiltrace dat
-
-  - Rule engine pro vlastní kontroly
-
-  - Reporty a upozornění
-body_en: >
+  Extension je ve fázi prototypu, připravuje se vydání na Chrome Web Store.
+body_en: |
   ## About the Project
 
+  Web Firewall is a Chrome extension (Manifest V3) that provides three layers of protection while browsing. Everything runs locally — no page content is ever sent to external servers.
 
-  Modern websites contain hidden manipulative elements that try to deceive users or abuse AI systems. Regular users can't see these threats.
+  ### Problem
 
+  Modern websites are full of hidden manipulative elements: fake download buttons, aggressive overlay ads, dark patterns, and even prompt injection attacks targeting AI agents and scrapers. Regular users can't see these threats.
 
-  ### Solution
+  ### 3 Protection Layers
 
+  - **Quality Shield (Noise Canceling)** — automatically identifies and hides low-value content blocks: "related articles", aggressive CTAs, boilerplate. Preserves main content and navigation.
+  - **Scam Shield** — detects fake download buttons, dark pattern overlays, interstitials, and clickfix patterns (PowerShell/terminal bait). Optional click-guard for high-risk elements.
+  - **Injection Shield** — detects hidden text targeting AI agents/scrapers, prompt injection phrases, "agent bait" (requests for tokens, keys, clipboard access), and suspicious content in aria-label/alt/title/meta attributes.
 
-  Web Firewall scans pages and detects risky patterns — from prompt injection attempts to manipulative dark patterns. It alerts about dangerous elements before they can cause harm.
+  ### Modes
 
+  - **Off** — extension disabled for this site
+  - **Clean** — light filtering, preserves most content
+  - **Focus** — moderate filtering, hides sidebars and distractions
+  - **Strict** — aggressive filtering, click-guards on risky elements
 
-  ### Features
+  ### Design Principles
 
+  - **Local-first** — all analysis runs in content scripts, no server calls (Free mode)
+  - **Safe by design** — minimal permissions, no eval, no remote code
+  - **Fast** — non-blocking, incremental analysis with debounced observers (< 150ms CPU)
+  - **Reversible** — user can restore any hidden content
+  - **Explainable** — all decisions include reasons and scores
 
-  - Prompt injection attempt detection
-
-  - Manipulative pattern scanning (dark patterns)
-
-  - Data exfiltration checks
-
-  - Rule engine for custom checks
-
-  - Reports and alerts
+  The extension is in prototype stage, preparing for Chrome Web Store release.
 ---
