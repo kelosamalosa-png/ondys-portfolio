@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-// Detect language from referrer or default to English
 const lang = 'en';
 ---
 
@@ -14,36 +13,57 @@ const lang = 'en';
 >
   <Header lang={lang} />
   
-  <main class="flex-1 flex items-center justify-center py-20">
+  <main class="flex-1 flex items-center justify-center py-24">
     <div class="container-main text-center">
-      <div class="mb-8">
-        <span class="text-8xl font-display font-bold text-brand-500">404</span>
+      <!-- Terminal-style 404 -->
+      <div class="terminal max-w-md mx-auto mb-10">
+        <div class="terminal-bar">
+          <div class="terminal-dot bg-red-500/80"></div>
+          <div class="terminal-dot bg-yellow-500/80"></div>
+          <div class="terminal-dot bg-green-500/80"></div>
+          <span class="ml-3 text-surface-600 text-xs font-mono">~/404</span>
+        </div>
+        <div class="terminal-body text-left">
+          <div class="mb-1">
+            <span class="terminal-prompt">❯ </span>
+            <span class="text-surface-200">find . -name "page"</span>
+          </div>
+          <div class="text-red-400 text-sm mb-1">Error: No matches found</div>
+          <div class="mb-1">
+            <span class="terminal-prompt">❯ </span>
+            <span class="text-surface-200">echo $?</span>
+          </div>
+          <div class="text-accent text-6xl font-bold font-display my-4">404</div>
+          <div class="mb-1">
+            <span class="terminal-prompt">❯ </span>
+            <span class="terminal-cursor"></span>
+          </div>
+        </div>
       </div>
       
-      <h1 class="text-3xl sm:text-4xl font-display font-bold text-white mb-4">
+      <h1 class="text-2xl font-display font-bold text-white mb-3">
         Page Not Found
       </h1>
       
-      <p class="text-lg text-surface-400 mb-8 max-w-md mx-auto">
+      <p class="text-surface-500 mb-8 max-w-sm mx-auto text-sm">
         The page you're looking for doesn't exist or has been moved.
       </p>
       
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/en/" class="btn-primary">
-          Go to Homepage (EN)
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/en/" class="btn btn-primary">
+          Homepage (EN)
         </a>
-        <a href="/cs/" class="btn-secondary">
-          Přejít na úvod (CZ)
+        <a href="/cs/" class="btn btn-secondary">
+          Úvod (CZ)
         </a>
       </div>
       
-      <div class="mt-12 text-surface-500">
-        <p class="text-sm">Looking for something specific?</p>
-        <div class="flex flex-wrap justify-center gap-4 mt-4">
-          <a href="/en/projects" class="text-brand-400 hover:text-brand-300 transition-colors">Projects</a>
-          <a href="/en/services/flutter-app-development" class="text-brand-400 hover:text-brand-300 transition-colors">Services</a>
-          <a href="/en/faq" class="text-brand-400 hover:text-brand-300 transition-colors">FAQ</a>
-          <a href="/en/#contact" class="text-brand-400 hover:text-brand-300 transition-colors">Contact</a>
+      <div class="mt-10 text-surface-600">
+        <p class="text-xs font-mono mb-3">Quick links:</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/en/projects" class="text-accent hover:text-accent-light transition-colors text-sm font-mono">Projects</a>
+          <a href="/en/faq" class="text-accent hover:text-accent-light transition-colors text-sm font-mono">FAQ</a>
+          <a href="/en/#contact" class="text-accent hover:text-accent-light transition-colors text-sm font-mono">Contact</a>
         </div>
       </div>
     </div>

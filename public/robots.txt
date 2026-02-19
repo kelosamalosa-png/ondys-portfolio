@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 # Sitemap
-Sitemap: https://ondys.dev/sitemap.xml
+Sitemap: https://ondys.dev/sitemap-index.xml
 
 # LLMs.txt for AI crawlers
 # See: https://llmstxt.org/

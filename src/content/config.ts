@@ -19,7 +19,44 @@ const projectsCollection = defineCollection({
     links_demo: z.string().optional(),
     links_github: z.string().optional(),
     links_other: z.string().optional(),
+    links_other_label: z.string().optional(),
     images: z.array(z.string()).default([]),
+  }),
+});
+
+const skillsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    skillSlug: z.string(),
+    order: z.number().default(0),
+    title_cs: z.string(),
+    title_en: z.string(),
+    description_cs: z.string(),
+    description_en: z.string(),
+  }),
+});
+
+const devlogsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    projectSlug: z.string(),
+    version: z.string(),
+    versionStatus: z.enum(['alpha', 'beta', 'stable']),
+    releaseDate: z.coerce.string(),
+    summary_cs: z.string().optional(),
+    summary_en: z.string().optional(),
+    new_features: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
+    fixes: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
+    known_issues: z.array(z.object({
+      cs: z.string(),
+      en: z.string(),
+    })).default([]),
   }),
 });
 
@@ -53,5 +90,7 @@ const servicesCollection = defineCollection({
 
 export const collections = {
   projects: projectsCollection,
+  skills: skillsCollection,
+  devlogs: devlogsCollection,
   services: servicesCollection,
 };

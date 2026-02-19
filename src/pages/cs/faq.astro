@@ -137,65 +137,76 @@ const faqs = [
   type="website"
   jsonLd={jsonLd}
 >
-  <main class="py-20">
+  <section class="py-24">
     <div class="container-main">
-      <header class="mb-16">
-        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
-          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <header class="mb-16 reveal">
+        <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-6 text-sm font-mono group">
+          <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
-          Zpět na úvod
+          cd ~/
         </a>
         
-        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+        <div class="section-label">// FAQ</div>
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-4">
           Často kladené otázky
         </h1>
         
-        <p class="text-xl text-surface-300 max-w-3xl">
-          Rychlé odpovědi o vývoji mobilních aplikací, AI viditelnosti a webové bezpečnosti. Nenašli jste, co hledáte? <a href={`/${lang}/#contact`} class="text-brand-400 hover:text-brand-300">Napište mi</a>.
+        <p class="text-lg text-surface-400 max-w-2xl leading-relaxed">
+          Rychlé odpovědi o vývoji mobilních aplikací, AI viditelnosti a webové bezpečnosti. Nenašli jste, co hledáte? <a href={`/${lang}/#contact`} class="text-accent hover:text-accent-light">Napište mi</a>.
         </p>
       </header>
 
-      <div class="space-y-16">
+      <div class="space-y-12 reveal-stagger">
         {faqs.map((section) => (
           <section>
-            <h2 class="text-2xl font-display font-semibold text-white mb-8 pb-4 border-b border-surface-800">
+            <h2 class="text-xl font-display font-semibold text-white mb-6 pb-3 border-b border-surface-800/60 flex items-center gap-2">
+              <span class="text-accent font-mono text-sm">#</span>
               {section.category}
             </h2>
             
-            <div class="space-y-8">
+            <div class="space-y-3">
               {section.questions.map((faq) => (
-                <article class="glass-card p-6">
-                  <h3 class="text-lg font-semibold text-white mb-3">{faq.q}</h3>
-                  <p class="text-surface-300 mb-3">{faq.a}</p>
-                  {faq.details && (
-                    <p class="text-surface-400 text-sm">{faq.details}</p>
-                  )}
-                </article>
+                <details class="card p-5 group open:border-accent/20">
+                  <summary class="flex items-center justify-between cursor-pointer list-none">
+                    <h3 class="text-sm font-semibold text-white group-open:text-accent transition-colors pr-4">{faq.q}</h3>
+                    <svg class="w-4 h-4 text-surface-600 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div class="mt-4 pt-3 border-t border-surface-800/40">
+                    <p class="text-surface-300 text-sm leading-relaxed mb-2">{faq.a}</p>
+                    {faq.details && (
+                      <p class="text-surface-500 text-xs leading-relaxed">{faq.details}</p>
+                    )}
+                  </div>
+                </details>
               ))}
             </div>
           </section>
         ))}
       </div>
 
-      <!-- CTA -->
-      <section class="mt-20 glass-card p-8 text-center">
-        <h2 class="text-2xl font-display font-semibold text-white mb-4">
-          Máte další otázky?
-        </h2>
-        <p class="text-surface-300 mb-6 max-w-xl mx-auto">
-          Rád proberu vaši konkrétní situaci. Bezplatná 30minutová konzultace, bez závazků.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href={`/${lang}/#contact`} class="btn-primary">
-            Kontaktujte mě
-          </a>
-          <a href={`/${lang}/services/vyvoj-mobilnich-aplikaci`} class="btn-secondary">
-            Zobrazit služby
-          </a>
+      <section class="mt-16 card p-8 text-center relative overflow-hidden reveal">
+        <div class="absolute inset-0 opacity-[0.03]" style="background: radial-gradient(ellipse at center, var(--color-accent) 0%, transparent 70%);"></div>
+        <div class="relative z-10">
+          <h2 class="text-xl font-display font-semibold text-white mb-3">
+            Máte další otázky?
+          </h2>
+          <p class="text-surface-400 mb-6 max-w-lg mx-auto text-sm">
+            Rád proberu vaši konkrétní situaci. Bezplatná 30minutová konzultace, bez závazků.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href={`/${lang}/#contact`} class="btn btn-primary">
+              Kontaktujte mě
+            </a>
+            <a href={`/${lang}/services/vyvoj-mobilnich-aplikaci`} class="btn btn-secondary">
+              Zobrazit služby
+            </a>
+          </div>
         </div>
       </section>
 
     </div>
-  </main>
+  </section>
 </BaseLayout>

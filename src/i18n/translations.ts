@@ -79,7 +79,7 @@ export const translations = {
     },
     privacy: {
       title: 'Zásady ochrany soukromí',
-      content: 'Toto je placeholder pro zásady ochrany osobních údajů. Zde bude popis, jak zpracováváme vaše data.',
+      content: 'Na ondys.dev dbáme na vaše soukromí. Nepoužíváme sledovací cookies ani analytiku třetích stran. Shromažďujeme pouze minimum údajů nezbytných pro provoz webu.',
       lastUpdated: 'Poslední aktualizace',
     },
     footer: {
@@ -180,7 +180,7 @@ export const translations = {
     },
     privacy: {
       title: 'Privacy Policy',
-      content: 'This is a placeholder for the privacy policy. Description of how we process your data will go here.',
+      content: 'At ondys.dev, we respect your privacy. We do not use tracking cookies or third-party analytics. We only collect the minimum data necessary for the website to function.',
       lastUpdated: 'Last updated',
     },
     footer: {

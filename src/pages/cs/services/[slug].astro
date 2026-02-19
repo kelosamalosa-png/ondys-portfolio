@@ -48,71 +48,75 @@ const jsonLd = {
   type="website"
   jsonLd={jsonLd}
 >
-  <main class="py-20">
+  <section class="py-24">
     <div class="container-main">
-      <!-- Hero -->
-      <header class="mb-16">
-        <a href={`/${lang}/`} class="inline-flex items-center text-surface-400 hover:text-white transition-colors mb-6 group">
-          <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Header -->
+      <header class="mb-12 reveal">
+        <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-6 text-sm font-mono group">
+          <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
-          Zpět na úvod
+          cd ~/
         </a>
         
         {badge && (
-          <div class="inline-block px-3 py-1 bg-brand-500/20 text-brand-400 text-sm font-medium rounded-full mb-4">
+          <span class="inline-block px-2.5 py-0.5 bg-accent/10 text-accent text-xs font-mono font-semibold rounded mb-4 border border-accent/20">
             {badge}
-          </div>
+          </span>
         )}
         
-        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
+        <h1 class="text-3xl sm:text-4xl font-display font-bold text-white mb-4 leading-tight">
           {service.data.title_cs}
         </h1>
         
-        <p class="text-xl text-surface-300 max-w-3xl">
+        <p class="text-lg text-surface-400 max-w-2xl leading-relaxed">
           {service.data.description_cs}
         </p>
       </header>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2">
-          <!-- Markdown content -->
-          <article class="prose prose-invert prose-lg max-w-none">
-            <Content />
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 reveal">
+          <article class="card p-6">
+            <div class="prose prose-invert max-w-none text-surface-300 text-sm leading-relaxed prose-headings:font-display prose-headings:text-white prose-headings:text-base prose-headings:font-semibold prose-a:text-accent prose-a:no-underline hover:prose-a:text-accent-light prose-strong:text-white">
+              <Content />
+            </div>
           </article>
         </div>
 
         <!-- Sidebar -->
-        <aside class="space-y-6">
-          <div class="glass-card p-6 sticky top-24">
-            <h3 class="font-display font-semibold text-white mb-4">Objednejte službu</h3>
+        <aside class="space-y-4">
+          <div class="card p-5 sticky top-24">
+            <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-4">Objednejte službu</h3>
             
             {price && (
               <div class="mb-4">
-                <p class="text-2xl font-bold text-brand-400">{price}</p>
-                {priceNote && <p class="text-surface-400 text-sm">{priceNote}</p>}
+                <p class="text-2xl font-bold text-accent font-mono">{price}</p>
+                {priceNote && <p class="text-surface-500 text-xs mt-1">{priceNote}</p>}
               </div>
             )}
             
-            <a href={`/${lang}/#contact`} class="btn-primary w-full justify-center mb-4">
+            <a href={`/${lang}/#contact`} class="btn btn-primary w-full text-sm mb-3">
               Poptat službu
             </a>
-            <p class="text-surface-500 text-xs text-center">Úvodní konzultace zdarma</p>
+            <p class="text-surface-600 text-[0.625rem] text-center font-mono">Úvodní konzultace zdarma</p>
           </div>
 
           {service.data.related_project && (
-            <div class="glass-card p-6">
-              <h3 class="font-display font-semibold text-white mb-4">Související projekt</h3>
-              <a href={`/${lang}/projects/${service.data.related_project}`} class="text-brand-400 hover:text-brand-300 transition-colors">
-                Zobrazit projekt →
+            <div class="card p-5">
+              <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-3">Související projekt</h3>
+              <a href={`/${lang}/projects/${service.data.related_project}`} class="text-accent hover:text-accent-light transition-colors text-sm font-mono inline-flex items-center gap-1.5">
+                Zobrazit projekt
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
               </a>
             </div>
           )}
 
           {service.data.tags.length > 0 && (
-            <div class="glass-card p-6">
-              <h3 class="font-display font-semibold text-white mb-4">Technologie</h3>
-              <div class="flex flex-wrap gap-2">
+            <div class="card p-5">
+              <h3 class="font-mono text-xs font-semibold text-surface-500 uppercase tracking-widest mb-3">Technologie</h3>
+              <div class="flex flex-wrap gap-1.5">
                 {service.data.tags.map((tag) => (
                   <span class="tag">{tag}</span>
                 ))}
@@ -123,5 +127,5 @@ const jsonLd = {
       </div>
 
     </div>
-  </main>
+  </section>
 </BaseLayout>

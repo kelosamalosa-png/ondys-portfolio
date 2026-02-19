@@ -1,5 +1,6 @@
 ---
 import { getTranslations } from '../i18n/utils';
+import ContactForm from './ContactForm.tsx';
 
 interface Props {
   lang: 'cs' | 'en';
@@ -9,74 +10,17 @@ const { lang } = Astro.props;
 const t = getTranslations(lang);
 ---
 
-<section id="contact" class="py-20 scroll-mt-20">
+<section id="contact" class="py-24 scroll-mt-20">
   <div class="container-main">
     <div class="max-w-2xl mx-auto">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12 reveal">
+        <div class="section-label">{lang === 'cs' ? '// Kontakt' : '// Contact'}</div>
         <h2 class="section-heading">{t.contact.title}</h2>
         <p class="section-subheading mx-auto">{t.contact.subtitle}</p>
       </div>
       
-      <div class="glass-card p-8">
-        <form action="#" method="POST" class="space-y-6">
-          <div class="hidden" aria-hidden="true">
-            <label for="website">Website</label>
-            <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
-          </div>
-          
-          <div>
-            <label for="name" class="block text-sm font-medium text-surface-300 mb-2">
-              {t.contact.nameLabel}
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              class="w-full px-4 py-3 bg-surface-800 border border-surface-700 rounded-lg text-white placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-            />
-          </div>
-          
-          <div>
-            <label for="email" class="block text-sm font-medium text-surface-300 mb-2">
-              {t.contact.emailLabel}
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              class="w-full px-4 py-3 bg-surface-800 border border-surface-700 rounded-lg text-white placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-            />
-          </div>
-          
-          <div>
-            <label for="message" class="block text-sm font-medium text-surface-300 mb-2">
-              {t.contact.messageLabel}
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="5"
-              required
-              class="w-full px-4 py-3 bg-surface-800 border border-surface-700 rounded-lg text-white placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all resize-none"
-            ></textarea>
-          </div>
-          
-          <button type="submit" class="btn-primary w-full">
-            {t.contact.sendButton}
-            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-        </form>
-        
-        <div class="mt-8 pt-8 border-t border-surface-700 text-center">
-          <p class="text-surface-400 text-sm mb-2">{t.contact.orEmail}</p>
-          <a href="mailto:hello@ondys.dev" class="text-brand-400 hover:text-brand-300 font-medium transition-colors">
-            hello@ondys.dev
-          </a>
-        </div>
+      <div class="reveal" style="transition-delay: 100ms;">
+        <ContactForm lang={lang} client:visible />
       </div>
     </div>
   </div>

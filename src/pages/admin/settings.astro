@@ -1,0 +1,16 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AuthGuard from '../../components/admin/AuthGuard.tsx';
+import AdminShell from '../../components/admin/AdminShell.tsx';
+import SettingsView from '../../components/admin/SettingsView.tsx';
+
+const currentPath = Astro.url.pathname;
+---
+
+<AdminLayout title="Settings">
+  <AuthGuard client:load slot="app">
+    <AdminShell currentPath={currentPath} client:load>
+      <SettingsView client:load />
+    </AdminShell>
+  </AuthGuard>
+</AdminLayout>

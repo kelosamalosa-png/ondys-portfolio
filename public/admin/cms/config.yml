@@ -9,6 +9,43 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
+  - name: "skills"
+    label: "Dovednosti / Skills"
+    folder: "src/content/skills"
+    create: true
+    delete: true
+    slug: "{{fields.skillSlug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Slug"
+        name: "skillSlug"
+        widget: "string"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Pouze malá písmena, čísla a pomlčky"]
+
+      - label: "Pořadí / Order"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        default: 0
+        hint: "Nižší číslo = dříve v seznamu"
+
+      - label: "Název (CZ)"
+        name: "title_cs"
+        widget: "string"
+
+      - label: "Title (EN)"
+        name: "title_en"
+        widget: "string"
+
+      - label: "Popis (CZ)"
+        name: "description_cs"
+        widget: "text"
+
+      - label: "Description (EN)"
+        name: "description_en"
+        widget: "text"
+
   - name: "projects"
     label: "Projekty / Projects"
     folder: "src/content/projects"
@@ -98,6 +135,12 @@ collections:
         name: "links_other"
         widget: "string"
         required: false
+
+      - label: "Popisek odkazu - Jiný"
+        name: "links_other_label"
+        widget: "string"
+        required: false
+        hint: "Vlastní název pro tlačítko odkazu (např. 'Stáhnout APK', 'itch.io')"
 
       - label: "Obrázky / Images"
         name: "images"
@@ -245,3 +288,76 @@ collections:
         name: "body"
         widget: "markdown"
         hint: "Detailní popis služby (markdown)"
+
+  - name: "devlogs"
+    label: "DEV Logy / DEV Logs"
+    folder: "src/content/devlogs"
+    create: true
+    delete: true
+    slug: "{{fields.projectSlug}}-{{fields.version}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Projekt / Project"
+        name: "projectSlug"
+        widget: "relation"
+        collection: "projects"
+        search_fields: ["title_cs", "title_en", "projectSlug"]
+        value_field: "projectSlug"
+        display_fields: ["title_cs"]
+        hint: "Vyberte projekt pro tento DEV Log"
+
+      - label: "Verze / Version"
+        name: "version"
+        widget: "string"
+        pattern: ['^[0-9]+\.[0-9]+\.[0-9]+$', "Formát: X.Y.Z (např. 0.3.0)"]
+        hint: "Sémantická verze (např. 0.3.0)"
+
+      - label: "Status verze"
+        name: "versionStatus"
+        widget: "select"
+        options:
+          - { label: "Alpha", value: "alpha" }
+          - { label: "Beta", value: "beta" }
+          - { label: "Stable", value: "stable" }
+        default: "beta"
+
+      - label: "Datum vydání / Release Date"
+        name: "releaseDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+
+      - label: "Shrnutí (CZ)"
+        name: "summary_cs"
+        widget: "text"
+        required: false
+        hint: "Krátké shrnutí této verze"
+
+      - label: "Summary (EN)"
+        name: "summary_en"
+        widget: "text"
+        required: false
+
+      - label: "🆕 Nové funkce / New Features"
+        name: "new_features"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "CZ", name: "cs", widget: "string" }
+          - { label: "EN", name: "en", widget: "string" }
+
+      - label: "✅ Opravy / Fixes"
+        name: "fixes"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "CZ", name: "cs", widget: "string" }
+          - { label: "EN", name: "en", widget: "string" }
+
+      - label: "⚠️ Známé problémy / Known Issues"
+        name: "known_issues"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "CZ", name: "cs", widget: "string" }
+          - { label: "EN", name: "en", widget: "string" }

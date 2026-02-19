@@ -16,50 +16,65 @@ const services = servicesData.map((service) => ({
   href: `/${lang}/services/${lang === 'cs' ? service.data.slug_cs : service.data.slug_en}`,
   icon: service.data.icon,
   tags: service.data.tags,
+  badge: lang === 'cs' ? service.data.badge_cs : service.data.badge_en,
+  price: lang === 'cs' ? service.data.price_cs : service.data.price_en,
 }));
-
-const sectionTitle = lang === 'cs' ? 'Služby' : 'Services';
-const sectionSubtitle = lang === 'cs' 
-  ? 'Pomáhám firmám a jednotlivcům s mobilními aplikacemi, AI viditelností a webovou bezpečností.'
-  : 'I help businesses and individuals with mobile apps, AI visibility, and web security.';
-const viewAllLabel = lang === 'cs' ? 'Zjistit více' : 'Learn more';
 ---
 
-<section id="services" class="py-20 scroll-mt-20">
+<section id="services" class="py-24 scroll-mt-20">
   <div class="container-main">
-    <div class="mb-12">
-      <h2 class="section-heading">{sectionTitle}</h2>
-      <p class="section-subheading">{sectionSubtitle}</p>
+    <div class="mb-12 reveal">
+      <div class="section-label">{lang === 'cs' ? '// Služby' : '// Services'}</div>
+      <h2 class="section-heading">{lang === 'cs' ? 'Služby' : 'Services'}</h2>
+      <p class="section-subheading">
+        {lang === 'cs' 
+          ? 'Pomáhám firmám a jednotlivcům s mobilními aplikacemi, AI viditelností a webovou bezpečností.'
+          : 'I help businesses and individuals with mobile apps, AI visibility, and web security.'}
+      </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal-stagger">
       {services.map((service) => (
         <a 
           href={service.href}
-          class="glass-card p-6 group hover:border-brand-500/50 transition-all duration-300"
+          class="card card-interactive group p-6 flex flex-col"
         >
-          <div class="text-4xl mb-4">{service.icon}</div>
+          <!-- Icon + badge -->
+          <div class="flex items-center justify-between mb-5">
+            <span class="text-3xl">{service.icon}</span>
+            {service.badge && (
+              <span class="tag-accent text-[0.6875rem]">{service.badge}</span>
+            )}
+          </div>
           
-          <h3 class="text-xl font-display font-semibold text-white mb-3 group-hover:text-brand-400 transition-colors">
+          <!-- Title -->
+          <h3 class="text-lg font-display font-semibold text-white mb-2 group-hover:text-accent transition-colors">
             {service.title}
           </h3>
           
-          <p class="text-surface-400 mb-4 text-sm">
+          <!-- Description -->
+          <p class="text-surface-400 text-sm leading-relaxed mb-5 flex-1">
             {service.description}
           </p>
           
-          <div class="flex flex-wrap gap-2 mb-4">
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-1.5 mb-5">
             {service.tags.map((tag) => (
-              <span class="tag text-xs">{tag}</span>
+              <span class="tag">{tag}</span>
             ))}
           </div>
           
-          <span class="inline-flex items-center text-brand-400 text-sm font-medium group-hover:text-brand-300 transition-colors">
-            {viewAllLabel}
-            <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- Footer: price + arrow -->
+          <div class="flex items-center justify-between pt-4 border-t border-surface-800/60">
+            {service.price ? (
+              <span class="text-sm font-mono text-accent">{service.price}</span>
+            ) : (
+              <span class="text-xs font-mono text-surface-600">{lang === 'cs' ? 'Na dotaz' : 'On request'}</span>
+            )}
+            <svg class="w-4 h-4 text-surface-700 group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
-          </span>
+          </div>
         </a>
       ))}
     </div>

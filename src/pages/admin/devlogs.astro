@@ -1,0 +1,49 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AuthGuard from '../../components/admin/AuthGuard.tsx';
+import AdminShell from '../../components/admin/AdminShell.tsx';
+import ContentTable from '../../components/admin/ContentTable.tsx';
+import { getCollection } from 'astro:content';
+
+const devlogs = await getCollection('devlogs');
+
+const rows = devlogs
+  .sort((a, b) => String(b.data.releaseDate).localeCompare(String(a.data.releaseDate)))
+  .map((d) => ({
+    _slug: d.id,
+    project: d.data.projectSlug,
+    version: d.data.version,
+    status: d.data.versionStatus,
+    releaseDate: String(d.data.releaseDate),
+    features: d.data.new_features?.length || 0,
+    fixes: d.data.fixes?.length || 0,
+    issues: d.data.known_issues?.length || 0,
+  }));
+
+const columns = [
+  { key: 'project', label: 'Project' },
+  { key: 'version', label: 'Version' },
+  { key: 'status', label: 'Status' },
+  { key: 'releaseDate', label: 'Release Date' },
+  { key: 'features', label: 'Features' },
+  { key: 'fixes', label: 'Fixes' },
+  { key: 'issues', label: 'Issues' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<AdminLayout title="Devlogs">
+  <AuthGuard client:load slot="app">
+    <AdminShell currentPath={currentPath} client:load>
+      <ContentTable
+        title="Devlogs"
+        columns={columns}
+        rows={rows}
+        contentFolder="src/content/devlogs"
+        newLabel="New Devlog"
+        client:load
+      />
+    </AdminShell>
+  </AuthGuard>
+</AdminLayout>

@@ -23,69 +23,80 @@ const t = getTranslations(lang);
 const allProjects = featuredOnly ? await getFeaturedProjects() : await getProjects();
 const projects = limit ? allProjects.slice(0, limit) : allProjects;
 
-function getStatusColor(status: ProjectData['status']): string {
-  const colors: Record<ProjectData['status'], string> = {
-    live: 'bg-green-500/20 text-green-400',
-    beta: 'bg-yellow-500/20 text-yellow-400',
-    prototype: 'bg-blue-500/20 text-blue-400',
+function getStatusClass(status: ProjectData['status']): string {
+  const map: Record<ProjectData['status'], string> = {
+    live: 'status-live',
+    beta: 'status-beta',
+    prototype: 'status-prototype',
   };
-  return colors[status];
+  return map[status];
 }
-
-const sectionTitle = featuredOnly 
-  ? (lang === 'cs' ? 'Vybrané projekty' : 'Selected Work')
-  : t.projects.title;
-
-const sectionSubtitle = featuredOnly
-  ? (lang === 'cs' ? 'Projekty, na kterých aktuálně pracuji nebo které reprezentují mou práci.' : 'Projects I\'m currently working on or that represent my work.')
-  : t.projects.subtitle;
 ---
 
-<section id="projects" class="py-20 scroll-mt-20">
+<section id="projects" class="py-24 scroll-mt-20">
   <div class="container-main">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+    <!-- Section header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 reveal">
       <div>
-        <h2 class="section-heading">{sectionTitle}</h2>
-        <p class="section-subheading">{sectionSubtitle}</p>
+        <div class="section-label">{lang === 'cs' ? '// Projekty' : '// Projects'}</div>
+        <h2 class="section-heading">{featuredOnly ? (lang === 'cs' ? 'Vybrané projekty' : 'Selected Work') : t.projects.title}</h2>
+        <p class="section-subheading">
+          {featuredOnly 
+            ? (lang === 'cs' ? 'Projekty, na kterých aktuálně pracuji.' : 'Projects I\'m currently working on.')
+            : t.projects.subtitle}
+        </p>
       </div>
       
       {showViewAll && (
-        <a href={`/${lang}/projects`} class="btn-secondary self-start sm:self-auto">
+        <a href={`/${lang}/projects`} class="btn btn-secondary self-start sm:self-auto shrink-0">
           {t.projects.viewAll}
-          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </a>
       )}
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects.map((project) => (
+    <!-- Project grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 reveal-stagger">
+      {projects.map((project, index) => (
         <a 
           href={`/${lang}/projects/${project.data.projectSlug}`}
-          class="glass-card p-6 group hover:border-brand-500/50 transition-all duration-300"
+          class:list={[
+            "card card-interactive group p-6 flex flex-col",
+            index === 0 && projects.length > 2 ? "md:col-span-2" : ""
+          ]}
         >
-          <div class="flex items-center gap-2 mb-3">
-            <span class={`px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(project.data.status)}`}>
+          <!-- Top row: status + year -->
+          <div class="flex items-center justify-between mb-4">
+            <span class={getStatusClass(project.data.status)}>
               {getStatusLabel(project.data.status, lang)}
             </span>
             {project.data.year && (
-              <span class="text-xs text-surface-500">{project.data.year}</span>
+              <span class="text-xs font-mono text-surface-600">{project.data.year}</span>
             )}
           </div>
           
-          <h3 class="text-xl font-display font-semibold text-white mb-2 group-hover:text-brand-400 transition-colors">
+          <!-- Title -->
+          <h3 class="text-xl font-display font-semibold text-white mb-2 group-hover:text-accent transition-colors">
             {getLocalizedTitle(project, lang)}
           </h3>
           
-          <p class="text-surface-400 text-sm mb-4 line-clamp-3">
+          <!-- Summary -->
+          <p class="text-surface-400 text-sm mb-5 leading-relaxed line-clamp-2 flex-1">
             {getLocalizedSummary(project, lang)}
           </p>
           
-          <div class="flex flex-wrap gap-2">
-            {project.data.stack.slice(0, 4).map((tech) => (
-              <span class="tag text-xs">{tech}</span>
-            ))}
+          <!-- Bottom: stack + arrow -->
+          <div class="flex items-center justify-between">
+            <div class="flex flex-wrap gap-1.5">
+              {project.data.stack.slice(0, 4).map((tech) => (
+                <span class="tag">{tech}</span>
+              ))}
+            </div>
+            <svg class="w-5 h-5 text-surface-700 group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
           </div>
         </a>
       ))}

@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getProjects, getLocalizedTitle } from '../../../../../lib/projects';
+
+const lang = 'en';
+
+export async function getStaticPaths() {
+  const devlogs = await getCollection('devlogs');
+  return devlogs.map((log) => ({
+    params: { 
+      slug: log.data.projectSlug,
+      version: log.data.version.replace(/\./g, '-')
+    },
+    props: { devlog: log },
+  }));
+}
+
+interface Props {
+  devlog: Awaited<ReturnType<typeof getCollection<'devlogs'>>>[number];
+}
+
+const { devlog } = Astro.props;
+const projects = await getProjects();
+const project = projects.find(p => p.data.projectSlug === devlog.data.projectSlug);
+const projectTitle = project ? getLocalizedTitle(project, lang) : devlog.data.projectSlug;
+
+const statusClass: Record<string, string> = {
+  alpha: 'bg-red-500/20 text-red-400',
+  beta: 'bg-yellow-500/20 text-yellow-400',
+  stable: 'bg-green-500/20 text-green-400',
+};
+
+const formatDate = (dateStr: string) => {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<BaseLayout 
+  title={`DEV LOG ${projectTitle} v${devlog.data.version}`}
+  description={devlog.data.summary_en || `Changelog for version ${devlog.data.version}`}
+  lang={lang}
+>
+  <article class="py-24">
+    <div class="container-main max-w-3xl">
+      <a href={`/${lang}/projects/${devlog.data.projectSlug}`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-8 text-sm font-mono group">
+        <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        cd ~/{devlog.data.projectSlug}
+      </a>
+
+      <header class="mb-12 reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-label !mb-0">// DEV LOG</span>
+          <span class="text-surface-700">·</span>
+          <span class="text-surface-500 font-mono text-xs">{formatDate(devlog.data.releaseDate)}</span>
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <h1 class="text-3xl sm:text-4xl font-display font-bold text-white">
+            {projectTitle} <span class="text-accent">v{devlog.data.version}</span>
+          </h1>
+          <span class={`px-2 py-0.5 text-[0.625rem] font-mono font-bold uppercase rounded ${statusClass[devlog.data.versionStatus] || ''}`}>
+            {devlog.data.versionStatus}
+          </span>
+        </div>
+
+        {devlog.data.summary_en && (
+          <p class="text-surface-400 text-sm leading-relaxed max-w-2xl">
+            {devlog.data.summary_en}
+          </p>
+        )}
+      </header>
+
+      <div class="space-y-6 reveal-stagger">
+        {devlog.data.new_features.length > 0 && (
+          <section class="card p-6 border-l-2 border-green-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-green-400 uppercase tracking-wider mb-4">
+              <span class="text-green-400">+</span>
+              New Features
+              <span class="text-surface-600 normal-case">({devlog.data.new_features.length})</span>
+            </h2>
+            <ul class="space-y-2.5">
+              {devlog.data.new_features.map((feature) => (
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-green-400/60 mt-0.5 font-mono text-xs">+</span>
+                  <span>{feature.en}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {devlog.data.fixes.length > 0 && (
+          <section class="card p-6 border-l-2 border-blue-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-blue-400 uppercase tracking-wider mb-4">
+              <span class="text-blue-400">~</span>
+              Fixes
+              <span class="text-surface-600 normal-case">({devlog.data.fixes.length})</span>
+            </h2>
+            <ul class="space-y-2.5">
+              {devlog.data.fixes.map((fix) => (
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-blue-400/60 mt-0.5 font-mono text-xs">~</span>
+                  <span>{fix.en}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {devlog.data.known_issues.length > 0 && (
+          <section class="card p-6 border-l-2 border-yellow-500/60">
+            <h2 class="flex items-center gap-2 text-sm font-mono font-semibold text-yellow-400 uppercase tracking-wider mb-4">
+              <span class="text-yellow-400">!</span>
+              Known Issues
+              <span class="text-surface-600 normal-case">({devlog.data.known_issues.length})</span>
+            </h2>
+            <ul class="space-y-2.5">
+              {devlog.data.known_issues.map((issue) => (
+                <li class="flex items-start gap-3 text-surface-300 text-sm">
+                  <span class="text-yellow-400/60 mt-0.5 font-mono text-xs">!</span>
+                  <span>{issue.en}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      <footer class="mt-12 pt-6 border-t border-surface-800/60">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <span class="text-surface-600 font-mono text-xs">
+            v{devlog.data.version} · {formatDate(devlog.data.releaseDate)}
+          </span>
+          <a 
+            href={`/${lang}/projects/${devlog.data.projectSlug}`}
+            class="btn btn-secondary text-sm"
+          >
+            View Project
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
