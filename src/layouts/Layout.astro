@@ -23,60 +23,102 @@ const enPath = currentPath.replace(/^\/cs/, '/en');
 const hreflangCs = `${siteUrl}${csPath}`;
 const hreflangEn = `${siteUrl}${enPath}`;
 
-const defaultJsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": `${siteUrl}/#person`,
-      "name": "Ondřej Sládek",
-      "alternateName": "ONDYS",
-      "url": siteUrl,
-      "image": `${siteUrl}/og.png`,
-      "jobTitle": "Flutter Developer & Product Builder",
-      "description": lang === 'cs' 
-        ? "Solo vývojář zaměřený na Flutter aplikace, offline-first řešení a AI nástroje. Sídlo v Praze, Česko."
-        : "Solo developer focused on Flutter apps, offline-first solutions, and AI tools. Based in Prague, Czechia.",
-      "knowsAbout": ["Flutter", "Mobile Development", "Offline-first Apps", "AI Visibility", "PDF Generation", "QR Payments"],
-      "sameAs": [
-        "https://github.com/kelosamalosa-png",
-        "https://linkedin.com/in/ondrej-sladek",
-        "https://neopryus.itch.io"
-      ],
-      "address": { "@type": "PostalAddress", "addressLocality": "Prague", "addressCountry": "CZ" }
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${siteUrl}/#business`,
-      "name": "ONDYS.DEV",
-      "url": siteUrl,
-      "logo": `${siteUrl}/favicon.svg`,
-      "image": `${siteUrl}/og.png`,
-      "description": lang === 'cs'
-        ? "Vývoj mobilních aplikací (Flutter), AI audity webů, bezpečnostní skenování."
-        : "Mobile app development (Flutter), AI website audits, security scanning.",
-      "founder": { "@id": `${siteUrl}/#person` },
-      "areaServed": ["CZ", "Worldwide"],
-      "serviceType": ["Mobile App Development", "Flutter Development", "AI Visibility Audit", "Web Security Scanning"],
-      "priceRange": "$$",
-      "address": { "@type": "PostalAddress", "addressLocality": "Prague", "addressCountry": "CZ" },
-      "sameAs": ["https://github.com/kelosamalosa-png", "https://linkedin.com/in/ondrej-sladek"]
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      "url": siteUrl,
-      "name": "ONDYS.DEV",
-      "description": lang === 'cs'
-        ? "Portfolio Ondřeje Sládka - Flutter vývojář a produktový tvůrce"
-        : "Portfolio of Ondřej Sládek - Flutter developer and product builder",
-      "publisher": { "@id": `${siteUrl}/#person` },
-      "inLanguage": [lang === 'cs' ? 'cs-CZ' : 'en-US']
+// Core identity graph — always present on every page
+const identityGraph = [
+  {
+    "@type": "Person",
+    "@id": `${siteUrl}/#person`,
+    "name": "Ondřej Sládek",
+    "alternateName": "ONDYS",
+    "url": siteUrl,
+    "image": `${siteUrl}/og.png`,
+    "jobTitle": "Flutter Developer & Product Builder",
+    "description": lang === 'cs' 
+      ? "Solo vývojář zaměřený na Flutter aplikace, offline-first řešení a AI nástroje. Sídlo v Praze, Česko."
+      : "Solo developer focused on Flutter apps, offline-first solutions, and AI tools. Based in Prague, Czechia.",
+    "knowsAbout": ["Flutter", "Mobile Development", "Offline-first Apps", "AI Visibility", "PDF Generation", "QR Payments"],
+    "email": "ondys.dev@gmail.com",
+    "sameAs": [
+      "https://github.com/kelosamalosa-png",
+      "https://linkedin.com/in/ondrej-sladek",
+      "https://neopryus.itch.io"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Prague",
+      "addressRegion": "Prague",
+      "addressCountry": "CZ"
     }
-  ]
-};
+  },
+  {
+    "@type": ["ProfessionalService", "Organization"],
+    "@id": `${siteUrl}/#business`,
+    "name": "ONDYS.DEV",
+    "url": siteUrl,
+    "logo": `${siteUrl}/favicon.svg`,
+    "image": `${siteUrl}/og.png`,
+    "description": lang === 'cs'
+      ? "Vývoj mobilních aplikací (Flutter), AI audity webů, bezpečnostní skenování."
+      : "Mobile app development (Flutter), AI website audits, security scanning.",
+    "founder": { "@id": `${siteUrl}/#person` },
+    "areaServed": [
+      { "@type": "Country", "name": "CZ" },
+      { "@type": "Place", "name": "Worldwide" }
+    ],
+    "serviceType": ["Mobile App Development", "Flutter Development", "AI Visibility Audit", "Web Security Scanning"],
+    "priceRange": "$$",
+    "currenciesAccepted": "CZK, EUR",
+    "paymentAccepted": "Bank Transfer, QR Payment",
+    "email": "ondys.dev@gmail.com",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "ondys.dev@gmail.com",
+      "availableLanguage": ["Czech", "English"],
+      "areaServed": ["CZ", "Worldwide"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Prague",
+      "addressRegion": "Prague",
+      "addressCountry": "CZ"
+    },
+    "sameAs": [
+      "https://github.com/kelosamalosa-png",
+      "https://linkedin.com/in/ondrej-sladek"
+    ]
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    "url": siteUrl,
+    "name": "ONDYS.DEV",
+    "description": lang === 'cs'
+      ? "Portfolio Ondřeje Sládka - Flutter vývojář a produktový tvůrce"
+      : "Portfolio of Ondřej Sládek - Flutter developer and product builder",
+    "publisher": { "@id": `${siteUrl}/#person` },
+    "inLanguage": [lang === 'cs' ? 'cs-CZ' : 'en-US']
+  }
+];
 
-const finalJsonLd = jsonLd || defaultJsonLd;
+// Merge: if page provides its own jsonLd, combine its @graph with identity graph
+let finalJsonLd: object;
+if (jsonLd && '@graph' in (jsonLd as any)) {
+  finalJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [...identityGraph, ...(jsonLd as any)["@graph"]]
+  };
+} else if (jsonLd) {
+  finalJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [...identityGraph, jsonLd]
+  };
+} else {
+  finalJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": identityGraph
+  };
+}
 ---
 
 <!DOCTYPE html>
@@ -104,6 +146,9 @@ const finalJsonLd = jsonLd || defaultJsonLd;
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#09090B" />
+    
+    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
+    <link rel="alternate" type="text/plain" title="LLMs Full" href="/llms-full.txt" />
     
     <ViewTransitions />
     

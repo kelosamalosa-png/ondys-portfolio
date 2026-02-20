@@ -31,7 +31,11 @@ export default function SettingsView() {
     setDeploying(true);
     setDeployMsg('');
     try {
-      const res = await fetch(hook, { method: 'POST' });
+      const res = await fetch('/api/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hookUrl: hook }),
+      });
       if (res.ok) {
         setDeployMsg('Deploy triggered! Site will rebuild in ~1 min.');
       } else {

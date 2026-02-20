@@ -1,4 +1,6 @@
 # ONDYS.DEV — Portfolio of Ondřej Sládek
+# Canonical: https://ondys.dev/llms.txt
+# Full version: https://ondys.dev/llms-full.txt
 
 > Solo developer & product builder based in Prague, Czechia.
 > Specializing in Flutter mobile apps, offline-first solutions, AI visibility tools, and web security scanning.

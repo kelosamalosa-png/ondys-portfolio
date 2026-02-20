@@ -2,33 +2,7 @@
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AuthGuard from '../../components/admin/AuthGuard.tsx';
 import AdminShell from '../../components/admin/AdminShell.tsx';
-import ContentTable from '../../components/admin/ContentTable.tsx';
-import { getCollection } from 'astro:content';
-
-const services = await getCollection('services');
-
-const rows = services
-  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
-  .map((s) => ({
-    _slug: s.data.serviceSlug,
-    title: s.data.title_cs,
-    title_en: s.data.title_en,
-    icon: s.data.icon,
-    order: s.data.order,
-    featured: s.data.featured,
-    price_cs: s.data.price_cs || '—',
-    tags: s.data.tags?.join(', ') || '',
-  }));
-
-const columns = [
-  { key: 'icon', label: 'Icon' },
-  { key: 'title', label: 'Name (CS)' },
-  { key: 'title_en', label: 'Name (EN)' },
-  { key: 'order', label: 'Order' },
-  { key: 'featured', label: 'Featured' },
-  { key: 'price_cs', label: 'Price' },
-  { key: 'tags', label: 'Tags' },
-];
+import ServicesManager from '../../components/admin/ServicesManager.tsx';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -36,14 +10,7 @@ const currentPath = Astro.url.pathname;
 <AdminLayout title="Services">
   <AuthGuard client:load slot="app">
     <AdminShell currentPath={currentPath} client:load>
-      <ContentTable
-        title="Services"
-        columns={columns}
-        rows={rows}
-        contentFolder="src/content/services"
-        newLabel="New Service"
-        client:load
-      />
+      <ServicesManager client:load />
     </AdminShell>
   </AuthGuard>
 </AdminLayout>

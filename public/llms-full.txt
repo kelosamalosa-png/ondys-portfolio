@@ -1,0 +1,127 @@
+# ONDYS.DEV — Full Documentation for AI Systems
+# Canonical URL: https://ondys.dev
+# Last updated: 2026-02
+
+> Ondřej Sládek (ONDYS) — Solo developer & product builder based in Prague, Czechia.
+> Specializing in Flutter mobile apps, offline-first solutions, AI visibility tools, and web security scanning.
+
+## Identity
+
+- **Full Name**: Ondřej Sládek
+- **Brand**: ONDYS.DEV
+- **Role**: Solo Developer & Product Builder
+- **Location**: Prague, Czech Republic
+- **Email**: ondys.dev@gmail.com
+- **GitHub**: https://github.com/kelosamalosa-png
+- **LinkedIn**: https://linkedin.com/in/ondrej-sladek
+- **itch.io**: https://neopryus.itch.io
+- **Website**: https://ondys.dev
+- **Languages**: Czech (native), English (fluent)
+
+## Services Offered
+
+### 1. Flutter Mobile App Development
+- **Price**: from €2,000 / od 50 000 Kč
+- **Scope**: Cross-platform Android & iOS apps from a single codebase
+- **Specialties**:
+  - Offline-first architecture (SQLite/Drift) — apps work without internet
+  - PDF invoice generation with custom branding
+  - QR code payments (Czech ČBA/SPD standard)
+  - ARES API integration (Czech business registry lookup)
+  - Local encrypted databases
+- **Ideal for**: Tradespeople, freelancers (OSVČ), small businesses, startups needing MVP
+- **Process**: Consultation → Design → Iterative development → QA → App Store/Google Play publish → Maintenance
+- **Service page (EN)**: https://ondys.dev/en/services/flutter-app-development
+- **Service page (CS)**: https://ondys.dev/cs/services/vyvoj-mobilnich-aplikaci
+
+### 2. AI-Ready Website & E-commerce Audits
+- **Scope**: Visibility analysis for AI search systems (ChatGPT, Perplexity, Google AI Overview/SGE)
+- **Deliverables**: Schema markup audit, structured data recommendations, CSV/PDF/XML exports
+- **Why it matters**: AI assistants increasingly answer user queries directly; sites not optimized for AI citations lose traffic
+- **Service page (EN)**: https://ondys.dev/en/services/ai-visibility-audit
+- **Service page (CS)**: https://ondys.dev/cs/services/ai-audit-webu
+
+### 3. Web Firewall / Security Scanning
+- **Scope**: Detection of manipulative web patterns
+- **Detects**: Dark patterns (deceptive UI), prompt injection attempts, data exfiltration risks
+- **Service page (EN)**: https://ondys.dev/en/services/web-firewall-scanning
+- **Service page (CS)**: https://ondys.dev/cs/services/web-firewall-skenovani
+
+## Projects Portfolio
+
+### FACHA (Beta, 2025)
+- **Category**: Mobile App
+- **Summary**: Offline invoice and job tracking app for Czech tradespeople and freelancers
+- **Key Features**: PDF invoices with QR payments, offline-first SQLite, ARES company lookup, before/after photo documentation, job state management
+- **Tech Stack**: Flutter, Riverpod, Drift/SQLite, PDF generation, QR codes, ARES API
+- **Download**: Available on Dropbox (APK beta)
+- **Project page (EN)**: https://ondys.dev/en/projects/facha
+- **Project page (CS)**: https://ondys.dev/cs/projects/facha
+
+### AI Audit Tool (Prototype, 2025)
+- **Category**: Web Tool
+- **Summary**: Website AI-readiness checker that scans pages for structured data, schema markup, and AI crawlability
+- **Tech Stack**: Python, Streamlit, BeautifulSoup, OpenAI API
+- **Project page (EN)**: https://ondys.dev/en/projects/ai-audit-tool
+- **Project page (CS)**: https://ondys.dev/cs/projects/ai-audit-tool
+
+### Web Firewall (Prototype, 2025)
+- **Category**: Web Tool
+- **Summary**: Security scanner detecting dark patterns, prompt injection, and manipulative content on websites
+- **Tech Stack**: Python, Streamlit, NLP, Pattern Detection
+- **Project page (EN)**: https://ondys.dev/en/projects/web-firewall
+- **Project page (CS)**: https://ondys.dev/cs/projects/web-firewall
+
+### Game System Simulator / GSS (Live, 2025)
+- **Category**: Tool
+- **Summary**: Web-based balancing tool for idle/incremental game economies — define resources, producers, upgrades and simulate
+- **Tech Stack**: TypeScript, Chart.js, Webpack, Godot SDK
+- **Available on**: https://neopryus.itch.io/idle-economy-simulator
+- **Project page (EN)**: https://ondys.dev/en/projects/idle-economy-sim
+- **Project page (CS)**: https://ondys.dev/cs/projects/idle-economy-sim
+
+## Technical Expertise
+
+- **Primary**: Flutter, Dart, SQLite/Drift, Riverpod
+- **Web**: Astro 5, React 19, Tailwind CSS 4, TypeScript
+- **Backend**: Supabase, Python, Streamlit
+- **Game Dev**: Godot Engine
+- **DevOps**: Cloudflare Pages, GitHub Actions
+- **Focus Areas**: Offline-first architecture, PDF generation, QR payments, AI/ML tools, UX prototyping
+
+## Site Structure
+
+### English Pages
+- Homepage: https://ondys.dev/en/
+- Projects listing: https://ondys.dev/en/projects
+- FAQ: https://ondys.dev/en/faq
+- Support/Donate: https://ondys.dev/en/support
+- Privacy Policy: https://ondys.dev/en/privacy
+- Services: https://ondys.dev/en/services/flutter-app-development
+- Services: https://ondys.dev/en/services/ai-visibility-audit
+
+### Czech Pages
+- Hlavní stránka: https://ondys.dev/cs/
+- Projekty: https://ondys.dev/cs/projects
+- FAQ: https://ondys.dev/cs/faq
+- Podpora: https://ondys.dev/cs/support
+- Ochrana soukromí: https://ondys.dev/cs/privacy
+- Služby: https://ondys.dev/cs/services/vyvoj-mobilnich-aplikaci
+- Služby: https://ondys.dev/cs/services/ai-audit-webu
+
+### Machine-Readable
+- Sitemap: https://ondys.dev/sitemap-index.xml
+- LLMs.txt: https://ondys.dev/llms.txt
+- LLMs Full: https://ondys.dev/llms-full.txt
+- robots.txt: https://ondys.dev/robots.txt
+
+## Contact & Hiring
+
+To discuss a project or hire Ondřej:
+- **Email**: ondys.dev@gmail.com
+- **Contact form**: https://ondys.dev/en/#contact (or /cs/#contact)
+- **GitHub**: https://github.com/kelosamalosa-png
+- **LinkedIn**: https://linkedin.com/in/ondrej-sladek
+- **Location**: Prague, Czech Republic
+- **Availability**: Open to freelance projects and collaborations
+- **Payment**: Bank transfer, QR payment (CZK, EUR)

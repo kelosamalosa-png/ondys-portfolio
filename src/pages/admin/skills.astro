@@ -2,27 +2,7 @@
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import AuthGuard from '../../components/admin/AuthGuard.tsx';
 import AdminShell from '../../components/admin/AdminShell.tsx';
-import ContentTable from '../../components/admin/ContentTable.tsx';
-import { getCollection } from 'astro:content';
-
-const skills = await getCollection('skills');
-
-const rows = skills
-  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
-  .map((s) => ({
-    _slug: s.data.skillSlug,
-    title: s.data.title_cs,
-    title_en: s.data.title_en,
-    order: s.data.order,
-    description: s.data.description_cs?.slice(0, 60) + (s.data.description_cs?.length > 60 ? '...' : ''),
-  }));
-
-const columns = [
-  { key: 'title', label: 'Name (CS)' },
-  { key: 'title_en', label: 'Name (EN)' },
-  { key: 'order', label: 'Order' },
-  { key: 'description', label: 'Description' },
-];
+import SkillsManager from '../../components/admin/SkillsManager.tsx';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -30,14 +10,7 @@ const currentPath = Astro.url.pathname;
 <AdminLayout title="Skills">
   <AuthGuard client:load slot="app">
     <AdminShell currentPath={currentPath} client:load>
-      <ContentTable
-        title="Skills"
-        columns={columns}
-        rows={rows}
-        contentFolder="src/content/skills"
-        newLabel="New Skill"
-        client:load
-      />
+      <SkillsManager client:load />
     </AdminShell>
   </AuthGuard>
 </AdminLayout>

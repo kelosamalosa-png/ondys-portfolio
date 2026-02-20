@@ -9,13 +9,14 @@ interface Props {
   description: string;
   lang: 'cs' | 'en';
   ogImage?: string;
-  canonicalUrl?: string;
+  type?: 'website' | 'article';
+  jsonLd?: object;
 }
 
-const { title, description, lang, ogImage, canonicalUrl } = Astro.props;
+const { title, description, lang, ogImage, type, jsonLd } = Astro.props;
 ---
 
-<Layout title={title} description={description} lang={lang} ogImage={ogImage} canonicalUrl={canonicalUrl}>
+<Layout title={title} description={description} lang={lang} ogImage={ogImage} type={type} jsonLd={jsonLd}>
   <Header lang={lang} />
   <main class="flex-1">
     <slot />
