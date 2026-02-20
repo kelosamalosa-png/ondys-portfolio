@@ -1,17 +1,48 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 
+const DEPLOY_HOOK_KEY = 'ondys-deploy-hook';
+
 export default function SettingsView() {
   const [userEmail, setUserEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
   const [msgType, setMsgType] = useState<'success' | 'error'>('success');
+  const [deployHook, setDeployHook] = useState('');
+  const [deploying, setDeploying] = useState(false);
+  const [deployMsg, setDeployMsg] = useState('');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUserEmail(session?.user?.email || '');
     });
+    setDeployHook(localStorage.getItem(DEPLOY_HOOK_KEY) || '');
   }, []);
+
+  const saveDeployHook = () => {
+    localStorage.setItem(DEPLOY_HOOK_KEY, deployHook);
+    setDeployMsg('Deploy hook saved');
+    setTimeout(() => setDeployMsg(''), 2000);
+  };
+
+  const triggerDeploy = async () => {
+    const hook = localStorage.getItem(DEPLOY_HOOK_KEY);
+    if (!hook) { setDeployMsg('Set deploy hook URL first'); return; }
+    setDeploying(true);
+    setDeployMsg('');
+    try {
+      const res = await fetch(hook, { method: 'POST' });
+      if (res.ok) {
+        setDeployMsg('Deploy triggered! Site will rebuild in ~1 min.');
+      } else {
+        setDeployMsg(`Deploy failed: ${res.status}`);
+      }
+    } catch (err: any) {
+      setDeployMsg(`Deploy error: ${err.message}`);
+    } finally {
+      setDeploying(false);
+    }
+  };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,6 +125,60 @@ export default function SettingsView() {
             Update Password
           </button>
         </form>
+      </div>
+
+      {/* Rebuild Site */}
+      <div className="bg-[#111113] border border-[#27272A] rounded-xl p-5">
+        <h2 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <svg className="w-4 h-4 text-[#BFFF00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Rebuild Site
+        </h2>
+        <p className="text-xs text-[#52525B] mb-3">
+          After editing projects, trigger a rebuild to publish changes to the live site.
+        </p>
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={deployHook}
+              onChange={(e) => setDeployHook(e.target.value)}
+              className="flex-1 px-3 py-2 rounded-lg bg-[#0A0A0C] border border-[#27272A] text-white text-sm font-mono focus:border-[#BFFF00]/50 focus:outline-none focus:ring-1 focus:ring-[#BFFF00]/20 transition-colors placeholder:text-[#3F3F46]"
+              placeholder="Cloudflare Pages deploy hook URL"
+            />
+            <button
+              onClick={saveDeployHook}
+              className="px-3 py-2 rounded-lg bg-[#27272A] text-white text-sm hover:bg-[#3F3F46] transition-colors shrink-0"
+            >
+              Save
+            </button>
+          </div>
+          <button
+            onClick={triggerDeploy}
+            disabled={deploying || !deployHook}
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#BFFF00] text-[#09090B] text-sm font-semibold hover:bg-[#D4FF4D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {deploying ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-[#09090B] border-t-transparent rounded-full animate-spin" />
+                Rebuilding...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Rebuild Now
+              </>
+            )}
+          </button>
+          {deployMsg && (
+            <p className={`text-xs font-mono ${deployMsg.includes('error') || deployMsg.includes('failed') ? 'text-red-400' : 'text-green-400'}`}>
+              {deployMsg}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Links */}

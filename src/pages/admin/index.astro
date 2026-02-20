@@ -4,8 +4,9 @@ import AuthGuard from '../../components/admin/AuthGuard.tsx';
 import AdminShell from '../../components/admin/AdminShell.tsx';
 import DashboardView from '../../components/admin/DashboardView.tsx';
 import { getCollection } from 'astro:content';
+import { getProjects } from '../../lib/projects';
 
-const projects = await getCollection('projects');
+const projects = await getProjects();
 const devlogs = await getCollection('devlogs');
 const services = await getCollection('services');
 const skills = await getCollection('skills');
@@ -18,7 +19,6 @@ const stats = {
 };
 
 const recentProjects = projects
-  .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 5)
   .map((p) => ({
     slug: p.data.projectSlug,
