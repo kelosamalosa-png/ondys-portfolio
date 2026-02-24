@@ -1,6 +1,6 @@
 ---
 import { getTranslations } from '../i18n/utils';
-import { getCollection } from 'astro:content';
+import { getSkills } from '../lib/skills';
 
 interface Props {
   lang: 'cs' | 'en';
@@ -9,8 +9,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-const allSkills = await getCollection('skills');
-const skills = allSkills.sort((a, b) => a.data.order - b.data.order);
+const skills = await getSkills();
 ---
 
 <section id="skills" class="py-24 scroll-mt-20">

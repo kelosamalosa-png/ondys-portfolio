@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getTranslations } from '../../../i18n/utils';
-import { getCollection } from 'astro:content';
 import { 
   getProjects, 
   getLocalizedTitle, 
@@ -10,6 +9,7 @@ import {
   type ProjectEntry,
   type ProjectData
 } from '../../../lib/projects';
+import { getDevlogsByProject } from '../../../lib/devlogs';
 import { marked } from 'marked';
 
 const lang = 'en';
@@ -33,10 +33,7 @@ const summary = getLocalizedSummary(project, lang);
 const bodyContent = project.data.body_en || '';
 const renderedBody = await marked(bodyContent);
 
-const allDevlogs = await getCollection('devlogs');
-const projectDevlogs = allDevlogs
-  .filter(log => log.data.projectSlug === project.data.projectSlug)
-  .sort((a, b) => b.data.version.localeCompare(a.data.version, undefined, { numeric: true }));
+const projectDevlogs = await getDevlogsByProject(project.data.projectSlug);
 const latestDevlog = projectDevlogs[0];
 
 function getStatusClass(status: ProjectData['status']): string {

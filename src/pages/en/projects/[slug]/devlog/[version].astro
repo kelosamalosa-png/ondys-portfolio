@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../../../../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 import { getProjects, getLocalizedTitle } from '../../../../../lib/projects';
+import { getDevlogs, type DevlogEntry } from '../../../../../lib/devlogs';
 
 const lang = 'en';
 
 export async function getStaticPaths() {
-  const devlogs = await getCollection('devlogs');
+  const devlogs = await getDevlogs();
   return devlogs.map((log) => ({
     params: { 
       slug: log.data.projectSlug,
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  devlog: Awaited<ReturnType<typeof getCollection<'devlogs'>>>[number];
+  devlog: DevlogEntry;
 }
 
 const { devlog } = Astro.props;

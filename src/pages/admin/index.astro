@@ -3,13 +3,15 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 import AuthGuard from '../../components/admin/AuthGuard.tsx';
 import AdminShell from '../../components/admin/AdminShell.tsx';
 import DashboardView from '../../components/admin/DashboardView.tsx';
-import { getCollection } from 'astro:content';
 import { getProjects } from '../../lib/projects';
+import { getServices } from '../../lib/services';
+import { getSkills } from '../../lib/skills';
+import { getDevlogs } from '../../lib/devlogs';
 
 const projects = await getProjects();
-const devlogs = await getCollection('devlogs');
-const services = await getCollection('services');
-const skills = await getCollection('skills');
+const devlogs = await getDevlogs();
+const services = await getServices();
+const skills = await getSkills();
 
 const stats = {
   projects: projects.length,
