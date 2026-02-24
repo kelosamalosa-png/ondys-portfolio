@@ -17,8 +17,26 @@ CREATE TABLE IF NOT EXISTS public.skills (
 );
 
 ALTER TABLE public.skills ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "skills_read" ON public.skills FOR SELECT USING (true);
-CREATE POLICY "skills_write" ON public.skills FOR ALL USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Public can read skills"
+  ON public.skills FOR SELECT
+  USING (true);
+
+CREATE POLICY "Auth users can insert skills"
+  ON public.skills FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can update skills"
+  ON public.skills FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can delete skills"
+  ON public.skills FOR DELETE
+  TO authenticated
+  USING (true);
 
 -- ---- SERVICES ----
 CREATE TABLE IF NOT EXISTS public.services (
@@ -52,8 +70,26 @@ CREATE TABLE IF NOT EXISTS public.services (
 );
 
 ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "services_read" ON public.services FOR SELECT USING (true);
-CREATE POLICY "services_write" ON public.services FOR ALL USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Public can read services"
+  ON public.services FOR SELECT
+  USING (true);
+
+CREATE POLICY "Auth users can insert services"
+  ON public.services FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can update services"
+  ON public.services FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can delete services"
+  ON public.services FOR DELETE
+  TO authenticated
+  USING (true);
 
 -- ---- DEVLOGS ----
 CREATE TABLE IF NOT EXISTS public.devlogs (
@@ -73,8 +109,26 @@ CREATE TABLE IF NOT EXISTS public.devlogs (
 );
 
 ALTER TABLE public.devlogs ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "devlogs_read" ON public.devlogs FOR SELECT USING (true);
-CREATE POLICY "devlogs_write" ON public.devlogs FOR ALL USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Public can read devlogs"
+  ON public.devlogs FOR SELECT
+  USING (true);
+
+CREATE POLICY "Auth users can insert devlogs"
+  ON public.devlogs FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can update devlogs"
+  ON public.devlogs FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Auth users can delete devlogs"
+  ON public.devlogs FOR DELETE
+  TO authenticated
+  USING (true);
 
 -- Auto-update updated_at
 CREATE OR REPLACE FUNCTION update_updated_at()
