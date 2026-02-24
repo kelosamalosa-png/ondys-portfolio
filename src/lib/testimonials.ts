@@ -19,11 +19,7 @@ export interface TestimonialData {
 
 export async function getTestimonials(): Promise<TestimonialData[]> {
   const sb = getBuildClient();
-  const { data, error } = await sb
-    .from('testimonials')
-    .select('*')
-    .eq('visible', true)
-    .order('order', { ascending: true });
+  const { data, error } = await sb.rpc('get_testimonials');
 
   if (error) {
     console.warn('[testimonials] Supabase unavailable:', error.message);

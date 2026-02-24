@@ -23,10 +23,7 @@ const defaultStats: StatData[] = [
 
 export async function getSiteStats(): Promise<StatData[]> {
   const sb = getBuildClient();
-  const { data, error } = await sb
-    .from('site_stats')
-    .select('*')
-    .order('order', { ascending: true });
+  const { data, error } = await sb.rpc('get_site_stats');
 
   if (error || !data || data.length === 0) {
     if (error) console.warn('[site-stats] Supabase unavailable:', error.message);

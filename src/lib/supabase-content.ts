@@ -178,28 +178,35 @@ export type TestimonialInsert = Omit<TestimonialRow, 'id' | 'created_at' | 'upda
 export type TestimonialUpdate = Partial<TestimonialInsert>;
 
 export async function fetchAllTestimonials(): Promise<TestimonialRow[]> {
-  const { data, error } = await supabase
-    .from('testimonials')
-    .select('*')
-    .order('order', { ascending: true });
+  const { data, error } = await supabase.rpc('get_all_testimonials');
   if (error) throw new Error(`Failed to fetch testimonials: ${error.message}`);
   return data || [];
 }
 
 export async function createTestimonial(t: TestimonialInsert): Promise<TestimonialRow> {
-  const { data, error } = await supabase.from('testimonials').insert(t).select().single();
+  const { data, error } = await supabase.rpc('insert_testimonial', {
+    p_order: t.order, p_visible: t.visible, p_name: t.name,
+    p_role_cs: t.role_cs, p_role_en: t.role_en, p_company: t.company,
+    p_avatar_url: t.avatar_url, p_text_cs: t.text_cs, p_text_en: t.text_en, p_rating: t.rating,
+  });
   if (error) throw new Error(`Failed to create testimonial: ${error.message}`);
   return data;
 }
 
 export async function updateTestimonial(id: string, updates: TestimonialUpdate): Promise<TestimonialRow> {
-  const { data, error } = await supabase.from('testimonials').update(updates).eq('id', id).select().single();
+  const current = (await supabase.rpc('get_all_testimonials')).data?.find((r: any) => r.id === id);
+  const merged = { ...current, ...updates };
+  const { data, error } = await supabase.rpc('update_testimonial', {
+    p_id: id, p_order: merged.order, p_visible: merged.visible, p_name: merged.name,
+    p_role_cs: merged.role_cs, p_role_en: merged.role_en, p_company: merged.company,
+    p_avatar_url: merged.avatar_url, p_text_cs: merged.text_cs, p_text_en: merged.text_en, p_rating: merged.rating,
+  });
   if (error) throw new Error(`Failed to update testimonial: ${error.message}`);
   return data;
 }
 
 export async function deleteTestimonial(id: string): Promise<void> {
-  const { error } = await supabase.from('testimonials').delete().eq('id', id);
+  const { error } = await supabase.rpc('delete_testimonial', { p_id: id });
   if (error) throw new Error(`Failed to delete testimonial: ${error.message}`);
 }
 
@@ -222,27 +229,32 @@ export type SiteStatInsert = Omit<SiteStatRow, 'id' | 'created_at' | 'updated_at
 export type SiteStatUpdate = Partial<SiteStatInsert>;
 
 export async function fetchAllSiteStats(): Promise<SiteStatRow[]> {
-  const { data, error } = await supabase
-    .from('site_stats')
-    .select('*')
-    .order('order', { ascending: true });
+  const { data, error } = await supabase.rpc('get_all_site_stats');
   if (error) throw new Error(`Failed to fetch site stats: ${error.message}`);
   return data || [];
 }
 
 export async function createSiteStat(stat: SiteStatInsert): Promise<SiteStatRow> {
-  const { data, error } = await supabase.from('site_stats').insert(stat).select().single();
+  const { data, error } = await supabase.rpc('insert_site_stat', {
+    p_stat_key: stat.stat_key, p_value_cs: stat.value_cs, p_value_en: stat.value_en,
+    p_label_cs: stat.label_cs, p_label_en: stat.label_en, p_order: stat.order, p_icon: stat.icon,
+  });
   if (error) throw new Error(`Failed to create site stat: ${error.message}`);
   return data;
 }
 
 export async function updateSiteStat(id: string, updates: SiteStatUpdate): Promise<SiteStatRow> {
-  const { data, error } = await supabase.from('site_stats').update(updates).eq('id', id).select().single();
+  const current = (await supabase.rpc('get_all_site_stats')).data?.find((r: any) => r.id === id);
+  const merged = { ...current, ...updates };
+  const { data, error } = await supabase.rpc('update_site_stat', {
+    p_id: id, p_stat_key: merged.stat_key, p_value_cs: merged.value_cs, p_value_en: merged.value_en,
+    p_label_cs: merged.label_cs, p_label_en: merged.label_en, p_order: merged.order, p_icon: merged.icon,
+  });
   if (error) throw new Error(`Failed to update site stat: ${error.message}`);
   return data;
 }
 
 export async function deleteSiteStat(id: string): Promise<void> {
-  const { error } = await supabase.from('site_stats').delete().eq('id', id);
+  const { error } = await supabase.rpc('delete_site_stat', { p_id: id });
   if (error) throw new Error(`Failed to delete site stat: ${error.message}`);
 }
