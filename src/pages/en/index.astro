@@ -5,6 +5,7 @@ import ServicesSection from '../../components/ServicesSection.astro';
 import ProjectsSection from '../../components/ProjectsSection.astro';
 import SkillsSection from '../../components/SkillsSection.astro';
 import AboutSection from '../../components/AboutSection.astro';
+import TestimonialsSection from '../../components/TestimonialsSection.astro';
 import ContactSection from '../../components/ContactSection.astro';
 import SupportTeaser from '../../components/SupportTeaser.astro';
 import { getTranslations } from '../../i18n/utils';
@@ -23,6 +24,7 @@ const t = getTranslations(lang);
   <ProjectsSection lang={lang} limit={3} featuredOnly={true} />
   <SkillsSection lang={lang} />
   <AboutSection lang={lang} />
+  <TestimonialsSection lang={lang} />
   <ContactSection lang={lang} />
   <SupportTeaser lang={lang} />
 </BaseLayout>

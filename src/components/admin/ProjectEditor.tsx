@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { ProjectRow, ProjectInsert } from '../../lib/supabase-projects';
 import { createProject, updateProject, deleteProject } from '../../lib/supabase-projects';
 import ImageUpload from './ImageUpload';
+import { triggerAutoDeploy } from '../../lib/auto-deploy';
 
 interface ProjectEditorProps {
   project: ProjectRow | null;
@@ -93,6 +94,7 @@ export default function ProjectEditor({ project, onSave, onCancel }: ProjectEdit
         await updateProject(project.id, form);
       }
       setSuccess('Saved!');
+      triggerAutoDeploy();
       setTimeout(() => onSave(), 600);
     } catch (err: any) {
       setError(err.message || 'Failed to save');
@@ -106,6 +108,7 @@ export default function ProjectEditor({ project, onSave, onCancel }: ProjectEdit
     setDeleting(true);
     try {
       await deleteProject(project.id);
+      triggerAutoDeploy();
       onSave();
     } catch (err: any) {
       setError(err.message || 'Failed to delete');

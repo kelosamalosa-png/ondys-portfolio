@@ -7,6 +7,7 @@ import {
   type ServiceRow,
   type ServiceInsert,
 } from '../../lib/supabase-content';
+import { triggerAutoDeploy } from '../../lib/auto-deploy';
 
 const emptyService: ServiceInsert = {
   service_slug: '',
@@ -96,6 +97,7 @@ function ServiceEditor({
         await createService(payload);
       }
       onSave();
+      triggerAutoDeploy();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -317,6 +319,7 @@ export default function ServicesManager() {
     try {
       await deleteService(svc.id);
       load();
+      triggerAutoDeploy();
     } catch (err: any) {
       alert(err.message);
     }

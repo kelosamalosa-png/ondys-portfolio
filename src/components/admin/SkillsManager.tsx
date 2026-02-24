@@ -7,6 +7,7 @@ import {
   type SkillRow,
   type SkillInsert,
 } from '../../lib/supabase-content';
+import { triggerAutoDeploy } from '../../lib/auto-deploy';
 
 const emptySkill: SkillInsert = {
   skill_slug: '',
@@ -57,6 +58,7 @@ function SkillEditor({
         await createSkill(form);
       }
       onSave();
+      triggerAutoDeploy();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -174,6 +176,7 @@ export default function SkillsManager() {
     try {
       await deleteSkill(skill.id);
       load();
+      triggerAutoDeploy();
     } catch (err: any) {
       alert(err.message);
     }

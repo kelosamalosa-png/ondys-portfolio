@@ -11,6 +11,7 @@ import {
 } from '../../../lib/projects';
 import { getDevlogsByProject } from '../../../lib/devlogs';
 import { marked } from 'marked';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 
 const lang = 'cs';
 const t = getTranslations(lang);
@@ -56,12 +57,11 @@ const hasLinks = project.data.links_website || project.data.links_demo || projec
   <article class="py-24">
     <div class="container-main">
       <!-- Back link -->
-      <a href={`/${lang}/projects`} class="inline-flex items-center gap-2 text-surface-500 hover:text-accent transition-colors mb-8 text-sm font-mono group">
-        <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        cd ~/projects
-      </a>
+      <Breadcrumbs items={[
+        { label: 'Domů', href: `/${lang}` },
+        { label: 'Projekty', href: `/${lang}/projects` },
+        { label: title },
+      ]} />
       
       <!-- Header -->
       <header class="mb-12 reveal">

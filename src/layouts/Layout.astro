@@ -171,7 +171,13 @@ if (jsonLd && '@graph' in (jsonLd as any)) {
     <script type="application/ld+json" set:html={JSON.stringify(finalJsonLd)} />
   </head>
   <body class="min-h-dvh flex flex-col bg-surface-950 text-surface-200 font-sans antialiased">
-    <slot />
+    <!-- Skip to content (a11y) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent focus:text-surface-950 focus:font-semibold focus:text-sm">
+      {lang === 'cs' ? 'Přeskočit na obsah' : 'Skip to content'}
+    </a>
+    <div id="main-content">
+      <slot />
+    </div>
     
     <!-- Scroll-to-top button -->
     <button

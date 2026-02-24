@@ -1,5 +1,6 @@
 ---
 import { getTranslations } from '../i18n/utils';
+import { getSiteStats } from '../lib/site-stats';
 
 interface Props {
   lang: 'cs' | 'en';
@@ -7,6 +8,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
+const stats = await getSiteStats();
 ---
 
 <section id="about" class="py-24 scroll-mt-20">
@@ -17,6 +19,23 @@ const t = getTranslations(lang);
       <p class="text-lg text-surface-400 leading-relaxed text-center">
         {t.about.content}
       </p>
+      
+      <!-- Stats counters -->
+      {stats.length > 0 && (
+        <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {stats.map((stat) => (
+            <div class="card p-5 text-center group hover:border-accent/20">
+              <span class="text-2xl mb-2 block">{stat.icon}</span>
+              <span class="text-2xl sm:text-3xl font-display font-bold text-accent block">
+                {lang === 'cs' ? stat.value_cs : stat.value_en}
+              </span>
+              <span class="text-xs font-mono text-surface-500 mt-1 block">
+                {lang === 'cs' ? stat.label_cs : stat.label_en}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       
       <!-- Tech stack visual -->
       <div class="mt-10 flex flex-wrap justify-center gap-2">

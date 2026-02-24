@@ -155,3 +155,94 @@ export async function deleteDevlog(id: string): Promise<void> {
   const { error } = await supabase.from('devlogs').delete().eq('id', id);
   if (error) throw new Error(`Failed to delete devlog: ${error.message}`);
 }
+
+// ==================== TESTIMONIALS ====================
+
+export interface TestimonialRow {
+  id: string;
+  order: number;
+  visible: boolean;
+  name: string;
+  role_cs: string;
+  role_en: string;
+  company: string;
+  avatar_url: string;
+  text_cs: string;
+  text_en: string;
+  rating: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export type TestimonialInsert = Omit<TestimonialRow, 'id' | 'created_at' | 'updated_at'>;
+export type TestimonialUpdate = Partial<TestimonialInsert>;
+
+export async function fetchAllTestimonials(): Promise<TestimonialRow[]> {
+  const { data, error } = await supabase
+    .from('testimonials')
+    .select('*')
+    .order('order', { ascending: true });
+  if (error) throw new Error(`Failed to fetch testimonials: ${error.message}`);
+  return data || [];
+}
+
+export async function createTestimonial(t: TestimonialInsert): Promise<TestimonialRow> {
+  const { data, error } = await supabase.from('testimonials').insert(t).select().single();
+  if (error) throw new Error(`Failed to create testimonial: ${error.message}`);
+  return data;
+}
+
+export async function updateTestimonial(id: string, updates: TestimonialUpdate): Promise<TestimonialRow> {
+  const { data, error } = await supabase.from('testimonials').update(updates).eq('id', id).select().single();
+  if (error) throw new Error(`Failed to update testimonial: ${error.message}`);
+  return data;
+}
+
+export async function deleteTestimonial(id: string): Promise<void> {
+  const { error } = await supabase.from('testimonials').delete().eq('id', id);
+  if (error) throw new Error(`Failed to delete testimonial: ${error.message}`);
+}
+
+// ==================== SITE STATS ====================
+
+export interface SiteStatRow {
+  id: string;
+  stat_key: string;
+  value_cs: string;
+  value_en: string;
+  label_cs: string;
+  label_en: string;
+  order: number;
+  icon: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type SiteStatInsert = Omit<SiteStatRow, 'id' | 'created_at' | 'updated_at'>;
+export type SiteStatUpdate = Partial<SiteStatInsert>;
+
+export async function fetchAllSiteStats(): Promise<SiteStatRow[]> {
+  const { data, error } = await supabase
+    .from('site_stats')
+    .select('*')
+    .order('order', { ascending: true });
+  if (error) throw new Error(`Failed to fetch site stats: ${error.message}`);
+  return data || [];
+}
+
+export async function createSiteStat(stat: SiteStatInsert): Promise<SiteStatRow> {
+  const { data, error } = await supabase.from('site_stats').insert(stat).select().single();
+  if (error) throw new Error(`Failed to create site stat: ${error.message}`);
+  return data;
+}
+
+export async function updateSiteStat(id: string, updates: SiteStatUpdate): Promise<SiteStatRow> {
+  const { data, error } = await supabase.from('site_stats').update(updates).eq('id', id).select().single();
+  if (error) throw new Error(`Failed to update site stat: ${error.message}`);
+  return data;
+}
+
+export async function deleteSiteStat(id: string): Promise<void> {
+  const { error } = await supabase.from('site_stats').delete().eq('id', id);
+  if (error) throw new Error(`Failed to delete site stat: ${error.message}`);
+}

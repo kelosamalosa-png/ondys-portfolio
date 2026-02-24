@@ -8,6 +8,7 @@ import {
   type DevlogInsert,
   type DevlogFeature,
 } from '../../lib/supabase-content';
+import { triggerAutoDeploy } from '../../lib/auto-deploy';
 
 const emptyDevlog: DevlogInsert = {
   devlog_slug: '',
@@ -128,6 +129,7 @@ function DevlogEditor({
         await createDevlog(form);
       }
       onSave();
+      triggerAutoDeploy();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -255,6 +257,7 @@ export default function DevlogsManager() {
     try {
       await deleteDevlog(d.id);
       load();
+      triggerAutoDeploy();
     } catch (err: any) {
       alert(err.message);
     }
