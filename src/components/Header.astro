@@ -79,7 +79,7 @@ const navItems = [
   <!-- Mobile menu -->
   <div 
     id="mobile-menu" 
-    class="md:hidden overflow-hidden transition-all duration-300 max-h-0 opacity-0"
+    class="md:hidden overflow-hidden transition-all duration-300 max-h-0 opacity-0 bg-surface-950/95 backdrop-blur-xl"
   >
     <div class="container-main py-4 flex flex-col gap-1 border-t border-surface-800/40">
       {navItems.map((item) => (
@@ -119,33 +119,50 @@ const navItems = [
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
+    function openMenu() {
+      isOpen = true;
+      btn?.setAttribute('aria-expanded', 'true');
+      if (menu) {
+        menu.style.maxHeight = menu.scrollHeight + 'px';
+        menu.style.opacity = '1';
+      }
+      if (headerBg) headerBg.style.opacity = '1';
+      if (bar1 && bar2 && bar3) {
+        bar1.style.transform = 'translateY(3.5px) rotate(45deg)';
+        bar2.style.opacity = '0';
+        bar3.style.transform = 'translateY(-3.5px) rotate(-45deg)';
+      }
+    }
+
+    function closeMenu() {
+      isOpen = false;
+      btn?.setAttribute('aria-expanded', 'false');
+      if (menu) {
+        menu.style.maxHeight = '0';
+        menu.style.opacity = '0';
+      }
+      // Restore header bg based on scroll position
+      if (headerBg) headerBg.style.opacity = window.scrollY > 20 ? '1' : '0';
+      if (bar1 && bar2 && bar3) {
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+      }
+    }
+
     // Mobile menu toggle
     btn?.addEventListener('click', () => {
-      isOpen = !isOpen;
-      btn.setAttribute('aria-expanded', String(isOpen));
-      
-      if (menu) {
-        if (isOpen) {
-          menu.style.maxHeight = menu.scrollHeight + 'px';
-          menu.style.opacity = '1';
-        } else {
-          menu.style.maxHeight = '0';
-          menu.style.opacity = '0';
-        }
-      }
+      isOpen ? closeMenu() : openMenu();
+    });
 
-      // Animate hamburger to X
-      if (bar1 && bar2 && bar3) {
-        if (isOpen) {
-          bar1.style.transform = 'translateY(3.5px) rotate(45deg)';
-          bar2.style.opacity = '0';
-          bar3.style.transform = 'translateY(-3.5px) rotate(-45deg)';
-        } else {
-          bar1.style.transform = '';
-          bar2.style.opacity = '1';
-          bar3.style.transform = '';
-        }
-      }
+    // Close menu on nav link click
+    menu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) closeMenu();
     });
   }
   

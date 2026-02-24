@@ -9,10 +9,12 @@ const t = getTranslations(lang);
 
 export async function getStaticPaths() {
   const services = await getServices();
-  return services.map((service) => ({
-    params: { slug: service.data.slug_en },
-    props: { service },
-  }));
+  return services
+    .filter((service) => service.data.slug_en)
+    .map((service) => ({
+      params: { slug: service.data.slug_en },
+      props: { service },
+    }));
 }
 
 interface Props {
